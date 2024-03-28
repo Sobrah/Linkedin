@@ -15,8 +15,7 @@ Splash::~Splash()
     delete ui;
 }
 
-
-void Splash::on_pushButton_clicked()
+void Splash::on_loginButton_clicked()
 {
     Login *w = new Login;
     w->show();
