@@ -11,15 +11,18 @@ CONFIG += c++17
 SOURCES += \
     main.cpp \
     Sources/splash.cpp \
-    Sources/login.cpp
+    Sources/login.cpp \
+    Sources/vertification.cpp
 
 HEADERS += \
     Headers/splash.h \
-    Headers/login.h
+    Headers/login.h \
+    Headers/vertification.h
 
 FORMS += \
     Forms/splash.ui \
-    Forms/login.ui
+    Forms/login.ui \
+    Forms/vertification.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
