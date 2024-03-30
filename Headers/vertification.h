@@ -15,6 +15,9 @@ public:
     explicit Vertification(QWidget *parent = nullptr);
     ~Vertification();
 
+private slots:
+    void on_confirmButton_clicked();
+
 private:
     Ui::Vertification *ui;
 };
