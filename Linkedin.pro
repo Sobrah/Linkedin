@@ -12,19 +12,19 @@ SOURCES += \
     main.cpp \
     Sources/splash.cpp \
     Sources/login.cpp \
-    Sources/vertification.cpp \
+    Sources/verification.cpp \
     Sources/profile.cpp
 
 HEADERS += \
     Headers/splash.h \
     Headers/login.h \
-    Headers/vertification.h \
+    Headers/verification.h \
     Headers/profile.h
 
 FORMS += \
     Forms/splash.ui \
     Forms/login.ui \
-    Forms/vertification.ui \
+    Forms/verification.ui \
     Forms/profile.ui
 
 # Default rules for deployment.

@@ -1,5 +1,5 @@
 #include "Headers/login.h"
-#include "Headers/vertification.h"
+#include "Headers/verification.h"
 
 #include "ui_login.h"
 
@@ -48,7 +48,7 @@ Login::~Login()
 
 void Login::on_verificationButton_clicked()
 {
-    Vertification *w = new Vertification;
+    Verification *w = new Verification;
     w->show();
 
     close();

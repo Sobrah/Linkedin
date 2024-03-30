@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Vertification</class>
- <widget class="QMainWindow" name="Vertification">
+ <class>Verification</class>
+ <widget class="QMainWindow" name="Verification">
   <property name="geometry">
    <rect>
     <x>0</x>
