@@ -3,11 +3,42 @@
 
 #include "ui_login.h"
 
+#include <QDebug>
+#include <QProcessEnvironment>
+
+#include <QSqlDatabase>
+#include <QSqlQuery>
+
 Login::Login(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::Login)
 {
     ui->setupUi(this);
+
+    // Initialize environmental variables
+    QProcessEnvironment env;
+    env = QProcessEnvironment::systemEnvironment();
+
+    // Initialize database
+    QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
+    db.setDatabaseName(env.value("PGDATABASE"));
+    db.setHostName(env.value("PGHOST"));
+    db.setUserName(env.value("PGUSER"));
+    db.setPassword(env.value("PGPASSWORD"));
+
+    // Invalid database
+    if (!db.isValid()) {
+        qDebug() << "Database Is Not Valid.";
+        throw;
+    }
+
+    db.open();
+
+    // Cannot open database
+    if (!db.isOpen()) {
+        qDebug() << "Can Not Open Database.";
+        throw;
+    }
 }
 
 Login::~Login()
