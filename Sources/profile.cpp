@@ -12,3 +12,8 @@ Profile::~Profile()
 {
     delete ui;
 }
+
+void Profile::on_pushButton_clicked()
+{
+    close();
+}

@@ -15,6 +15,9 @@ public:
     explicit Profile(QWidget *parent = nullptr);
     ~Profile();
 
+private slots:
+    void on_pushButton_clicked();
+
 private:
     Ui::Profile *ui;
 };

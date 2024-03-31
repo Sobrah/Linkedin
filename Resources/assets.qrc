@@ -3,5 +3,6 @@
         <file>world.svg</file>
         <file>login.svg</file>
         <file>security.svg</file>
+        <file>strategy.svg</file>
     </qresource>
 </RCC>
