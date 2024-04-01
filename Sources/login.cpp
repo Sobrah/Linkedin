@@ -64,10 +64,12 @@ void Login::on_verificationButton_clicked()
 
     QString username = ui->usernameLabel->text();
     QString password = ui->passwordLabel->text();
+    QString code = ui->codeLabel->text();
     QString s;
 
     int passwordLength = password.size();
     int usernamelength = username.size();
+    int codelength = code.size();
     int randomNum;
     int sw;
 
@@ -77,93 +79,105 @@ void Login::on_verificationButton_clicked()
 
         sw = 0;
 
-        //Check the size of password
-        if(passwordLength<4){
-            QMessageBox::warning(this,"Eror!","Your password should have at least 4 digits !");
-            ui->passwordLabel->setText("");
-            ui->passwordLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
+        //Check if all the lines are empty
+        if( usernamelength == 0 && passwordLength == 0 && codelength == 0){
+            QMessageBox::warning(this,"Eror !","You should compelete the requested items !");
         }
-        else sw++;
-
-        //Check the size of username
-        if(usernamelength<8){
-            QMessageBox::warning(this,"Eror!","Your username should have at least 8 characters !");
-            ui->usernameLabel->setText("");
-            ui->usernameLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
-        }
-        else sw++;
-
-        //Check the captcha code
-        if(ui->captcha2Label->text() != ui->codeLabel->text()){
-            QMessageBox::warning(this,"Eror!","Enter the number correctly !");
-            randomNum = rand()%9000+1000;
-            ui->captcha2Label->setText(QString::number(randomNum));
-            ui->codeLabel->setText("");
-            ui->codeLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
-        }
-        else sw++;
-
-        //Check the uniqueness of username
-        if(sw==3){
-            q.exec("SELECT username FROM users WHERE username='"+username+"'");
-            if(q.first()){
-                QMessageBox::warning(this,"Eror","Your username is already taken , please enter another one !");
+        else {
+            //Check the size of password
+            if(passwordLength<4){
+                QMessageBox::warning(this,"Eror!","Your password should have at least 4 characters !");
+                ui->passwordLabel->setText("");
+                ui->passwordLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
             }
-            else{
-                q.exec("INSERT INTO users(username,password)VALUES('"+username+"','"+password+"')");
-                sw++;
+            else sw++;
+
+            //Check the size of username
+            if(usernamelength<4){
+                QMessageBox::warning(this,"Eror!","Your username should have at least 4 characters !");
+                ui->usernameLabel->setText("");
+                ui->usernameLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
             }
-        }
+            else sw++;
 
-        //show the new page
-        if(sw==4){
-            Verification *w = new Verification;
-            w->show();
+            //Check the captcha code
+            if(ui->captcha2Label->text() != code){
+                QMessageBox::warning(this,"Eror!","Enter the number correctly !");
+                randomNum = rand()%9000+1000;
+                ui->captcha2Label->setText(QString::number(randomNum));
+                ui->codeLabel->setText("");
+                ui->codeLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
+            }
+            else sw++;
 
-            close();
+            //Check the uniqueness of username
+            if(sw == 3){
+                q.exec("SELECT username FROM users WHERE username='"+username+"'");
+                if(q.first()){
+                    QMessageBox::warning(this,"Eror","Your username is already taken , please enter another one !");
+                }
+                else{
+                    q.exec("INSERT INTO users(username,password)VALUES('"+username+"','"+password+"')");
+                    sw++;
+                }
+            }
+
+            //show the new page
+            if(sw == 4){
+                Verification *w = new Verification;
+                w->show();
+
+                close();
+            }
         }
     }
     else if(ui->signButton->text() == "Sign Up"){
 
         sw = 0;
 
-        //Check the captcha code
-        if(ui->captcha2Label->text() != ui->codeLabel->text()){
-            QMessageBox::warning(this,"Eror!","Enter the number correctly !");
-            randomNum = rand()%9000+1000;
-            ui->captcha2Label->setText(QString::number(randomNum));
-            ui->codeLabel->setText("");
-            ui->codeLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
+        if( usernamelength == 0 && passwordLength == 0 && codelength == 0){
+            QMessageBox::warning(this,"Eror !","You should compelete the requested items !");
         }
-        else sw++;
+
+        else{
+            //Check the captcha code
+            if(ui->captcha2Label->text() != ui->codeLabel->text()){
+                QMessageBox::warning(this,"Eror!","Enter the number correctly !");
+                randomNum = rand()%9000+1000;
+                ui->captcha2Label->setText(QString::number(randomNum));
+                ui->codeLabel->setText("");
+                ui->codeLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
+            }
+            else sw++;
 
 
-        q.exec("SELECT password FROM users WHERE username='"+username+"'");
-        if(q.first()){
-            s = q.value(0).toString();
-            if(s == password){
-                sw++;
+            q.exec("SELECT password FROM users WHERE username='"+username+"'");
+            if(q.first()){
+                s = q.value(0).toString();
+                if(s == password){
+                    sw++;
+                }
+                else{
+                    QMessageBox::warning(this,"Eror","Your password is incorrect !");
+                    ui->passwordLabel->setText("");
+                    ui->passwordLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
+                }
             }
             else{
-                QMessageBox::warning(this,"Eror","Your password is incorrect !");
+                QMessageBox::warning(this,"Eror","Your username is incorrect !");
+                ui->usernameLabel->setText("");
                 ui->passwordLabel->setText("");
+                ui->usernameLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
                 ui->passwordLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
             }
-        }
-        else{
-            QMessageBox::warning(this,"Eror","Your username is incorrect !");
-            ui->usernameLabel->setText("");
-            ui->passwordLabel->setText("");
-            ui->usernameLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
-            ui->passwordLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
-        }
 
-        //Show the new page
-        if(sw==2){
-            Verification *w = new Verification;
-            w->show();
+            //Show the new page
+            if(sw==2){
+                Verification *w = new Verification;
+                w->show();
 
-            close();
+                close();
+            }
         }
     }
 }
