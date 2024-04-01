@@ -9,11 +9,18 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
+#include "QMessageBox"
+
 Login::Login(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::Login)
 {
     ui->setupUi(this);
+
+    // Produce random number
+    int randomNum;
+    randomNum = rand()%9000+1000;
+    ui->captcha2Label->setText(QString::number(randomNum));
 
     // Initialize environmental variables
     QProcessEnvironment env;
@@ -39,6 +46,9 @@ Login::Login(QWidget *parent)
         qDebug() << "Can Not Open Database.";
         throw;
     }
+
+    //Setting echo mode for password label
+    ui->passwordLabel->setEchoMode(QLineEdit::Password);
 }
 
 Login::~Login()
@@ -48,15 +58,107 @@ Login::~Login()
 
 void Login::on_verificationButton_clicked()
 {
-    Verification *w = new Verification;
-    w->show();
 
-    close();
+    QString username = ui->usernameLabel->text();
+    QString password = ui->passwordLabel->text();
+    QString s;
+
+    int passwordLength = password.size();
+    int usernamelength = username.size();
+    int randomNum;
+    int sw;
+
+    QSqlQuery q;
+
+    if(ui->signButton->text() == "Sign Up"){
+
+        sw = 0;
+
+        //Check the size of password
+        if(passwordLength<4){
+            QMessageBox::warning(this,"Eror!","Your password should have at least 4 digits !");
+            ui->passwordLabel->setText("");
+        }
+        else sw++;
+
+        //Check the size of username
+        if(usernamelength<8){
+            QMessageBox::warning(this,"Eror!","Your username should have at least 8 characters !");
+            ui->usernameLabel->setText("");
+        }
+        else sw++;
+
+        //Check the captcha code
+        if(ui->captcha2Label->text() != ui->codeLabel->text()){
+            QMessageBox::warning(this,"Eror!","Enter the number correctly !");
+            randomNum = rand()%9000+1000;
+            ui->captcha2Label->setText(QString::number(randomNum));
+            ui->codeLabel->setText("");
+        }
+        else sw++;
+
+        //Check the uniqueness of username
+        q.exec("SELECT username FROM users WHERE username='"+username+"'");
+        if(q.first()){
+            QMessageBox::warning(this,"Eror","Your username is already taken , please enter another one !");
+        }
+        else{
+            q.exec("INSERT INTO users(username,password)VALUES('"+username+"','"+password+"')");
+            sw++;
+        }
+
+        //show the new page
+        if(sw==4){
+            Verification *w = new Verification;
+            w->show();
+
+            close();
+        }
+    }
+    else if(ui->signButton->text() == "Login"){
+
+        sw = 0;
+
+        //Check the captcha code
+        if(ui->captcha2Label->text() != ui->codeLabel->text()){
+            QMessageBox::warning(this,"Eror!","Enter the number correctly !");
+            randomNum = rand()%9000+1000;
+            ui->captcha2Label->setText(QString::number(randomNum));
+            ui->codeLabel->setText("");
+        }
+        else sw++;
+
+
+        q.exec("SELECT password FROM users WHERE username='"+username+"'");
+        if(q.first()){
+            s = q.value(0).toString();
+            if(s == password){
+                sw++;
+            }
+            else{
+                QMessageBox::warning(this,"Eror","Your password is incorrect !");
+                ui->passwordLabel->setText("");
+            }
+        }
+        else{
+            QMessageBox::warning(this,"Eror","Your username is incorrect !");
+            ui->usernameLabel->setText("");
+            ui->passwordLabel->setText("");
+        }
+
+        //Show the new page
+        if(sw==2){
+            Verification *w = new Verification;
+            w->show();
+
+            close();
+        }
+    }
 }
 
 void Login::on_signButton_clicked()
 {
-    static int situation;
+    static int situation ;
 
     const QString signs[2] = {
         "Login", "Sign Up"
