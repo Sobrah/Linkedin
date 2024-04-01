@@ -10,6 +10,7 @@
 #include <QSqlQuery>
 
 #include "QMessageBox"
+#include "QValidator"
 
 Login::Login(QWidget *parent)
     : QMainWindow(parent)
@@ -49,6 +50,8 @@ Login::Login(QWidget *parent)
 
     //Setting echo mode for password label
     ui->passwordLabel->setEchoMode(QLineEdit::Password);
+
+    ui->codeLabel->setValidator(new QIntValidator);
 }
 
 Login::~Login()
@@ -70,7 +73,7 @@ void Login::on_verificationButton_clicked()
 
     QSqlQuery q;
 
-    if(ui->signButton->text() == "Sign Up"){
+    if(ui->signButton->text() == "Login"){
 
         sw = 0;
 
@@ -78,6 +81,7 @@ void Login::on_verificationButton_clicked()
         if(passwordLength<4){
             QMessageBox::warning(this,"Eror!","Your password should have at least 4 digits !");
             ui->passwordLabel->setText("");
+            ui->passwordLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
         }
         else sw++;
 
@@ -85,6 +89,7 @@ void Login::on_verificationButton_clicked()
         if(usernamelength<8){
             QMessageBox::warning(this,"Eror!","Your username should have at least 8 characters !");
             ui->usernameLabel->setText("");
+            ui->usernameLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
         }
         else sw++;
 
@@ -94,17 +99,20 @@ void Login::on_verificationButton_clicked()
             randomNum = rand()%9000+1000;
             ui->captcha2Label->setText(QString::number(randomNum));
             ui->codeLabel->setText("");
+            ui->codeLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
         }
         else sw++;
 
         //Check the uniqueness of username
-        q.exec("SELECT username FROM users WHERE username='"+username+"'");
-        if(q.first()){
-            QMessageBox::warning(this,"Eror","Your username is already taken , please enter another one !");
-        }
-        else{
-            q.exec("INSERT INTO users(username,password)VALUES('"+username+"','"+password+"')");
-            sw++;
+        if(sw==3){
+            q.exec("SELECT username FROM users WHERE username='"+username+"'");
+            if(q.first()){
+                QMessageBox::warning(this,"Eror","Your username is already taken , please enter another one !");
+            }
+            else{
+                q.exec("INSERT INTO users(username,password)VALUES('"+username+"','"+password+"')");
+                sw++;
+            }
         }
 
         //show the new page
@@ -115,7 +123,7 @@ void Login::on_verificationButton_clicked()
             close();
         }
     }
-    else if(ui->signButton->text() == "Login"){
+    else if(ui->signButton->text() == "Sign Up"){
 
         sw = 0;
 
@@ -125,6 +133,7 @@ void Login::on_verificationButton_clicked()
             randomNum = rand()%9000+1000;
             ui->captcha2Label->setText(QString::number(randomNum));
             ui->codeLabel->setText("");
+            ui->codeLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
         }
         else sw++;
 
@@ -138,12 +147,15 @@ void Login::on_verificationButton_clicked()
             else{
                 QMessageBox::warning(this,"Eror","Your password is incorrect !");
                 ui->passwordLabel->setText("");
+                ui->passwordLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
             }
         }
         else{
             QMessageBox::warning(this,"Eror","Your username is incorrect !");
             ui->usernameLabel->setText("");
             ui->passwordLabel->setText("");
+            ui->usernameLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
+            ui->passwordLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
         }
 
         //Show the new page
@@ -158,7 +170,8 @@ void Login::on_verificationButton_clicked()
 
 void Login::on_signButton_clicked()
 {
-    static int situation ;
+
+    static int situation;
 
     const QString signs[2] = {
         "Login", "Sign Up"
@@ -175,6 +188,16 @@ void Login::on_signButton_clicked()
     // Change form parts
     situation = (situation + 1) % 2;
     ui->signLabel->setText(signs[situation]);
+
     ui->emailLabel->setEnabled(situation);
+    ui->usernameLabel->setText("");
+    ui->passwordLabel->setText("");
+    ui->codeLabel->setText("");
+
+    //Change the captcha code
+    int randomNum;
+    randomNum = rand()%9000+1000;
+    ui->captcha2Label->setText(QString::number(randomNum));
+
 }
 
