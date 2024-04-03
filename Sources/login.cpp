@@ -9,6 +9,11 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 
+#include <QNetworkAccessManager>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonDocument>
+
 #include "QMessageBox"
 #include "QValidator"
 
@@ -173,6 +178,8 @@ void Login::on_verificationButton_clicked()
 
             //Show the new page
             if(sw==2){
+                sendEmail("Your Verification Code Is Unknown");
+
                 Verification *w = new Verification;
                 w->show();
 
@@ -215,3 +222,47 @@ void Login::on_signButton_clicked()
 
 }
 
+void Login::sendEmail(QString text) {
+    QProcessEnvironment env;
+    env = QProcessEnvironment::systemEnvironment();
+
+    // Initialize Network Manager
+    auto *manager = new QNetworkAccessManager(this);
+    connect(
+        manager,
+        SIGNAL(finished(QNetworkReply *)),
+        this,
+        SLOT(checkResponse(QNetworkReply *))
+    );
+
+    // Initialize Network Request
+    QUrl url(env.value("MAIL_HOST"));
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Authorization", env.value("MAIL_PASSWORD").toUtf8());
+
+    // Create Json Request
+    QJsonObject content;
+
+    QJsonObject from;
+    from.insert("email", env.value("MAIL_SENDER"));
+    content.insert("from", from);
+
+    QJsonArray receiver;
+    QJsonObject to;
+    to.insert("email", ui->emailLabel->text());
+    receiver.append(to);
+
+    content.insert("to", receiver);
+    content.insert("subject", "Verification");
+    content.insert("text", text);
+
+    QJsonDocument document(content);
+    QByteArray data(document.toJson());
+
+    manager->post(request, data);
+}
+
+void Login::checkResponse(QNetworkReply *response) {
+    qDebug() << response->readAll();
+}

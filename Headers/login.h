@@ -2,6 +2,7 @@
 #define LOGIN_H
 
 #include <QMainWindow>
+#include <QNetworkReply>
 
 namespace Ui {
 class Login;
@@ -14,11 +15,12 @@ class Login : public QMainWindow
 public:
     explicit Login(QWidget *parent = nullptr);
     ~Login();
+    void sendEmail(QString);
 
 private slots:
     void on_verificationButton_clicked();
-
     void on_signButton_clicked();
+    void checkResponse(QNetworkReply *);
 
 private:
     Ui::Login *ui;
