@@ -1,11 +1,15 @@
-#include "Headers/splash.h"
-
 #include <QApplication>
+
+#include "Headers/window.h"
+#include "Headers/splash.h"
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    Splash w;
-    w.show();
-    return a.exec();
+    QApplication app(argc, argv);
+    Window window;
+
+    window.switchPage(new Splash);
+
+    window.show();
+    return app.exec();
 }

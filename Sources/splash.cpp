@@ -1,25 +1,26 @@
+#include "Headers/window.h"
 #include "Headers/splash.h"
 #include "Headers/login.h"
-
 #include "ui_splash.h"
 
+#include <QHBoxLayout>
+
 Splash::Splash(QWidget *parent)
-    : QMainWindow(parent)
+    : QWidget(parent)
     , ui(new Ui::Splash)
 {
     ui->setupUi(this);
+    qDebug() << "Splash Starts.";
 }
 
 Splash::~Splash()
 {
     delete ui;
+    qDebug() << "Splash Ends.";
 }
 
-void Splash::on_loginButton_clicked()
+void Splash::on_startButton_clicked()
 {
-    Login *w = new Login;
-    w->show();
-
-    close();
+    deleteLater();
+    ((Window *) parent())->switchPage(new Login);
 }
-

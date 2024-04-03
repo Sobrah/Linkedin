@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Splash</class>
- <widget class="QMainWindow" name="Splash">
+ <widget class="QWidget" name="Splash">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,7 +14,7 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -24,176 +27,180 @@
   </property>
   <property name="maximumSize">
    <size>
-    <width>800</width>
-    <height>600</height>
+    <width>880</width>
+    <height>660</height>
    </size>
   </property>
   <property name="windowTitle">
-   <string>Linked In</string>
+   <string>Linkedin</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#loginButton:hover {
-	background-color: rgb(146, 227, 169);
+   <string notr="true">* {
+	border-radius: 1em;
+	color: rgb(38, 50, 56);
+}
+QLabel#joinLabel {
+	color: rgb(146, 227, 169);
+	background-color: rgb(38, 50, 56);
+}
+QPushButton {
+	border: 5px solid rgb(146, 227, 169);
+}
+QPushButton:hover {
+	background-color: rgb(146, 227, 169)
 }</string>
   </property>
-  <widget class="QWidget" name="centralWidget">
-   <widget class="QLabel" name="welcomeLabel">
-    <property name="geometry">
-     <rect>
-      <x>25</x>
-      <y>10</y>
-      <width>350</width>
-      <height>275</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>36</pointsize>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="mouseTracking">
-     <bool>true</bool>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(38, 50, 56);</string>
-    </property>
-    <property name="text">
-     <string>Welcome To Your &lt;span style=&quot; text-decoration: underline; text-decoration-color:#92e3a9; font-style: italic;&quot;&gt;Professional&lt;/span&gt; Community</string>
-    </property>
-    <property name="wordWrap">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QLabel" name="joinLabel">
-    <property name="geometry">
-     <rect>
-      <x>25</x>
-      <y>500</y>
-      <width>575</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>16</pointsize>
-      <italic>false</italic>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color:rgb(38, 50, 56);
-color: rgb(128, 199, 148);
-border-radius: 1em;</string>
-    </property>
-    <property name="text">
-     <string>Join your colleagues, classmates, and friends on LinkedIn.</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-    <property name="margin">
-     <number>0</number>
-    </property>
-   </widget>
-   <widget class="QLabel" name="imageLabel">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>0</y>
-      <width>500</width>
-      <height>500</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="pixmap">
-     <pixmap resource="../Resources/assets.qrc">:/world.svg</pixmap>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="loginButton">
-    <property name="geometry">
-     <rect>
-      <x>625</x>
-      <y>500</y>
-      <width>150</width>
-      <height>50</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>16</pointsize>
-      <italic>true</italic>
-      <bold>true</bold>
-     </font>
-    </property>
-    <property name="cursor">
-     <cursorShape>PointingHandCursor</cursorShape>
-    </property>
-    <property name="toolTip">
-     <string/>
-    </property>
-    <property name="toolTipDuration">
-     <number>-1</number>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color:rgb(38, 50, 56);
-border: 5px solid rgb(146, 227, 169);
-border-radius: 1em;</string>
-    </property>
-    <property name="text">
-     <string>Get Started</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="purposeLabel">
-    <property name="geometry">
-     <rect>
-      <x>25</x>
-      <y>375</y>
-      <width>325</width>
-      <height>125</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color: rgb(38, 50, 56);</string>
-    </property>
-    <property name="text">
-     <string>With the Open To Work feature, you can privately tell recruiters or publicly share with the LinkedIn community that you are looking for new job opportunities.</string>
-    </property>
-    <property name="wordWrap">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <zorder>joinLabel</zorder>
-   <zorder>welcomeLabel</zorder>
-   <zorder>imageLabel</zorder>
-   <zorder>loginButton</zorder>
-   <zorder>purposeLabel</zorder>
-  </widget>
+  <layout class="QGridLayout" name="gridLayout" rowstretch="1,0" columnstretch="1,0">
+   <property name="leftMargin">
+    <number>15</number>
+   </property>
+   <property name="topMargin">
+    <number>15</number>
+   </property>
+   <property name="rightMargin">
+    <number>15</number>
+   </property>
+   <property name="bottomMargin">
+    <number>15</number>
+   </property>
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
+    <layout class="QVBoxLayout" name="sideLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>15</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="welcomeLabel">
+       <property name="font">
+        <font>
+         <pointsize>36</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="mouseTracking">
+        <bool>true</bool>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Welcome To Your &lt;span style=&quot; text-decoration: underline; text-decoration-color:#92e3a9; font-style: italic;&quot;&gt;Professional&lt;/span&gt; Community</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="purposeLabel">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>With the Open To Work feature, you can privately tell recruiters or publicly share with the LinkedIn community that you are looking for new job opportunities.</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="imageLabel">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="../Resources/assets.qrc">:/world.svg</pixmap>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="statusLayout" stretch="4,1">
+     <property name="spacing">
+      <number>15</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="joinLabel">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Join your colleagues, classmates, and friends on LinkedIn</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="margin">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="startButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+         <italic>true</italic>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="toolTipDuration">
+        <number>-1</number>
+       </property>
+       <property name="text">
+        <string>Get Started</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <resources>
   <include location="../Resources/assets.qrc"/>

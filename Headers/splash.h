@@ -1,22 +1,22 @@
 #ifndef SPLASH_H
 #define SPLASH_H
 
-#include <QMainWindow>
+#include <QWidget>
 
 namespace Ui {
 class Splash;
 }
 
-class Splash : public QMainWindow
+class Splash : public QWidget
 {
     Q_OBJECT
 
 public:
-    Splash(QWidget *parent = nullptr);
+    explicit Splash(QWidget *parent = nullptr);
     ~Splash();
 
 private slots:
-    void on_loginButton_clicked();
+    void on_startButton_clicked();
 
 private:
     Ui::Splash *ui;
