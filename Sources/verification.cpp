@@ -3,8 +3,8 @@
 
 #include "ui_verification.h"
 
-#include "QMessageBox"
-#include "QValidator"
+#include <QMessageBox>
+#include <QValidator>
 
 int randomNumber;
 

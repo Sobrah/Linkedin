@@ -14,8 +14,8 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 
-#include "QMessageBox"
-#include "QValidator"
+#include <QMessageBox>
+#include <QValidator>
 
 Login::Login(QWidget *parent)
     : QMainWindow(parent)
@@ -70,122 +70,131 @@ void Login::on_verificationButton_clicked()
     QString username = ui->usernameLabel->text();
     QString password = ui->passwordLabel->text();
     QString code = ui->codeLabel->text();
+    QString email = ui->emailLabel->text();
     QString s;
 
     int passwordLength = password.size();
     int usernamelength = username.size();
     int codelength = code.size();
+    int emaillength = email.size();
     int randomNum;
-    int sw;
+    int randomNum_2;
 
     QSqlQuery q;
 
     if(ui->signButton->text() == "Login"){
 
-        sw = 0;
-
         //Check if all the lines are empty
-        if( usernamelength == 0 && passwordLength == 0 && codelength == 0){
+        if( usernamelength == 0 && passwordLength == 0 && codelength == 0 && emaillength == 0){
             QMessageBox::warning(this,"Eror !","You should compelete the requested items !");
+            return ;
         }
-        else {
-            //Check the size of password
-            if(passwordLength<4){
-                QMessageBox::warning(this,"Eror!","Your password should have at least 4 characters !");
-                ui->passwordLabel->setText("");
-                ui->passwordLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
-            }
-            else sw++;
 
-            //Check the size of username
-            if(usernamelength<4){
-                QMessageBox::warning(this,"Eror!","Your username should have at least 4 characters !");
-                ui->usernameLabel->setText("");
-                ui->usernameLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
-            }
-            else sw++;
-
-            //Check the captcha code
-            if(ui->captcha2Label->text() != code){
-                QMessageBox::warning(this,"Eror!","Enter the number correctly !");
-                randomNum = rand()%9000+1000;
-                ui->captcha2Label->setText(QString::number(randomNum));
-                ui->codeLabel->setText("");
-                ui->codeLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
-            }
-            else sw++;
-
-            //Check the uniqueness of username
-            if(sw == 3){
-                q.exec("SELECT username FROM users WHERE username='"+username+"'");
-                if(q.first()){
-                    QMessageBox::warning(this,"Eror","Your username is already taken , please enter another one !");
-                }
-                else{
-                    q.exec("INSERT INTO users(username,password)VALUES('"+username+"','"+password+"')");
-                    sw++;
-                }
-            }
-
-            //show the new page
-            if(sw == 4){
-                Verification *w = new Verification;
-                w->show();
-
-                close();
-            }
+        //Check if the emailLabel is empty
+        if(emaillength == 0){
+            QMessageBox::warning(this,"Eror","You should enter your email !");
+            return ;
         }
+
+        //Check the size of username
+        if(usernamelength<4){
+            QMessageBox::warning(this,"Eror!","Your username should have at least 4 characters !");
+            ui->usernameLabel->setText("");
+            ui->usernameLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
+            return ;
+        }
+
+        //Check the size of password
+        if(passwordLength<4){
+            QMessageBox::warning(this,"Eror!","Your password should have at least 4 characters !");
+            ui->passwordLabel->setText("");
+            ui->passwordLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
+            return ;
+        }
+
+        //Check the captcha code
+        if(ui->captcha2Label->text() != code){
+            QMessageBox::warning(this,"Eror!","Enter the number correctly !");
+            randomNum = rand()%9000+1000;
+            ui->captcha2Label->setText(QString::number(randomNum));
+            ui->codeLabel->setText("");
+            ui->codeLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
+            return ;
+        }
+
+        //Check the uniqueness of username
+        q.exec("SELECT username FROM users WHERE username='"+username+"'");
+        if(q.first()){
+            QMessageBox::warning(this,"Eror","Your username is already taken , please enter another one !");
+            return ;
+        }
+
+        //Check the uniqueness of email
+        q.exec("SELECT email FROM users WHERE email='"+email+"'");
+        if(q.first()){
+            QMessageBox::warning(this,"Eror","Your email is already taken , please enter another one !");
+            return ;
+        }
+        if(!q.first()){
+            q.exec("INSERT INTO users(username,password,email)VALUES('"+username+"','"+password+"','"+email+"')");
+        }
+
+        //Sending the verification code to the email
+        randomNum_2 = rand() % 9000 + 1000;
+        sendEmail("Welcome to linkedin , Your verification code is " + QString::number(randomNum_2) + " .");
+
+        //show the new page
+        Verification *w = new Verification;
+        w->show();
+
+        close();
+        return ;
     }
-    else if(ui->signButton->text() == "Sign Up"){
 
-        sw = 0;
+    if(ui->signButton->text() == "Sign Up"){
 
         if( usernamelength == 0 && passwordLength == 0 && codelength == 0){
-            QMessageBox::warning(this,"Eror !","You should compelete the requested items !");
+             QMessageBox::warning(this,"Eror !","You should compelete the requested items !");
+            return ;
         }
 
-        else{
-            //Check the captcha code
-            if(ui->captcha2Label->text() != ui->codeLabel->text()){
-                QMessageBox::warning(this,"Eror!","Enter the number correctly !");
-                randomNum = rand()%9000+1000;
-                ui->captcha2Label->setText(QString::number(randomNum));
-                ui->codeLabel->setText("");
-                ui->codeLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
-            }
-            else sw++;
+        //Check the captcha code
+         if(ui->captcha2Label->text() != ui->codeLabel->text()){
+            QMessageBox::warning(this,"Eror!","Enter the number correctly !");
+            randomNum = rand()%9000+1000;
+            ui->captcha2Label->setText(QString::number(randomNum));
+            ui->codeLabel->setText("");
+            ui->codeLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
+            return ;
+        }
 
 
-            q.exec("SELECT password FROM users WHERE username='"+username+"'");
-            if(q.first()){
-                s = q.value(0).toString();
-                if(s == password){
-                    sw++;
-                }
-                else{
-                    QMessageBox::warning(this,"Eror","Your password is incorrect !");
-                    ui->passwordLabel->setText("");
-                    ui->passwordLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
-                }
-            }
-            else{
-                QMessageBox::warning(this,"Eror","Your username is incorrect !");
-                ui->usernameLabel->setText("");
+        q.exec("SELECT password FROM users WHERE username='"+username+"'");
+        if(q.first()){
+            s = q.value(0).toString();
+            if(s != password){
+                QMessageBox::warning(this,"Eror","Your password is incorrect !");
                 ui->passwordLabel->setText("");
-                ui->usernameLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
                 ui->passwordLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
-            }
-
-            //Show the new page
-            if(sw==2){
-                sendEmail("Your Verification Code Is Unknown");
-
-                Verification *w = new Verification;
-                w->show();
-
-                close();
+                return ;
             }
         }
+        if(!q.first()){
+            QMessageBox::warning(this,"Eror","Your username is incorrect !");
+            ui->usernameLabel->setText("");
+            ui->passwordLabel->setText("");
+            ui->usernameLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
+            ui->passwordLabel->setStyleSheet("border-color: rgb(255, 0, 0);");
+            return ;
+        }
+
+        //Show the new page
+        sendEmail("Your Verification Code Is Unknown");
+
+        Verification *w = new Verification;
+        w->show();
+
+        close();
     }
 }
 
@@ -214,6 +223,7 @@ void Login::on_signButton_clicked()
     ui->usernameLabel->setText("");
     ui->passwordLabel->setText("");
     ui->codeLabel->setText("");
+    ui->emailLabel->setText("");
 
     //Change the captcha code
     int randomNum;
