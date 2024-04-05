@@ -21,6 +21,8 @@ Splash::~Splash()
 
 void Splash::on_startButton_clicked()
 {
+    hide();
+    auto *window = static_cast<Window *> (parent());
+    window->switchPage(new Login);
     deleteLater();
-    ((Window *) parent())->switchPage(new Login);
 }

@@ -1,29 +1,37 @@
 #ifndef LOGIN_H
 #define LOGIN_H
 
-#include <QMainWindow>
-#include <QNetworkReply>
+#include <QWidget>
 
 namespace Ui {
 class Login;
 }
 
-class Login : public QMainWindow
+enum Sign
+{
+    SIGNUP,
+    LOGIN
+};
+
+class Login : public QWidget
 {
     Q_OBJECT
 
 public:
     explicit Login(QWidget *parent = nullptr);
     ~Login();
-    void sendEmail(QString);
+    bool initDatabase();
+    void sendEmail(QString, QString);
+    inline int fourDigitNumber();
+    inline void resetCaptcha();
 
 private slots:
     void on_verificationButton_clicked();
     void on_signButton_clicked();
-    void checkResponse(QNetworkReply *);
 
 private:
     Ui::Login *ui;
+    Sign signStatus;
 };
 
 #endif // LOGIN_H
