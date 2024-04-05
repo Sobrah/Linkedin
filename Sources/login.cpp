@@ -135,13 +135,14 @@ void Login::on_verificationButton_clicked()
     }
 
     // Send Verification Code
+    int verificationCode(fourDigitNumber());
     QString text("Welcome To Linkedin, Your Verification Code Is %1.");
-    sendEmail(email, text.arg(fourDigitNumber()));
+    sendEmail(email, text.arg(verificationCode));
 
     // Show Verification Page
     hide();
     auto *window = static_cast<Window *> (parent());
-    window->switchPage(new Verification);
+    window->switchPage(new Verification(verificationCode));
     deleteLater();
 }
 
@@ -182,12 +183,12 @@ void Login::sendEmail(QString to, QString text)
     env = QProcessEnvironment::systemEnvironment();
 
     // Initialize Network Manager
-    auto *manager = new QNetworkAccessManager(this);
+    auto *manager = new QNetworkAccessManager;
 
     // Print Response Message
     connect(
         manager, &QNetworkAccessManager::finished,
-        this, [](QNetworkReply *reply)
+        manager, [](QNetworkReply *reply)
         {
             QString data(reply->readAll());
             if (data.isEmpty())

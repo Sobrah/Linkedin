@@ -1,18 +1,18 @@
 #ifndef VERIFICATION_H
 #define VERIFICATION_H
 
-#include <QMainWindow>
+#include <QWidget>
 
 namespace Ui {
 class Verification;
 }
 
-class Verification : public QMainWindow
+class Verification : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit Verification(QWidget *parent = nullptr);
+    explicit Verification(int, QWidget *parent = nullptr);
     ~Verification();
 
 private slots:
@@ -20,6 +20,7 @@ private slots:
 
 private:
     Ui::Verification *ui;
+    int verificationCode;
 };
 
 #endif // VERIFICATION_H

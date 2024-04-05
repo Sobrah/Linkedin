@@ -1,42 +1,45 @@
+#include "Headers/window.h"
 #include "Headers/verification.h"
 #include "Headers/profile.h"
-
 #include "ui_verification.h"
 
 #include <QMessageBox>
 #include <QValidator>
 
-int randomNumber;
-
-Verification::Verification(QWidget *parent)
-    : QMainWindow(parent)
+Verification::Verification(int code, QWidget *parent)
+    : QWidget(parent)
     , ui(new Ui::Verification)
+    , verificationCode(code)
 {
     ui->setupUi(this);
-    int randNum = rand()%9000+1000;
-    randomNumber = randNum;
-    ui->codeLine->setValidator(new QIntValidator);
-    QMessageBox::information(this,"Captcha","Your captcha code is " + QString::number(randNum) + " .");
+    ui->codeEdit->setValidator(new QIntValidator);
+
+    qDebug() << "Verification Starts.";
 }
 
 Verification::~Verification()
 {
     delete ui;
+    qDebug() << "Verification Ends";
 }
 
 void Verification::on_confirmButton_clicked()
 {
-
-    QString codeText = QString::number(randomNumber);
-    if(ui->codeLine->text() != codeText){
-        randomNumber = rand()%9000+1000;
-        QMessageBox::warning(this,"Eror!","The number was incorrect , the new captcha is " + QString::number(randomNumber) + " .");
-        ui->codeLine->setText("");
+    QString code(QString::number(verificationCode));
+    if (ui->codeEdit->text() != code)
+    {
+        QMessageBox::warning(
+            this,
+            "Verification Code",
+            "Verification Code Is Not Correct."
+            );
+        ui->codeEdit->setText("");
+        return;
     }
-    else {
-        Profile *w = new Profile;
-        w->show();
 
-        close();
-    }
+    // Show Profile Page
+    hide();
+    auto *window = static_cast<Window *> (parent());
+    window->switchPage(new Profile);
+    deleteLater();
 }
