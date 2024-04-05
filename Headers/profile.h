@@ -1,13 +1,13 @@
 #ifndef PROFILE_H
 #define PROFILE_H
 
-#include <QMainWindow>
+#include <QWidget>
 
 namespace Ui {
 class Profile;
 }
 
-class Profile : public QMainWindow
+class Profile : public QWidget
 {
     Q_OBJECT
 
@@ -16,7 +16,7 @@ public:
     ~Profile();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_submitButton_clicked();
 
 private:
     Ui::Profile *ui;

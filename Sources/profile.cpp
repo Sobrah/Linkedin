@@ -2,18 +2,22 @@
 #include "ui_profile.h"
 
 Profile::Profile(QWidget *parent)
-    : QMainWindow(parent)
+    : QWidget(parent)
     , ui(new Ui::Profile)
 {
     ui->setupUi(this);
+    qDebug() << "Profile Starts.";
 }
 
 Profile::~Profile()
 {
     delete ui;
+    qDebug() << "Profile Ends.";
 }
 
-void Profile::on_pushButton_clicked()
+void Profile::on_submitButton_clicked()
 {
-    close();
+    hide();
+    deleteLater();
+    parentWidget()->deleteLater();
 }
