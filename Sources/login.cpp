@@ -14,6 +14,7 @@
 #include <QRandomGenerator>
 #include <QMessageBox>
 #include <QValidator>
+#include <QCryptographicHash>
 
 Login::Login(QWidget *parent)
     : QWidget(parent)
@@ -86,6 +87,10 @@ void Login::on_verificationButton_clicked()
     }
 
     QSqlQuery query;
+
+    // Hashing The Password
+    QByteArray hash = QCryptographicHash::hash(password.toLocal8Bit() , QCryptographicHash::Sha256);
+
     if (signStatus == SIGNUP)
     {
         // Unique Username
@@ -106,7 +111,7 @@ void Login::on_verificationButton_clicked()
         // Insert Information
         query.prepare("INSERT INTO users (username, password, email) VALUES (?, ?, ?)");
         query.addBindValue(username);
-        query.addBindValue(password);
+        query.addBindValue(hash);
         query.addBindValue(email);
         query.exec();
     }
@@ -115,7 +120,7 @@ void Login::on_verificationButton_clicked()
     {
         query.prepare("SELECT email FROM users WHERE username = ? AND password = ?");
         query.addBindValue(username);
-        query.addBindValue(password);
+        query.addBindValue(hash);
         query.exec();
 
         // Valid Credentials
