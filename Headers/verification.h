@@ -12,7 +12,7 @@ class Verification : public QWidget
     Q_OBJECT
 
 public:
-    explicit Verification(int, QWidget *parent = nullptr);
+    explicit Verification(QString, QWidget *parent = nullptr);
     ~Verification();
 
 private slots:
@@ -20,7 +20,7 @@ private slots:
 
 private:
     Ui::Verification *ui;
-    int verificationCode;
+    QString verificationCode;
 };
 
 #endif // VERIFICATION_H

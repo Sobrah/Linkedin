@@ -2,6 +2,7 @@
 #define LOGIN_H
 
 #include <QWidget>
+#include <QtConcurrent>
 
 namespace Ui {
 class Login;
@@ -20,18 +21,26 @@ class Login : public QWidget
 public:
     explicit Login(QWidget *parent = nullptr);
     ~Login();
-    bool initDatabase();
-    void sendEmail(QString, QString);
-    inline int fourDigitNumber();
-    inline void resetCaptcha();
 
 private slots:
-    void on_verificationButton_clicked();
     void on_signButton_clicked();
 
 private:
+    bool initializeDatabase();
+    void sendEmail(QString, QString);
+    void verificationButtonClicked();
+    void handleErrors(QString, QString);
+    void resetCaptchaCode();
+    static QString fourRandomDigits();
+
     Ui::Login *ui;
+    QThreadPool *pool;
     Sign signStatus;
+    QFuture <bool> databaseStatus;
+
+signals:
+    void warnMessage(QString, QString);
+    void fieldsVerified(QString);
 };
 
 #endif // LOGIN_H

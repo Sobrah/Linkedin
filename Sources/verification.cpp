@@ -6,7 +6,7 @@
 #include <QMessageBox>
 #include <QValidator>
 
-Verification::Verification(int code, QWidget *parent)
+Verification::Verification(QString code, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Verification)
     , verificationCode(code)
@@ -25,8 +25,7 @@ Verification::~Verification()
 
 void Verification::on_confirmButton_clicked()
 {
-    QString code(QString::number(verificationCode));
-    if (ui->codeEdit->text() != code)
+    if (ui->codeEdit->text() != verificationCode)
     {
         QMessageBox::warning(
             this,

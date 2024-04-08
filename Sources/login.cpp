@@ -19,24 +19,56 @@
 Login::Login(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Login)
+    , pool(new QThreadPool(this))
     , signStatus(SIGNUP)
 {
     ui->setupUi(this);
 
     // Set Required Ui Fields
-    resetCaptcha();
     ui->passwordLabel->setEchoMode(QLineEdit::Password);
+    ui->captchaLabel->setText(fourRandomDigits());
     ui->codeLabel->setValidator(new QIntValidator);
 
+    // Single Database Thread
+    pool->setMaxThreadCount(1);
+    pool->setExpiryTimeout(-1);
+
     // Initialize Database
-    if (!initDatabase())
-    {
-        QMessageBox::warning(
-            this,
-            "Database",
-            "Cannot Connect To Database."
-            );
-    }
+    databaseStatus = QtConcurrent::run(pool, &Login::initializeDatabase, this);
+
+    // Verification Button Clicked
+    connect(
+        ui->verificationButton, &QPushButton::clicked,
+        this, [=] {
+            QtConcurrent::run(pool, &Login::verificationButtonClicked, this);
+        });
+
+    connect(
+        this, &Login::warnMessage,
+        this, [=] (QString title, QString text) {
+            QMessageBox box;
+
+            QMessageBox::warning(&box, title, text);
+            ui->captchaLabel->setText(fourRandomDigits());
+
+            ui->passwordLabel->setText("");
+            ui->codeLabel->setText("");
+        });
+
+    connect(
+        this, &Login::fieldsVerified,
+        this, [=] (QString email) {
+            QString verificationCode(fourRandomDigits());
+
+            // Send Verification Code
+            QString text("Welcome To Linkedin, Your Verification Code Is %1.");
+            sendEmail(email, text.arg(verificationCode));
+
+            hide();
+            auto *window = static_cast<Window *> (this->parent());
+            window->switchPage(new Verification(verificationCode));
+            deleteLater();
+        });
 
     qDebug() << "Login Starts.";
 }
@@ -47,18 +79,19 @@ Login::~Login()
     qDebug() << "Login Ends.";
 }
 
-void Login::on_verificationButton_clicked()
+void Login::verificationButtonClicked()
 {
+
     QString email = ui->emailLabel->text();
     const QString username = ui->usernameLabel->text();
     const QString password = ui->passwordLabel->text();
     const QString captcha = ui->captchaLabel->text();
     const QString code = ui->codeLabel->text();
 
+    // Check Fields
     if (username.length() < 4)
     {
-        QMessageBox::warning(
-            this,
+        emit warnMessage(
             "Username Length",
             "Username Should Be At Least 4 Characters."
             );
@@ -66,8 +99,7 @@ void Login::on_verificationButton_clicked()
     }
     if (password.length() < 4)
     {
-        QMessageBox::warning(
-            this,
+        emit warnMessage(
             "Password Length",
             "Password Should Be At Least 4 Characters."
             );
@@ -76,21 +108,35 @@ void Login::on_verificationButton_clicked()
     }
     if (captcha != code)
     {
-        QMessageBox::warning(
-            this,
+        emit warnMessage(
             "Security Code",
             "Security Code Is Not Correct."
             );
-        resetCaptcha();
-        ui->codeLabel->setText("");
         return;
     }
 
+    // Check Database Status
+    if (databaseStatus.isRunning())
+    {
+        emit warnMessage(
+            "Database Pending",
+            "Database Is Still Runnig, Try Again Later."
+            );
+        return;
+    }
+    if (!databaseStatus.result())
+    {
+        emit warnMessage(
+            "Database Failed",
+            "Cannot Connect To Database, Restart Application."
+            );
+        return;
+    }
+
+    // Hash Password
+    QByteArray hashedPassword = QCryptographicHash::hash(password.toLocal8Bit(), QCryptographicHash::Sha256);
+
     QSqlQuery query;
-
-    // Hashing The Password
-    QByteArray hash = QCryptographicHash::hash(password.toLocal8Bit() , QCryptographicHash::Sha256);
-
     if (signStatus == SIGNUP)
     {
         // Unique Username
@@ -98,10 +144,9 @@ void Login::on_verificationButton_clicked()
         query.addBindValue(username);
         query.exec();
 
-        if(query.first())
+        if (query.first())
         {
-            QMessageBox::warning(
-                this,
+            emit warnMessage(
                 "Username Value",
                 "Username Has Been Taken, Choose Another One."
                 );
@@ -111,7 +156,7 @@ void Login::on_verificationButton_clicked()
         // Insert Information
         query.prepare("INSERT INTO users (username, password, email) VALUES (?, ?, ?)");
         query.addBindValue(username);
-        query.addBindValue(hash);
+        query.addBindValue(hashedPassword);
         query.addBindValue(email);
         query.exec();
     }
@@ -120,35 +165,29 @@ void Login::on_verificationButton_clicked()
     {
         query.prepare("SELECT email FROM users WHERE username = ? AND password = ?");
         query.addBindValue(username);
-        query.addBindValue(hash);
+        query.addBindValue(hashedPassword);
         query.exec();
 
         // Valid Credentials
-        if (query.first())
+        if (!query.first())
         {
-            email = query.value("email").toString();
-        } else
-        {
-            QMessageBox::warning(
-                this,
+            emit warnMessage(
                 "Incorrect Values",
                 "Username Or Password Is Incorrect."
                 );
             ui->passwordLabel->setText("");
             return;
         }
+
+        email = query.value("email").toString();
     }
+    QString verificationCode(fourRandomDigits());
 
     // Send Verification Code
-    int verificationCode(fourDigitNumber());
     QString text("Welcome To Linkedin, Your Verification Code Is %1.");
     sendEmail(email, text.arg(verificationCode));
 
-    // Show Verification Page
-    hide();
-    auto *window = static_cast<Window *> (parent());
-    window->switchPage(new Verification(verificationCode));
-    deleteLater();
+    emit fieldsVerified(email);
 }
 
 void Login::on_signButton_clicked()
@@ -166,7 +205,7 @@ void Login::on_signButton_clicked()
     ui->usernameLabel->setText("");
     ui->passwordLabel->setText("");
     ui->codeLabel->setText("");
-    resetCaptcha();
+    ui->captchaLabel->setText(fourRandomDigits());
 
     // Change Invitation Parts
     ui->descriptionLabel->setText(invitations[signStatus]);
@@ -237,7 +276,7 @@ void Login::sendEmail(QString to, QString text)
     manager->post(request, data);
 }
 
-bool Login::initDatabase()
+bool Login::initializeDatabase()
 {
     // Initialize Environmental Variables
     QProcessEnvironment env;
@@ -267,12 +306,8 @@ bool Login::initDatabase()
     return true;
 }
 
-int Login::fourDigitNumber()
+QString Login::fourRandomDigits()
 {
-    return QRandomGenerator::global()->bounded(1000, 9999);
-}
-
-void Login::resetCaptcha()
-{
-    ui->captchaLabel->setText(QString::number(fourDigitNumber()));
+    int n = QRandomGenerator::global()->bounded(0, 9999);
+    return QString::number(n).rightJustified(4, '0');
 }
