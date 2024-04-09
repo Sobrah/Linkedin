@@ -15,10 +15,8 @@ public:
     explicit Splash(QWidget *parent = nullptr);
     ~Splash();
 
-private slots:
-    void on_startButton_clicked();
-
 private:
     Ui::Splash *ui;
 };
+
 #endif // SPLASH_H

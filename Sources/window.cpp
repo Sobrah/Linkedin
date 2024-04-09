@@ -10,8 +10,8 @@ Window::Window(QWidget *parent)
     ui->setupUi(this);
 
     auto *layout = new QHBoxLayout(this);
-    layout->setSpacing(0);
     layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
 
     qDebug() << "Window Starts.";
 }
@@ -22,8 +22,14 @@ Window::~Window()
     qDebug() << "Window Ends.";
 }
 
-void Window::switchPage(QWidget *page)
+void Window::changePage(QWidget *page, QWidget *parent)
 {
-    layout()->addWidget(page);
+    auto children = parent->findChildren<QWidget *>();
+    foreach (auto widget, children) {
+        widget->hide();
+        widget->deleteLater();
+    }
+
+    parent->layout()->addWidget(page);
     page->show();
 }

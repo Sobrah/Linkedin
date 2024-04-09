@@ -1,18 +1,12 @@
 #ifndef LOGIN_H
 #define LOGIN_H
 
+#include <QThreadPool>
 #include <QWidget>
-#include <QtConcurrent>
 
 namespace Ui {
 class Login;
 }
-
-enum Sign
-{
-    SIGNUP,
-    LOGIN
-};
 
 class Login : public QWidget
 {
@@ -22,21 +16,17 @@ public:
     explicit Login(QWidget *parent = nullptr);
     ~Login();
 
-private slots:
-    void on_signButton_clicked();
-
 private:
-    bool initializeDatabase();
-    void sendEmail(QString, QString);
     void verificationButtonClicked();
-    void handleErrors(QString, QString);
-    void resetCaptchaCode();
+    void signButtonClicked();
+    bool initializeDatabase();
+    void sendEmail(QString &, QString &);
     static QString fourRandomDigits();
 
     Ui::Login *ui;
     QThreadPool *pool;
-    Sign signStatus;
-    QFuture <bool> databaseStatus;
+    bool databaseStatus = false;
+    bool formLoginStatus = false;
 
 signals:
     void warnMessage(QString, QString);

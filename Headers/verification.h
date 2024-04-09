@@ -12,13 +12,12 @@ class Verification : public QWidget
     Q_OBJECT
 
 public:
-    explicit Verification(QString, QWidget *parent = nullptr);
+    explicit Verification(QString &, QWidget *parent = nullptr);
     ~Verification();
 
-private slots:
-    void on_confirmButton_clicked();
-
 private:
+    void confirmButtonClicked();
+
     Ui::Verification *ui;
     QString verificationCode;
 };

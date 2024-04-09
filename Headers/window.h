@@ -13,8 +13,8 @@ class Window : public QWidget
 
 public:
     explicit Window(QWidget *parent = nullptr);
+    static void changePage(QWidget *, QWidget *);
     ~Window();
-    void switchPage(QWidget *);
 
 private:
     Ui::Window *ui;

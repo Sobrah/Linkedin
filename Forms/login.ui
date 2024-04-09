@@ -34,10 +34,10 @@ QGroupBox QLabel {
 	background-color: rgb(55, 71, 79);
 	color: rgb(255, 255, 255);
 }
-#signButton, #verificationButton {
+QPushButton {
 	border: 5px solid rgb(186, 104, 200);
 }
-#signButton:hover, #verificationButton:hover {
+QPushButton:hover {
 	background-color: rgb(186, 104, 200)
 }
 QLineEdit:focus {
@@ -267,6 +267,9 @@ QLineEdit:focus {
         </property>
         <property name="text">
          <string/>
+        </property>
+        <property name="echoMode">
+         <enum>QLineEdit::Password</enum>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
