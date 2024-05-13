@@ -1,7 +1,10 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include <QThreadPool>
 #include <QWidget>
+
+extern QThreadPool *POOL;
 
 namespace Ui {
 class Window;
@@ -17,6 +20,8 @@ public:
     ~Window();
 
 private:
+    bool checkSession();
+
     Ui::Window *ui;
 };
 

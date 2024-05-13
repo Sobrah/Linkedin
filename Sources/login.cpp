@@ -8,7 +8,6 @@
 #include <QNetworkReply>
 #include <QProcessEnvironment>
 #include <QRandomGenerator>
-#include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QtConcurrentRun>
 
@@ -20,20 +19,10 @@
 Login::Login(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Login)
-    , pool(new QThreadPool)
 {
     ui->setupUi(this);
     ui->captchaLabel->setText(fourRandomDigits());
     ui->codeLabel->setValidator(new QIntValidator);
-
-    // Database Thread Pool
-    pool->setMaxThreadCount(1);
-    pool->setExpiryTimeout(-1);
-
-    // Initialize Database
-    QtConcurrent::run(pool, &Login::initializeDatabase, this).then([=](bool status) {
-        databaseStatus = status;
-    });
 
     // Warn Message Emitted
     connect(this, &Login::warnMessage, this, [=](QString title, QString text) {
@@ -55,7 +44,7 @@ Login::Login(QWidget *parent)
 
     // Verification Button Clicked
     connect(ui->verificationButton, &QPushButton::clicked, this, [=] {
-        static_cast<void>(QtConcurrent::run(pool, &Login::verificationButtonClicked, this));
+        static_cast<void>(QtConcurrent::run(POOL, &Login::verificationButtonClicked, this));
     });
 
     // Sign Button Clicked
@@ -67,7 +56,6 @@ Login::Login(QWidget *parent)
 Login::~Login()
 {
     delete ui;
-    delete pool;
     qDebug() << "Login Ends.";
 }
 
@@ -93,19 +81,13 @@ void Login::verificationButtonClicked()
         return;
     }
 
-    // Check Database Status
-    if (!databaseStatus) {
-        emit warnMessage("Database Failed", "Cannot Connect To Database, Restart Application.");
-        return;
-    }
-
     // Hash Password
     QCryptographicHash cryptoHash(QCryptographicHash::Sha256);
     cryptoHash.addData(password.toLocal8Bit());
     QByteArray hashedPassword = cryptoHash.result();
 
     QSqlQuery query;
-    if (formLoginStatus) {
+    if (formStatus) {
         query.prepare("SELECT email FROM users WHERE username = ? AND password = ?");
         query.addBindValue(username);
         query.addBindValue(hashedPassword);
@@ -154,46 +136,17 @@ void Login::signButtonClicked()
     ui->captchaLabel->setText(fourRandomDigits());
 
     // Change Invitation Parts
-    ui->descriptionLabel->setText(invitations[formLoginStatus]);
-    ui->signButton->setText(signs[formLoginStatus]);
+    ui->descriptionLabel->setText(invitations[formStatus]);
+    ui->signButton->setText(signs[formStatus]);
 
-    formLoginStatus = (formLoginStatus + 1) % 2;
+    formStatus = (formStatus + 1) % 2;
 
     // Change Form Parts
-    ui->signLabel->setText(signs[formLoginStatus]);
-    if (formLoginStatus)
+    ui->signLabel->setText(signs[formStatus]);
+    if (formStatus)
         ui->emailLabel->hide();
     else
         ui->emailLabel->show();
-}
-
-bool Login::initializeDatabase()
-{
-    // Initialize Environmental Variables
-    auto env = QProcessEnvironment::systemEnvironment();
-
-    // Initialize Database
-    QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
-    db.setDatabaseName(env.value("PG_DATABASE"));
-    db.setHostName(env.value("PG_HOST"));
-    db.setUserName(env.value("PG_USER"));
-    db.setPassword(env.value("PG_PASSWORD"));
-
-    // Invalid Database
-    if (!db.isValid()) {
-        qDebug() << "Database Is Not Valid.";
-        return false;
-    }
-
-    db.open();
-
-    // Cannot Open Database
-    if (!db.isOpen()) {
-        qDebug() << "Cannot Open Database.";
-        return false;
-    }
-
-    return true;
 }
 
 void Login::sendEmail(QString &to, QString &text)

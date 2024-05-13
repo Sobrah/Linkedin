@@ -10,21 +10,24 @@ SOURCES += \
     Sources/login.cpp \
     Sources/verification.cpp \
     Sources/profile.cpp \
-    Sources/window.cpp
+    Sources/window.cpp \
+    Sources/home.cpp \
 
 HEADERS += \
     Headers/splash.h \
     Headers/login.h \
     Headers/verification.h \
     Headers/profile.h \
-    Headers/window.h
+    Headers/window.h \
+    Headers/home.h
 
 FORMS += \
     Forms/splash.ui \
     Forms/login.ui \
     Forms/verification.ui \
     Forms/profile.ui \
-    Forms/window.ui
+    Forms/window.ui \
+    Forms/home.ui
 
 RESOURCES += \
     Resources/assets.qrc
