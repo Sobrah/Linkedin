@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     POOL = &pool;
 
     // Initialize Database
-    static_cast<void>(QtConcurrent::run(POOL, initializeDatabase));
+    QtConcurrent::run(POOL, initializeDatabase).then([] { qDebug() << "Database Initialized."; });
 
     // Start Window Frame
     Window window;

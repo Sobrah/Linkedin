@@ -20,7 +20,7 @@ public:
     ~Window();
 
 private:
-    bool checkSession();
+    static bool checkSession();
 
     Ui::Window *ui;
 };

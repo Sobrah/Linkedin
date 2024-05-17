@@ -14,13 +14,8 @@ Window::Window(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // Configure Layout
-    auto *layout = new QHBoxLayout(this);
-    layout->setContentsMargins(0, 0, 0, 0);
-    layout->setSpacing(0);
-
     // Add Initial Page
-    QtConcurrent::run(POOL, &Window::checkSession, this).then(this, [=](bool status) {
+    QtConcurrent::run(POOL, Window::checkSession).then(this, [=](bool status) {
         if (status)
             changePage(new Home, this);
         else
@@ -51,24 +46,26 @@ void Window::changePage(QWidget *page, QWidget *parent)
 bool Window::checkSession()
 {
     QFile file("session");
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
 
-    if (!file.exists())
+    // Open File
+    if (!file.open(QIODevice::ReadOnly))
         return false;
 
-    QString username = file.readLine().trimmed();
-    QString password = file.readLine().trimmed();
-    file.close();
+    QString username;
+    QByteArray hashedPassword;
+
+    QDataStream stream(&file);
+    stream >> username >> hashedPassword;
 
     QSqlQuery query;
     query.prepare("SELECT id FROM users WHERE username = ? AND password = ?");
     query.addBindValue(username);
-    query.addBindValue(password);
+    query.addBindValue(hashedPassword);
     query.exec();
 
     // Invalid Credentials
-    if (!query.first())
-        return false;
+    if (query.first())
+        return true;
 
-    return true;
+    return false;
 }

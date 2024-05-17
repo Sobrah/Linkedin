@@ -26,7 +26,7 @@ private:
 
 signals:
     void warnMessage(QString, QString);
-    void fieldsVerified(QString);
+    void fieldsVerified(QString, QString, QByteArray);
 };
 
 #endif // LOGIN_H

@@ -34,13 +34,16 @@ Login::Login(QWidget *parent)
     });
 
     // Fields Verified Emitted
-    connect(this, &Login::fieldsVerified, this, [=](QString email) {
-        QString code = fourRandomDigits();
-        auto text = QString("Welcome To Linkedin, Your Verification Code Is %1.").arg(code);
+    connect(this,
+            &Login::fieldsVerified,
+            this,
+            [=](QString email, QString username, QByteArray password) {
+                auto code = fourRandomDigits();
+                auto text = QString("Welcome To Linkedin, Your Verification Code Is %1.").arg(code);
 
-        sendEmail(email, text);
-        Window::changePage(new Verification(code), parentWidget());
-    });
+                sendEmail(email, text);
+                Window::changePage(new Verification(code, username, password), parentWidget());
+            });
 
     // Verification Button Clicked
     connect(ui->verificationButton, &QPushButton::clicked, this, [=] {
@@ -119,7 +122,7 @@ void Login::verificationButtonClicked()
         query.exec();
     }
 
-    emit fieldsVerified(email);
+    emit fieldsVerified(email, username, hashedPassword);
 }
 
 void Login::signButtonClicked()
