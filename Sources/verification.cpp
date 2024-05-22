@@ -20,7 +20,7 @@ Verification::Verification(QString &code, QString &username, QByteArray &passwor
     // Confirm Button Clicked
     connect(ui->confirmButton, &QPushButton::clicked, this, &Verification::confirmButtonClicked);
 
-    qDebug() << "Verification Starts.";
+    qDebug("Verification Starts With Code %d.", code.toInt());
 }
 
 Verification::~Verification()

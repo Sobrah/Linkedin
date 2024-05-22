@@ -39,9 +39,8 @@ Login::Login(QWidget *parent)
             this,
             [=](QString email, QString username, QByteArray password) {
                 auto code = fourRandomDigits();
-                auto text = QString("Welcome To Linkedin, Your Verification Code Is %1.").arg(code);
 
-                sendEmail(email, text);
+                sendEmail(email, code);
                 Window::changePage(new Verification(code, username, password), parentWidget());
             });
 
@@ -152,7 +151,7 @@ void Login::signButtonClicked()
         ui->emailLabel->show();
 }
 
-void Login::sendEmail(QString &to, QString &text)
+void Login::sendEmail(QString &to, QString &code)
 {
     // Initialize Environmental Variables
     auto env = QProcessEnvironment::systemEnvironment();
@@ -163,6 +162,7 @@ void Login::sendEmail(QString &to, QString &text)
     // Print Response Message
     connect(manager, &QNetworkAccessManager::finished, manager, [](QNetworkReply *reply) {
         QString data(reply->readAll());
+
         if (data.isEmpty())
             qDebug() << "Email Sent.";
         else
@@ -190,9 +190,10 @@ void Login::sendEmail(QString &to, QString &text)
     receiver.insert("email", to);
     receivers.append(receiver);
 
+    QString text = "Welcome To Linkedin, Your Verification Code Is %1.";
     content.insert("to", receivers);
     content.insert("subject", "Linkedin Verification");
-    content.insert("text", text);
+    content.insert("text", text.arg(code));
 
     QJsonDocument document(content);
     QByteArray data(document.toJson());

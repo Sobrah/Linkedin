@@ -14,11 +14,11 @@ void initializeDatabase()
     auto env = QProcessEnvironment::systemEnvironment();
 
     // Initialize Database
-    QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
-    db.setDatabaseName(env.value("PG_DATABASE"));
-    db.setHostName(env.value("PG_HOST"));
-    db.setUserName(env.value("PG_USER"));
-    db.setPassword(env.value("PG_PASSWORD"));
+    QSqlDatabase db = QSqlDatabase::addDatabase(env.value("DATABASE_TYPE"));
+    db.setDatabaseName(env.value("DATABASE_NAME"));
+    db.setHostName(env.value("DATABASE_HOST"));
+    db.setUserName(env.value("DATABASE_USER"));
+    db.setPassword(env.value("DATABASE_PASSWORD"));
 
     // Invalid Database
     if (!db.isValid()) {
