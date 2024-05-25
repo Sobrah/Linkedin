@@ -5,6 +5,8 @@ CONFIG += c++17
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=6
 
 SOURCES += \
+    Sources/account.cpp \
+    Sources/content.cpp \
     main.cpp \
     Sources/splash.cpp \
     Sources/login.cpp \
@@ -14,6 +16,8 @@ SOURCES += \
     Sources/home.cpp \
 
 HEADERS += \
+    Headers/account.h \
+    Headers/content.h \
     Headers/splash.h \
     Headers/login.h \
     Headers/verification.h \
