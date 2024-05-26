@@ -6,7 +6,11 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=6
 
 SOURCES += \
     Sources/account.cpp \
+    Sources/comment.cpp \
     Sources/content.cpp \
+    Sources/directmessage.cpp \
+    Sources/like.cpp \
+    Sources/post.cpp \
     main.cpp \
     Sources/splash.cpp \
     Sources/login.cpp \
@@ -16,7 +20,11 @@ SOURCES += \
 
 HEADERS += \
     Headers/account.h \
+    Headers/comment.h \
     Headers/content.h \
+    Headers/directmessage.h \
+    Headers/like.h \
+    Headers/post.h \
     Headers/splash.h \
     Headers/login.h \
     Headers/verification.h \

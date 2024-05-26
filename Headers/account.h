@@ -3,7 +3,8 @@
 
 #include <QString>
 #include <QVector>
-#include "Headers/content.h"
+#include "Headers/directmessage.h"
+#include "Headers/post.h"
 
 using namespace std;
 
@@ -15,13 +16,13 @@ public:
     void setEmail(QString);
     void addFollowing(QString);
     void addPost(Post);
-    void addMessage(Direct_Message);
+    void addMessage(directMessage);
     QString getAccountId() const;
     QString getPhoneNumber() const;
     QString getEmail() const;
     QVector<QString> getFollowings() const;
     QVector<Post> getPosts() const;
-    QVector<Direct_Message> getMessages() const;
+    QVector<directMessage> getMessages() const;
 
 private:
     QString accountId;
@@ -29,7 +30,7 @@ private:
     QString email;
     QVector<QString> followings;
     QVector<Post> posts;
-    QVector<Direct_Message> DM;
+    QVector<directMessage> DM;
 };
 
 class Job

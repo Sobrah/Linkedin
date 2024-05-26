@@ -25,7 +25,7 @@ void Account::addPost(Post post)
     this->posts.push_back(post);
 }
 
-void Account::addMessage(Direct_Message dm)
+void Account::addMessage(directMessage dm)
 {
     this->DM.push_back(dm);
 }
@@ -55,7 +55,7 @@ QVector<Post> Account::getPosts() const
     return posts;
 }
 
-QVector<Direct_Message> Account::getMessages() const
+QVector<directMessage> Account::getMessages() const
 {
     return DM;
 }
