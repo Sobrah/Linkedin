@@ -16,6 +16,8 @@ public:
     ~Home();
 
 private:
+    void postButtonClicked();
+
     Ui::Home *ui;
 };
 

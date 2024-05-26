@@ -4,6 +4,7 @@
 #include <QThreadPool>
 #include <QWidget>
 
+extern int USER_ID;
 extern QThreadPool *POOL;
 
 namespace Ui {

@@ -58,14 +58,17 @@ bool Window::checkSession()
     stream >> username >> hashedPassword;
 
     QSqlQuery query;
-    query.prepare("SELECT id FROM users WHERE username = ? AND password = ?");
+    query.prepare("SELECT userID FROM users WHERE username = ? AND password = ?");
     query.addBindValue(username);
     query.addBindValue(hashedPassword);
     query.exec();
 
     // Invalid Credentials
-    if (query.first())
-        return true;
+    if (!query.first())
+        return false;
 
-    return false;
+    // Key Part Of Session
+    USER_ID = query.value("userID").toInt();
+
+    return true;
 }

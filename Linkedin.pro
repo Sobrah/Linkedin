@@ -5,25 +5,27 @@ CONFIG += c++17
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=6
 
 SOURCES += \
-    Sources/account.cpp \
-    Sources/content.cpp \
     main.cpp \
+    Sources/window.cpp \
     Sources/splash.cpp \
     Sources/login.cpp \
     Sources/verification.cpp \
     Sources/profile.cpp \
-    Sources/window.cpp \
     Sources/home.cpp \
+    Sources/content.cpp \
+    Sources/post.cpp \
+    Sources/account.cpp
 
 HEADERS += \
-    Headers/account.h \
-    Headers/content.h \
+    Headers/window.h \
     Headers/splash.h \
     Headers/login.h \
     Headers/verification.h \
     Headers/profile.h \
-    Headers/window.h \
-    Headers/home.h
+    Headers/home.h \
+    Headers/content.h \
+    Headers/post.h \
+    Headers/account.h
 
 FORMS += \
     Forms/splash.ui \

@@ -1,6 +1,28 @@
+PRAGMA foreign_keys = ON;
+
 CREATE TABLE IF NOT EXISTS 'users' (
-	'id' INTEGER PRIMARY KEY,
+	'userID' INTEGER PRIMARY KEY,
 	'username' TEXT NOT NULL UNIQUE,
 	'password' TEXT NOT NULL,
 	'email' TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS 'contents' (
+	'contentID' INTEGER PRIMARY KEY,
+	'senderID' INTEGER,
+	'timeSent' TEXT NOT NULL,
+	'contentText' TEXT,
+
+	FOREIGN KEY ('senderID') REFERENCES 'users' ('userID')
+		ON UPDATE NO ACTION
+		ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS 'posts' (
+	'postID' INTEGER PRIMARY KEY,
+	'contentID' INTEGER,
+
+	FOREIGN KEY ('contentID') REFERENCES 'contents' ('contentID')
+		ON UPDATE NO ACTION
+		ON DELETE CASCADE
 );
