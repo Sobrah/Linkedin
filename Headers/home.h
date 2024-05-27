@@ -17,7 +17,7 @@ public:
 
 private:
     void postButtonClicked();
-
+    void search_CurrentTextChanged(const QString &);
     Ui::Home *ui;
 };
 
