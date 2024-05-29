@@ -14,7 +14,8 @@ SOURCES += \
     Sources/home.cpp \
     Sources/content.cpp \
     Sources/post.cpp \
-    Sources/account.cpp
+    Sources/account.cpp \
+    Sources/me.cpp
 
 HEADERS += \
     Headers/window.h \
@@ -25,7 +26,8 @@ HEADERS += \
     Headers/home.h \
     Headers/content.h \
     Headers/post.h \
-    Headers/account.h
+    Headers/account.h \
+    Headers/me.h
 
 FORMS += \
     Forms/splash.ui \
@@ -33,7 +35,8 @@ FORMS += \
     Forms/verification.ui \
     Forms/profile.ui \
     Forms/window.ui \
-    Forms/home.ui
+    Forms/home.ui \
+    Forms/me.ui
 
 RESOURCES += \
     Resources/assets.qrc
