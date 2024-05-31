@@ -23,7 +23,7 @@ void initializeDatabase()
 
     // Invalid Database
     if (!db.isValid()) {
-        qDebug() << "Database Is Not Valid.";
+        qDebug("Database Is Not Valid.");
         throw;
     }
 
@@ -31,9 +31,11 @@ void initializeDatabase()
 
     // Cannot Open Database
     if (!db.isOpen()) {
-        qDebug() << "Cannot Open Database.";
+        qDebug("Cannot Open Database.");
         throw;
     }
+
+    qDebug("Database Initialized.");
 }
 
 int main(int argc, char *argv[])
@@ -47,11 +49,11 @@ int main(int argc, char *argv[])
     POOL = &pool;
 
     // Initialize Database
-    QtConcurrent::run(POOL, initializeDatabase).then([] { qDebug() << "Database Initialized."; });
+    POOL->start(initializeDatabase);
 
     // Start Window Frame
-    Window window;
-    window.show();
+    Window frame;
+    frame.show();
 
     return app.exec();
 }

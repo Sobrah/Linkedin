@@ -39,26 +39,27 @@ Login::Login(QWidget *parent)
             this,
             [=](QString email, QString username, QByteArray password) {
                 auto code = fourRandomDigits();
+                auto page = new Verification(code, username, password);
 
                 sendEmail(email, code);
-                Window::changePage(new Verification(code, username, password), parentWidget());
+                Window::changePage(page, parentWidget());
             });
 
     // Verification Button Clicked
     connect(ui->verificationButton, &QPushButton::clicked, this, [=] {
-        static_cast<void>(QtConcurrent::run(POOL, &Login::verificationButtonClicked, this));
+        POOL->start([=] { verificationButtonClicked(); });
     });
 
     // Sign Button Clicked
     connect(ui->signButton, &QPushButton::clicked, this, &Login::signButtonClicked);
 
-    qDebug() << "Login Starts.";
+    qDebug("Login Starts.");
 }
 
 Login::~Login()
 {
     delete ui;
-    qDebug() << "Login Ends.";
+    qDebug("Login Ends.");
 }
 
 void Login::verificationButtonClicked()
@@ -164,7 +165,7 @@ void Login::sendEmail(QString &to, QString &code)
         QString data(reply->readAll());
 
         if (data.isEmpty())
-            qDebug() << "Email Sent.";
+            qDebug("Email Sent.");
         else
             qDebug() << data;
     });

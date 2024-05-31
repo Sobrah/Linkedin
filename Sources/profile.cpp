@@ -12,13 +12,13 @@ Profile::Profile(QWidget *parent)
     // Submit Button Clicked
     connect(ui->submitButton, &QPushButton::clicked, this, &Profile::submitButtonClicked);
 
-    qDebug() << "Profile Starts.";
+    qDebug("Profile Starts.");
 }
 
 Profile::~Profile()
 {
     delete ui;
-    qDebug() << "Profile Ends.";
+    qDebug("Profile Ends.");
 }
 
 void Profile::submitButtonClicked()

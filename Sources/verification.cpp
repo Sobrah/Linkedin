@@ -26,7 +26,7 @@ Verification::Verification(QString &code, QString &username, QByteArray &passwor
 Verification::~Verification()
 {
     delete ui;
-    qDebug() << "Verification Ends.";
+    qDebug("Verification Ends.");
 }
 
 void Verification::confirmButtonClicked()

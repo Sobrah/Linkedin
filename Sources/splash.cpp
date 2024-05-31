@@ -13,11 +13,11 @@ Splash::Splash(QWidget *parent)
         Window::changePage(new Login, parentWidget());
     });
 
-    qDebug() << "Splash Starts.";
+    qDebug("Splash Starts.");
 }
 
 Splash::~Splash()
 {
     delete ui;
-    qDebug() << "Splash Ends.";
+    qDebug("Splash Ends.");
 }

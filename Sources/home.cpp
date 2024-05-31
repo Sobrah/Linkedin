@@ -13,20 +13,25 @@ Home::Home(QWidget *parent)
 {
     ui->setupUi(this);
 
+    // Send Post
     connect(ui->postButton, &QPushButton::clicked, this, &Home::postButtonClicked);
+
+    // Search Username
     connect(ui->searchCombo, &QComboBox::currentTextChanged, this, [=](const QString &text) {
-        static_cast<void>(QtConcurrent::run(POOL, &Home::search_CurrentTextChanged, this, text));
+        POOL->start([=] { searchCurrentTextChanged(text); });
     });
+
     connect(ui->userButton, &QPushButton::clicked, this, [=] {
-        Window::changePage(new me, parentWidget());
+        Window::changePage(new Me, parentWidget());
     });
-    qDebug() << "Home Starts.";
+
+    qDebug("Home Starts.");
 }
 
 Home::~Home()
 {
     delete ui;
-    qDebug() << "Home Ends.";
+    qDebug("Home Ends.");
 }
 
 void Home::postButtonClicked()
@@ -34,13 +39,14 @@ void Home::postButtonClicked()
     POOL->start([&] { Post(ui->postTextEdit->toPlainText()); });
 }
 
-void Home::search_CurrentTextChanged(const QString &text)
+void Home::searchCurrentTextChanged(const QString &text)
 {
-    QSqlQuery Query;
-    Query.prepare("SELECT username FROM users WHERE username LIKE ? LIMIT 5");
-    Query.addBindValue(text + '%');
-    Query.exec();
-    while (Query.next()) {
-        ui->searchCombo->addItem(Query.value("username").toString());
+    QSqlQuery query;
+    query.prepare("SELECT username FROM users WHERE username LIKE ? LIMIT 5");
+    query.addBindValue(text + '%');
+    query.exec();
+
+    while (query.next()) {
+        ui->searchCombo->addItem(query.value("username").toString());
     }
 }

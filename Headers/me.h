@@ -4,21 +4,21 @@
 #include <QWidget>
 
 namespace Ui {
-class me;
+class Me;
 }
 
-class me : public QWidget
+class Me : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit me(QWidget *parent = nullptr);
-    ~me();
+    explicit Me(QWidget *parent = nullptr);
+    ~Me();
 
 private:
     void queryInformation();
 
-    Ui::me *ui;
+    Ui::Me *ui;
 };
 
 #endif // ME_H

@@ -3,6 +3,9 @@
 
 #include <QThreadPool>
 #include <QWidget>
+#include <QtConcurrentRun>
+
+#define RUN QtConcurrent::run
 
 extern int USER_ID;
 extern QThreadPool *POOL;
@@ -17,12 +20,11 @@ class Window : public QWidget
 
 public:
     explicit Window(QWidget *parent = nullptr);
-    static void changePage(QWidget *, QWidget *);
     ~Window();
-
-private:
+    static void changePage(QWidget *, QWidget *);
     static bool checkSession();
 
+private:
     Ui::Window *ui;
 };
 

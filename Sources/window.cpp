@@ -1,5 +1,4 @@
 #include <QFile>
-#include <QHBoxLayout>
 #include <QSqlQuery>
 #include <QtConcurrentRun>
 
@@ -15,20 +14,22 @@ Window::Window(QWidget *parent)
     ui->setupUi(this);
 
     // Add Initial Page
-    QtConcurrent::run(POOL, Window::checkSession).then(this, [=](bool status) {
+    RUN(POOL, checkSession).then(this, [=](bool status) {
+        QWidget *page;
         if (status)
-            changePage(new Home, this);
+            page = new Home;
         else
-            changePage(new Splash, this);
+            page = new Splash;
+        changePage(page, this);
     });
 
-    qDebug() << "Window Starts.";
+    qDebug("Window Starts.");
 }
 
 Window::~Window()
 {
     delete ui;
-    qDebug() << "Window Ends.";
+    qDebug("Window Ends.");
 }
 
 void Window::changePage(QWidget *page, QWidget *parent)
