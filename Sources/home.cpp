@@ -21,8 +21,14 @@ Home::Home(QWidget *parent)
         POOL->start([=] { searchCurrentTextChanged(text); });
     });
 
+    // Switch Home Page
+    connect(ui->homeButton, &QPushButton::clicked, this, [=] {
+        Window::changePage(new Home, parentWidget());
+    });
+
+    // Switch Me Page
     connect(ui->userButton, &QPushButton::clicked, this, [=] {
-        Window::changePage(new Me, parentWidget());
+        Window::changePage(new Me, ui->containerGroup);
     });
 
     qDebug("Home Starts.");
