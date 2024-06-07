@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>871</width>
     <height>600</height>
    </rect>
   </property>
@@ -29,7 +29,7 @@ QGroupBox *:focus {
 	background-color: rgb(255, 199, 39);
 }</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" rowstretch="1,0" columnstretch="0,1">
+  <layout class="QGridLayout" name="gridLayout" rowstretch="1,0,0,0,0" columnstretch="0,0">
    <property name="leftMargin">
     <number>15</number>
    </property>
@@ -45,7 +45,80 @@ QGroupBox *:focus {
    <property name="spacing">
     <number>0</number>
    </property>
-   <item row="0" column="1" rowspan="2">
+   <item row="4" column="0">
+    <layout class="QVBoxLayout" name="statusLayout" stretch="0,0">
+     <property name="spacing">
+      <number>20</number>
+     </property>
+     <property name="leftMargin">
+      <number>15</number>
+     </property>
+     <property name="rightMargin">
+      <number>25</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="informationLabel">
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string>Complete Profile Makes A Positive First Impression.</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="companyButton">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+         <italic>true</italic>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string>Company</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="imageLabel">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="../Resources/assets.qrc">:/strategy.svg</pixmap>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" rowspan="5">
     <widget class="QGroupBox" name="profileGroup">
      <property name="title">
       <string/>
@@ -84,7 +157,7 @@ QGroupBox *:focus {
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="jobTitleEdit">
+       <widget class="QLineEdit" name="firstNameEdit">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -112,12 +185,12 @@ QGroupBox *:focus {
          <set>Qt::AlignCenter</set>
         </property>
         <property name="placeholderText">
-         <string>Job Title</string>
+         <string>First Name</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="companyEdit">
+       <widget class="QLineEdit" name="lastNameEdit">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -142,45 +215,12 @@ QGroupBox *:focus {
          <set>Qt::AlignCenter</set>
         </property>
         <property name="placeholderText">
-         <string>Company</string>
+         <string>Last Name</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="jobTypeEdit">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>50</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>50</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>16</pointsize>
-         </font>
-        </property>
-        <property name="focusPolicy">
-         <enum>Qt::ClickFocus</enum>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="placeholderText">
-         <string>Job Type</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="universityEdit">
+       <widget class="QLineEdit" name="phoneNumberEdit">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -205,12 +245,12 @@ QGroupBox *:focus {
          <set>Qt::AlignCenter</set>
         </property>
         <property name="placeholderText">
-         <string>University</string>
+         <string>Phone Number</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="birthdateLabel">
+       <widget class="QLabel" name="skillLabel">
         <property name="font">
          <font>
           <pointsize>16</pointsize>
@@ -219,7 +259,7 @@ QGroupBox *:focus {
          </font>
         </property>
         <property name="text">
-         <string>Birthdate</string>
+         <string>Skill</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -227,7 +267,188 @@ QGroupBox *:focus {
        </widget>
       </item>
       <item>
-       <widget class="QDateEdit" name="dateEdit">
+       <widget class="QComboBox" name="skillCombo">
+        <property name="font">
+         <font>
+          <pointsize>18</pointsize>
+         </font>
+        </property>
+        <property name="currentIndex">
+         <number>-1</number>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>16</width>
+          <height>16</height>
+         </size>
+        </property>
+        <property name="placeholderText">
+         <string/>
+        </property>
+        <item>
+         <property name="text">
+          <string>Accountants and Auditors</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Actuaries</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Aerospace Engineers</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Agricultural Engineers</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Air Traffic Controllers</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Architects</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Biomedical Engineers</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Chemical Engineers</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Civil Engineers</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Computer Programmers</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Dental Hygienists</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Electronics Engineers</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Fashion Designers</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Financial Managers</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Flight Attendants</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Graphic Designers</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Industrial Engineers</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Interior Designers</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Interpreters</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Translators</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Lawyers</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Mechanical Engineers</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Medical Scientists</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Microbiologists</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Models</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Petroleum Engineers</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Pharmacists</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Physical Therapists</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Surgeons</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Software Developers</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Sports Officials</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Veterinarians</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="submitButton">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -244,93 +465,15 @@ QGroupBox *:focus {
          <font>
           <pointsize>16</pointsize>
           <italic>true</italic>
+          <bold>true</bold>
          </font>
         </property>
-        <property name="focusPolicy">
-         <enum>Qt::ClickFocus</enum>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="buttonSymbols">
-         <enum>QAbstractSpinBox::NoButtons</enum>
-        </property>
-        <property name="displayFormat">
-         <string>yyyy/M/d</string>
-        </property>
-        <property name="calendarPopup">
-         <bool>false</bool>
+        <property name="text">
+         <string>Submit</string>
         </property>
        </widget>
       </item>
      </layout>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <layout class="QVBoxLayout" name="statusLayout">
-     <property name="spacing">
-      <number>15</number>
-     </property>
-     <property name="rightMargin">
-      <number>30</number>
-     </property>
-     <item>
-      <widget class="QLabel" name="informationLabel">
-       <property name="font">
-        <font>
-         <pointsize>12</pointsize>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string>Complete Profile Makes A Positive First Impression.</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="submitButton">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>16777215</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="font">
-        <font>
-         <pointsize>16</pointsize>
-         <italic>true</italic>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Submit</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="imageLabel">
-     <property name="styleSheet">
-      <string notr="true"/>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap resource="../Resources/assets.qrc">:/strategy.svg</pixmap>
-     </property>
     </widget>
    </item>
   </layout>

@@ -17,6 +17,7 @@ public:
 
 private:
     void submitButtonClicked();
+    void companyButtonClicked();
 
     Ui::Profile *ui;
 };
