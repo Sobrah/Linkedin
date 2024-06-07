@@ -2,9 +2,9 @@ PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS 'accounts' (
 	'accountID' INTEGER PRIMARY KEY,
-	'username' TEXT NOT NULL UNIQUE,
-	'password' TEXT NOT NULL,
-	'email' TEXT NOT NULL UNIQUE,
+	'username' TEXT UNIQUE,
+	'password' TEXT,
+	'email' TEXT UNIQUE,
 	'phoneNumber' TEXT,
 	'skill' TEXT,
 	'firstName' TEXT,

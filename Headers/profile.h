@@ -19,7 +19,11 @@ private:
     void submitButtonClicked();
     void companyButtonClicked();
 
+    bool formStatus = false;
     Ui::Profile *ui;
+
+signals:
+    void warnMessage(QString, QString);
 };
 
 #endif // PROFILE_H
