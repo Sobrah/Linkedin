@@ -7,7 +7,8 @@
 
 #define RUN QtConcurrent::run
 
-extern int USER_ID;
+extern int ACCOUNT_ID;
+extern bool IS_COMPANY;
 extern QThreadPool *POOL;
 
 namespace Ui {

@@ -59,7 +59,7 @@ bool Window::checkSession()
     stream >> username >> hashedPassword;
 
     QSqlQuery query;
-    query.prepare("SELECT userID FROM users WHERE username = ? AND password = ?");
+    query.prepare("SELECT accountID, isCompany FROM accounts WHERE username = ? AND password = ?");
     query.addBindValue(username);
     query.addBindValue(hashedPassword);
     query.exec();
@@ -69,7 +69,8 @@ bool Window::checkSession()
         return false;
 
     // Key Part Of Session
-    USER_ID = query.value("userID").toInt();
+    ACCOUNT_ID = query.value("accountID").toInt();
+    IS_COMPANY = query.value("isCompany").toBool();
 
     return true;
 }

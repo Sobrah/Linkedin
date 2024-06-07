@@ -14,8 +14,10 @@ SOURCES += \
     Sources/home.cpp \
     Sources/content.cpp \
     Sources/post.cpp \
+    Sources/me.cpp \
     Sources/account.cpp \
-    Sources/me.cpp
+    Sources/jobcompany.cpp \
+    Sources/job.cpp \
 
 HEADERS += \
     Headers/window.h \
@@ -26,8 +28,10 @@ HEADERS += \
     Headers/home.h \
     Headers/content.h \
     Headers/post.h \
+    Headers/me.h \
     Headers/account.h \
-    Headers/me.h
+    Headers/jobcompany.h \
+    Headers/job.h
 
 FORMS += \
     Forms/splash.ui \
@@ -36,7 +40,8 @@ FORMS += \
     Forms/profile.ui \
     Forms/window.ui \
     Forms/home.ui \
-    Forms/me.ui
+    Forms/me.ui \
+    Forms/jobcompany.ui
 
 RESOURCES += \
     Resources/assets.qrc

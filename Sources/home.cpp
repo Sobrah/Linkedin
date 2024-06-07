@@ -2,6 +2,7 @@
 #include <QtConcurrentRun>
 
 #include "Headers/home.h"
+#include "Headers/jobcompany.h"
 #include "Headers/me.h"
 #include "Headers/post.h"
 #include "Headers/window.h"
@@ -26,6 +27,12 @@ Home::Home(QWidget *parent)
         Window::changePage(new Home, parentWidget());
     });
 
+    // Switch Job Page
+    connect(ui->jobButton, &QPushButton::clicked, this, [=] {
+        if (IS_COMPANY)
+            Window::changePage(new JobCompany, ui->containerGroup);
+    });
+
     // Switch Me Page
     connect(ui->userButton, &QPushButton::clicked, this, [=] {
         Window::changePage(new Me, ui->containerGroup);
@@ -48,7 +55,7 @@ void Home::postButtonClicked()
 void Home::searchCurrentTextChanged(const QString &text)
 {
     QSqlQuery query;
-    query.prepare("SELECT username FROM users WHERE username LIKE ? LIMIT 5");
+    query.prepare("SELECT username FROM accounts WHERE username LIKE ? LIMIT 5");
     query.addBindValue(text + '%');
     query.exec();
 

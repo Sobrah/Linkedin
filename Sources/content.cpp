@@ -4,7 +4,7 @@
 #include "Headers/window.h"
 
 Content::Content(const QString &contentText)
-    : senderID(USER_ID)
+    : senderID(ACCOUNT_ID)
     , timeSent(QDateTime::currentDateTime())
     , contentText(contentText)
 {

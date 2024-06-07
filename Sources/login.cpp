@@ -91,7 +91,7 @@ void Login::verificationButtonClicked()
 
     QSqlQuery query;
     if (formStatus) {
-        query.prepare("SELECT email FROM users WHERE username = ? AND password = ?");
+        query.prepare("SELECT email FROM accounts WHERE username = ? AND password = ?");
         query.addBindValue(username);
         query.addBindValue(hashedPassword);
         query.exec();
@@ -104,7 +104,7 @@ void Login::verificationButtonClicked()
         email = query.value("email").toString();
 
     } else {
-        query.prepare("SELECT username FROM users WHERE username = ?");
+        query.prepare("SELECT username FROM accounts WHERE username = ?");
         query.addBindValue(username);
         query.exec();
 
@@ -115,7 +115,7 @@ void Login::verificationButtonClicked()
         }
 
         // Insert Information
-        query.prepare("INSERT INTO users (username, password, email) VALUES (?, ?, ?)");
+        query.prepare("INSERT INTO accounts (username, password, email) VALUES (?, ?, ?)");
         query.addBindValue(username);
         query.addBindValue(hashedPassword);
         query.addBindValue(email);

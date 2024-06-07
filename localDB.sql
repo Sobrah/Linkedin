@@ -1,10 +1,16 @@
 PRAGMA foreign_keys = ON;
 
-CREATE TABLE IF NOT EXISTS 'users' (
-	'userID' INTEGER PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS 'accounts' (
+	'accountID' INTEGER PRIMARY KEY,
 	'username' TEXT NOT NULL UNIQUE,
 	'password' TEXT NOT NULL,
-	'email' TEXT NOT NULL
+	'email' TEXT NOT NULL UNIQUE,
+	'phoneNumber' TEXT,
+	'skill' TEXT,
+	'firstName' TEXT,
+	'lastName' TEXT,
+	'isCompany' INTEGER,
+	'companyName' TEXT
 );
 
 CREATE TABLE IF NOT EXISTS 'contents' (
@@ -13,7 +19,7 @@ CREATE TABLE IF NOT EXISTS 'contents' (
 	'timeSent' TEXT NOT NULL,
 	'contentText' TEXT,
 
-	FOREIGN KEY ('senderID') REFERENCES 'users' ('userID')
+	FOREIGN KEY ('senderID') REFERENCES 'accounts' ('accountID')
 		ON UPDATE NO ACTION
 		ON DELETE CASCADE
 );
@@ -23,6 +29,19 @@ CREATE TABLE IF NOT EXISTS 'posts' (
 	'contentID' INTEGER,
 
 	FOREIGN KEY ('contentID') REFERENCES 'contents' ('contentID')
+		ON UPDATE NO ACTION
+		ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS 'jobs' (
+	'jobID' INTEGER PRIMARY KEY,
+	'companyID' INTEGER,
+	'title' TEXT NOT NULL,
+	'workplaceType' TEXT NOT NULL,
+	'location' TEXT NOT NULL,
+	'type' TEXT NOT NULL,
+
+	FOREIGN KEY ('companyID') REFERENCES 'accounts' ('accountID')
 		ON UPDATE NO ACTION
 		ON DELETE CASCADE
 );

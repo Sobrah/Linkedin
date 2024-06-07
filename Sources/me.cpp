@@ -24,8 +24,8 @@ Me::~Me()
 void Me::queryInformation()
 {
     QSqlQuery query;
-    query.prepare("SELECT username FROM users WHERE userID = ?");
-    query.addBindValue(USER_ID);
+    query.prepare("SELECT username FROM accounts WHERE accountID = ?");
+    query.addBindValue(ACCOUNT_ID);
     query.exec();
     query.first();
 

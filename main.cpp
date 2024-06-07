@@ -6,7 +6,8 @@
 
 #include "Headers/window.h"
 
-int USER_ID;
+int ACCOUNT_ID;
+bool IS_COMPANY;
 QThreadPool *POOL;
 
 void initializeDatabase()
