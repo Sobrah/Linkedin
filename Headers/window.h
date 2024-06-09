@@ -1,15 +1,8 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include <QThreadPool>
+#include <QCloseEvent>
 #include <QWidget>
-#include <QtConcurrentRun>
-
-#define RUN QtConcurrent::run
-
-extern int ACCOUNT_ID;
-extern bool IS_COMPANY;
-extern QThreadPool *POOL;
 
 namespace Ui {
 class Window;
@@ -22,8 +15,9 @@ class Window : public QWidget
 public:
     explicit Window(QWidget *parent = nullptr);
     ~Window();
-    static void changePage(QWidget *, QWidget *);
-    static bool checkSession();
+
+protected:
+    void closeEvent(QCloseEvent *);
 
 private:
     Ui::Window *ui;

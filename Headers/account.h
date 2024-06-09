@@ -8,21 +8,27 @@ class Account : public QObject
     Q_OBJECT
     
 public:
-    explicit Account(QString, QString, QString, QString);
+    explicit Account(const Account *);
+    explicit Account(QString, QByteArray, QString);
+
+    // Setters
+    void setPhoneNumber(const QString &);
+    void setSkill(const QString &);
 
     // Getters
-    int getAccountID() const;
     QString getUsername() const;
-    QString getPassword() const;
+    QByteArray getPassword() const;
     QString getEmail() const;
     QString getPhoneNumber() const;
+    QString getSkill() const;
 
-private:
+protected:
     int accountID;
     const QString username;
-    const QString password;
+    const QByteArray password;
     const QString email;
-    const QString phoneNumber;
+    QString phoneNumber;
+    QString skill;
 };
 
 #endif // ACCOUNT_H

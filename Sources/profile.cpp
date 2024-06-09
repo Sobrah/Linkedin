@@ -2,16 +2,25 @@
 #include <QMessageBox>
 #include <QSqlQuery>
 
+#include "Headers/company.h"
+#include "Headers/person.h"
 #include "Headers/profile.h"
-#include "Headers/window.h"
+#include "Headers/utility.h"
 #include "ui_profile.h"
 
-Profile::Profile(QWidget *parent)
+Profile::Profile(Account *account, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Profile)
+    , account(account)
 {
     ui->setupUi(this);
     ui->phoneNumberEdit->setValidator(new QIntValidator);
+
+    // Warn Message Emitted
+    connect(this, &Profile::warnMessage, this, [=](QString title, QString text) {
+        QMessageBox box;
+        QMessageBox::warning(&box, title, text);
+    });
 
     // Submit Button Clicked
     connect(ui->submitButton, &QPushButton::clicked, this, [=] {
@@ -20,12 +29,6 @@ Profile::Profile(QWidget *parent)
 
     // Company Button Clicked
     connect(ui->companyButton, &QPushButton::clicked, this, &Profile::companyButtonClicked);
-
-    // Warn Message Emitted
-    connect(this, &Profile::warnMessage, this, [=](QString title, QString text) {
-        QMessageBox box;
-        QMessageBox::warning(&box, title, text);
-    });
 
     qDebug("Profile Starts.");
 }
@@ -67,20 +70,19 @@ void Profile::submitButtonClicked()
         return;
     }
 
-    // Insert Information
-    QSqlQuery query;
-    query.prepare("INSERT INTO accounts (phoneNumber, skill, firstName, lastName, isCompany, "
-                  "companyName) VALUES (?, ?, ?, ?, ?, ?)");
-    query.addBindValue(phoneNumber);
-    query.addBindValue(skill);
-    query.addBindValue(firstName);
-    query.addBindValue(lastName);
-    query.addBindValue(int(formStatus));
-    query.addBindValue(firstName);
-    qDebug() << query.exec();
+    account->setPhoneNumber(phoneNumber);
+    account->setSkill(skill);
 
-    qDebug() << formStatus;
-    parentWidget()->close();
+    POOL->start([=] {
+        if (formStatus) {
+            Company(account, firstName);
+        } else {
+            Person(account, firstName, lastName);
+        }
+
+    });
+
+    decideInitialPage(parentWidget());
 }
 
 void Profile::companyButtonClicked()

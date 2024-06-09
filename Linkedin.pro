@@ -18,6 +18,9 @@ SOURCES += \
     Sources/account.cpp \
     Sources/jobcompany.cpp \
     Sources/job.cpp \
+    Sources/person.cpp \
+    Sources/utility.cpp \
+    Sources/company.cpp
 
 HEADERS += \
     Headers/window.h \
@@ -31,7 +34,10 @@ HEADERS += \
     Headers/me.h \
     Headers/account.h \
     Headers/jobcompany.h \
-    Headers/job.h
+    Headers/job.h \
+    Headers/person.h \
+    Headers/utility.h \
+    Headers/company.h
 
 FORMS += \
     Forms/splash.ui \

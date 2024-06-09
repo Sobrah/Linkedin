@@ -2,15 +2,14 @@ PRAGMA foreign_keys = ON;
 
 CREATE TABLE IF NOT EXISTS 'accounts' (
 	'accountID' INTEGER PRIMARY KEY,
-	'username' TEXT UNIQUE,
-	'password' TEXT,
-	'email' TEXT UNIQUE,
-	'phoneNumber' TEXT,
-	'skill' TEXT,
-	'firstName' TEXT,
+	'username' TEXT NOT NULL UNIQUE,
+	'password' TEXT NOT NULL,
+	'email' TEXT NOT NULL UNIQUE,
+	'phoneNumber' TEXT NOT NULL,
+	'skill' TEXT NOT NULL,
+	'firstName' TEXT NOT NULL,
 	'lastName' TEXT,
-	'isCompany' INTEGER,
-	'companyName' TEXT
+	'isCompany' INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS 'contents' (

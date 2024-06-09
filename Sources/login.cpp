@@ -1,19 +1,11 @@
 #include <QCryptographicHash>
 #include <QIntValidator>
-#include <QJsonArray>
-#include <QJsonDocument>
-#include <QJsonObject>
 #include <QMessageBox>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
-#include <QProcessEnvironment>
-#include <QRandomGenerator>
 #include <QSqlQuery>
-#include <QtConcurrentRun>
 
 #include "Headers/login.h"
+#include "Headers/utility.h"
 #include "Headers/verification.h"
-#include "Headers/window.h"
 #include "ui_login.h"
 
 Login::Login(QWidget *parent)
@@ -21,33 +13,26 @@ Login::Login(QWidget *parent)
     , ui(new Ui::Login)
 {
     ui->setupUi(this);
-    ui->captchaLabel->setText(fourRandomDigits());
+    ui->captchaLabel->setText(generateCode());
     ui->codeLabel->setValidator(new QIntValidator);
 
     // Warn Message Emitted
     connect(this, &Login::warnMessage, this, [=](QString title, QString text) {
         QMessageBox box;
         QMessageBox::warning(&box, title, text);
-        ui->captchaLabel->setText(fourRandomDigits());
+        ui->captchaLabel->setText(generateCode());
         ui->passwordLabel->setText("");
         ui->codeLabel->setText("");
     });
 
-    // Fields Verified Emitted
-    connect(this,
-            &Login::fieldsVerified,
-            this,
-            [=](QString email, QString username, QByteArray password) {
-                auto code = fourRandomDigits();
-                auto page = new Verification(code, username, password);
-
-                sendEmail(email, code);
-                Window::changePage(page, parentWidget());
-            });
-
     // Verification Button Clicked
     connect(ui->verificationButton, &QPushButton::clicked, this, [=] {
-        POOL->start([=] { verificationButtonClicked(); });
+        RUN(POOL, &Login::verificationButtonClicked, this).then(this, [=](bool status) {
+            if (!status)
+                return;
+
+            changePage(new Verification(account, formStatus), parentWidget());
+        });
     });
 
     // Sign Button Clicked
@@ -62,7 +47,7 @@ Login::~Login()
     qDebug("Login Ends.");
 }
 
-void Login::verificationButtonClicked()
+bool Login::verificationButtonClicked()
 {
     QString email = ui->emailLabel->text();
     const QString username = ui->usernameLabel->text();
@@ -73,21 +58,21 @@ void Login::verificationButtonClicked()
     // Check Fields
     if (username.length() < 4) {
         emit warnMessage("Username Length", "Username Should Be At Least 4 Characters.");
-        return;
+        return false;
     }
     if (password.length() < 4) {
         emit warnMessage("Password Length", "Password Should Be At Least 4 Characters.");
-        return;
+        return false;
     }
     if (captcha != code) {
         emit warnMessage("Security Code", "Security Code Is Not Correct.");
-        return;
+        return false;
     }
 
     // Hash Password
     QCryptographicHash cryptoHash(QCryptographicHash::Sha256);
     cryptoHash.addData(password.toLocal8Bit());
-    QByteArray hashedPassword = cryptoHash.result();
+    auto hashedPassword = cryptoHash.result();
 
     QSqlQuery query;
     if (formStatus) {
@@ -99,7 +84,7 @@ void Login::verificationButtonClicked()
         // Invalid Credentials
         if (!query.first()) {
             emit warnMessage("Incorrect Values", "Username Or Password Is Incorrect.");
-            return;
+            return false;
         }
         email = query.value("email").toString();
 
@@ -111,18 +96,14 @@ void Login::verificationButtonClicked()
         // Repetitive Username
         if (query.first()) {
             emit warnMessage("Username Value", "Username Has Been Taken, Choose Another One.");
-            return;
+            return false;
         }
-
-        // Insert Information
-        query.prepare("INSERT INTO accounts (username, password, email) VALUES (?, ?, ?)");
-        query.addBindValue(username);
-        query.addBindValue(hashedPassword);
-        query.addBindValue(email);
-        query.exec();
     }
 
-    emit fieldsVerified(email, username, hashedPassword);
+    // Initialize Account
+    account = new Account(username, hashedPassword, email);
+
+    return true;
 }
 
 void Login::signButtonClicked()
@@ -136,7 +117,7 @@ void Login::signButtonClicked()
     ui->usernameLabel->setText("");
     ui->passwordLabel->setText("");
     ui->codeLabel->setText("");
-    ui->captchaLabel->setText(fourRandomDigits());
+    ui->captchaLabel->setText(generateCode());
 
     // Change Invitation Parts
     ui->descriptionLabel->setText(invitations[formStatus]);
@@ -150,60 +131,4 @@ void Login::signButtonClicked()
         ui->emailLabel->hide();
     else
         ui->emailLabel->show();
-}
-
-void Login::sendEmail(QString &to, QString &code)
-{
-    // Initialize Environmental Variables
-    auto env = QProcessEnvironment::systemEnvironment();
-
-    // Initialize Network Manager
-    auto *manager = new QNetworkAccessManager;
-
-    // Print Response Message
-    connect(manager, &QNetworkAccessManager::finished, manager, [](QNetworkReply *reply) {
-        QString data(reply->readAll());
-
-        if (data.isEmpty())
-            qDebug("Email Sent.");
-        else
-            qDebug() << data;
-    });
-
-    // Release Memory
-    connect(manager, &QNetworkAccessManager::finished, manager, &QNetworkAccessManager::deleteLater);
-
-    // Initialize Network Request
-    QUrl url(env.value("MAIL_HOST"));
-    QNetworkRequest request(url);
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader("Authorization", env.value("MAIL_PASSWORD").toLocal8Bit());
-
-    // Create Json Content
-    QJsonObject content;
-
-    QJsonObject from;
-    from.insert("email", env.value("MAIL_SENDER"));
-    content.insert("from", from);
-
-    QJsonArray receivers;
-    QJsonObject receiver;
-    receiver.insert("email", to);
-    receivers.append(receiver);
-
-    QString text = "Welcome To Linkedin, Your Verification Code Is %1.";
-    content.insert("to", receivers);
-    content.insert("subject", "Linkedin Verification");
-    content.insert("text", text.arg(code));
-
-    QJsonDocument document(content);
-    QByteArray data(document.toJson());
-
-    manager->post(request, data);
-}
-
-QString Login::fourRandomDigits()
-{
-    int n = QRandomGenerator::global()->bounded(0, 9999);
-    return QString::number(n).rightJustified(4, '0');
 }

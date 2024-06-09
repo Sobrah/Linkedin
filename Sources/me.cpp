@@ -1,6 +1,6 @@
-#include <QSqlQuery>
 #include "Headers/me.h"
-#include "Headers/window.h"
+#include <QSqlQuery>
+#include "Headers/utility.h"
 #include "ui_me.h"
 
 Me::Me(QWidget *parent)

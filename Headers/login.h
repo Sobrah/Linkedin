@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "Headers/account.h"
+
 namespace Ui {
 class Login;
 }
@@ -16,17 +18,15 @@ public:
     ~Login();
 
 private:
-    void verificationButtonClicked();
+    bool verificationButtonClicked();
     void signButtonClicked();
-    void sendEmail(QString &, QString &);
-    static QString fourRandomDigits();
 
     Ui::Login *ui;
+    Account *account;
     bool formStatus = false;
 
 signals:
     void warnMessage(QString, QString);
-    void fieldsVerified(QString, QString, QByteArray);
 };
 
 #endif // LOGIN_H

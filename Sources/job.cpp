@@ -1,7 +1,7 @@
 #include <QSqlQuery>
 
 #include "Headers/job.h"
-#include "Headers/window.h"
+#include "Headers/utility.h"
 
 Job::Job(QString title, QString workplaceType, QString location, QString type)
     : companyID(ACCOUNT_ID)

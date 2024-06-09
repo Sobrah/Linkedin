@@ -1,60 +1,26 @@
 #include <QApplication>
-#include <QProcessEnvironment>
-#include <QSqlDatabase>
-#include <QThreadPool>
-#include <QtConcurrentRun>
 
+#include "Headers/utility.h"
 #include "Headers/window.h"
-
-int ACCOUNT_ID;
-bool IS_COMPANY;
-QThreadPool *POOL;
-
-void initializeDatabase()
-{
-    // Initialize Environmental Variables
-    auto env = QProcessEnvironment::systemEnvironment();
-
-    // Initialize Database
-    QSqlDatabase db = QSqlDatabase::addDatabase(env.value("DATABASE_TYPE"));
-    db.setDatabaseName(env.value("DATABASE_NAME"));
-    db.setHostName(env.value("DATABASE_HOST"));
-    db.setUserName(env.value("DATABASE_USER"));
-    db.setPassword(env.value("DATABASE_PASSWORD"));
-
-    // Invalid Database
-    if (!db.isValid()) {
-        qDebug("Database Is Not Valid.");
-        throw;
-    }
-
-    db.open();
-
-    // Cannot Open Database
-    if (!db.isOpen()) {
-        qDebug("Cannot Open Database.");
-        throw;
-    }
-
-    qDebug("Database Initialized.");
-}
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
+    // Initialize Window Frame
+    auto frame = new Window;
+    frame->show();
+
     // Database Thread Pool
-    QThreadPool pool;
-    pool.setMaxThreadCount(1);
-    pool.setExpiryTimeout(-1);
-    POOL = &pool;
+    POOL = new QThreadPool(frame);
+    POOL->setMaxThreadCount(1);
+    POOL->setExpiryTimeout(-1);
 
     // Initialize Database
     POOL->start(initializeDatabase);
 
-    // Start Window Frame
-    Window frame;
-    frame.show();
+    // Initialize First Page
+    decideInitialPage(frame);
 
     return app.exec();
 }

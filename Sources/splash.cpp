@@ -1,6 +1,6 @@
 #include "Headers/splash.h"
 #include "Headers/login.h"
-#include "Headers/window.h"
+#include "Headers/utility.h"
 #include "ui_splash.h"
 
 Splash::Splash(QWidget *parent)
@@ -10,7 +10,7 @@ Splash::Splash(QWidget *parent)
     ui->setupUi(this);
 
     connect(ui->startButton, &QPushButton::clicked, this, [=] {
-        Window::changePage(new Login, parentWidget());
+        changePage(new Login, parentWidget());
     });
 
     qDebug("Splash Starts.");

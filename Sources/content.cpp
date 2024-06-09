@@ -1,7 +1,7 @@
 #include <QSqlQuery>
 
 #include "Headers/content.h"
-#include "Headers/window.h"
+#include "Headers/utility.h"
 
 Content::Content(const QString &contentText)
     : senderID(ACCOUNT_ID)

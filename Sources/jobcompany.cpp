@@ -1,6 +1,6 @@
 #include "Headers/jobcompany.h"
 #include "Headers/job.h"
-#include "Headers/window.h"
+#include "Headers/utility.h"
 #include "ui_jobcompany.h"
 
 JobCompany::JobCompany(QWidget *parent)
