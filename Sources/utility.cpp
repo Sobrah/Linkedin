@@ -8,13 +8,10 @@
 #include <QWidget>
 #include <QtMath>
 
+#include "Headers/account.h"
 #include "Headers/home.h"
 #include "Headers/splash.h"
 #include "Headers/utility.h"
-
-int ACCOUNT_ID;
-bool IS_COMPANY;
-QThreadPool *POOL;
 
 void initializeDatabase()
 {
@@ -54,24 +51,17 @@ bool checkSession()
         return false;
 
     QString username;
-    QByteArray hashedPassword;
-
+    QByteArray password;
     QDataStream stream(&file);
-    stream >> username >> hashedPassword;
+    stream >> username >> password;
 
-    QSqlQuery query;
-    query.prepare("SELECT accountID, isCompany FROM accounts WHERE username = ? AND password = ?");
-    query.addBindValue(username);
-    query.addBindValue(hashedPassword);
-    query.exec();
+    ACCOUNT->setUsername(username);
+    ACCOUNT->setPassword(password);
+    ACCOUNT->getInformation();
 
-    // Invalid Credentials
-    if (!query.first())
+    // Invalid Account
+    if (!ACCOUNT->getAccountID())
         return false;
-
-    // Key Part Of Session
-    ACCOUNT_ID = query.value("accountID").toInt();
-    IS_COMPANY = query.value("isCompany").toBool();
 
     return true;
 }
@@ -88,15 +78,15 @@ void changePage(QWidget *page, QWidget *parent)
     page->show();
 }
 
-void decideInitialPage(QWidget *frame)
+void decideInitialPage()
 {
-    RUN(POOL, checkSession).then(frame, [=](bool session) {
+    RUN(POOL, checkSession).then(FRAME, [=](bool session) {
         QWidget *page;
         if (session)
             page = new Home;
         else
             page = new Splash;
-        changePage(page, frame);
+        changePage(page, FRAME);
     });
 }
 

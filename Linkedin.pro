@@ -20,7 +20,9 @@ SOURCES += \
     Sources/job.cpp \
     Sources/person.cpp \
     Sources/utility.cpp \
-    Sources/company.cpp
+    Sources/company.cpp \
+    Sources/jobperson.cpp \
+    Sources/jobposition.cpp \
 
 HEADERS += \
     Headers/window.h \
@@ -37,7 +39,9 @@ HEADERS += \
     Headers/job.h \
     Headers/person.h \
     Headers/utility.h \
-    Headers/company.h
+    Headers/company.h \
+    Headers/jobperson.h \
+    Headers/jobposition.h
 
 FORMS += \
     Forms/splash.ui \
@@ -47,7 +51,9 @@ FORMS += \
     Forms/window.ui \
     Forms/home.ui \
     Forms/me.ui \
-    Forms/jobcompany.ui
+    Forms/jobcompany.ui \
+    Forms/jobperson.ui \
+    Forms/jobposition.ui
 
 RESOURCES += \
     Resources/assets.qrc

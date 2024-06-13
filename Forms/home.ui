@@ -176,27 +176,27 @@
    </item>
    <item row="1" column="0" colspan="2">
     <widget class="QGroupBox" name="containerGroup">
-     <property name="title">
-      <string>Container</string>
+     <property name="flat">
+      <bool>false</bool>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
+     <property name="checkable">
+      <bool>false</bool>
      </property>
      <layout class="QHBoxLayout" stretch="3,2">
       <property name="spacing">
        <number>15</number>
       </property>
       <property name="leftMargin">
-       <number>15</number>
+       <number>0</number>
       </property>
       <property name="topMargin">
-       <number>15</number>
+       <number>0</number>
       </property>
       <property name="rightMargin">
-       <number>15</number>
+       <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>15</number>
+       <number>0</number>
       </property>
       <item>
        <widget class="QGroupBox" name="postGroup">
@@ -218,8 +218,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>289</width>
-           <height>372</height>
+           <width>301</width>
+           <height>418</height>
           </rect>
          </property>
          <attribute name="label">
@@ -254,8 +254,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>289</width>
-           <height>372</height>
+           <width>301</width>
+           <height>418</height>
           </rect>
          </property>
          <attribute name="label">

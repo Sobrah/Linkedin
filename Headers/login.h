@@ -3,8 +3,6 @@
 
 #include <QWidget>
 
-#include "Headers/account.h"
-
 namespace Ui {
 class Login;
 }
@@ -22,7 +20,6 @@ private:
     void signButtonClicked();
 
     Ui::Login *ui;
-    Account *account;
     bool formStatus = false;
 
 signals:

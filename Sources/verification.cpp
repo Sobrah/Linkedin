@@ -13,10 +13,9 @@
 #include "Headers/verification.h"
 #include "ui_verification.h"
 
-Verification::Verification(Account *account, bool formStatus, QWidget *parent)
+Verification::Verification(bool formStatus, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Verification)
-    , account(account)
     , code(generateCode())
     , formStatus(formStatus)
 {
@@ -24,7 +23,7 @@ Verification::Verification(Account *account, bool formStatus, QWidget *parent)
     ui->codeEdit->setValidator(new QIntValidator);
 
     // Send Email
-    sendEmail(account->getEmail(), code);
+    sendEmail(ACCOUNT->getEmail(), code);
 
     // Confirm Button Clicked
     connect(ui->confirmButton, &QPushButton::clicked, this, &Verification::confirmButtonClicked);
@@ -52,12 +51,12 @@ void Verification::confirmButtonClicked()
     file.open(QIODevice::WriteOnly);
 
     QDataStream stream(&file);
-    stream << account->getUsername() << account->getPassword();
+    stream << ACCOUNT->getUsername() << ACCOUNT->getPassword();
 
     if (formStatus) {
-        decideInitialPage(parentWidget());
+        decideInitialPage();
     } else {
-        changePage(new Profile(account), parentWidget());
+        changePage(new Profile, FRAME);
     }
 }
 

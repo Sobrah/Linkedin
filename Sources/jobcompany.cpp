@@ -22,8 +22,9 @@ JobCompany::~JobCompany()
 
 void JobCompany::createJobButtonClicked()
 {
-    POOL->start([&] {
+    POOL->start([=] {
         Job(ui->jobTitleEdit->text(),
+            ui->skillCombo->currentText(),
             ui->workplaceCombo->currentText(),
             ui->jobLocationEdit->text(),
             ui->jobTypeCombo->currentText());

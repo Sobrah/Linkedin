@@ -3,6 +3,7 @@
 
 #include "Headers/home.h"
 #include "Headers/jobcompany.h"
+#include "Headers/jobperson.h"
 #include "Headers/me.h"
 #include "Headers/post.h"
 #include "Headers/utility.h"
@@ -23,14 +24,18 @@ Home::Home(QWidget *parent)
     });
 
     // Switch Home Page
-    connect(ui->homeButton, &QPushButton::clicked, this, [=] {
-        changePage(new Home, parentWidget());
-    });
+    connect(ui->homeButton, &QPushButton::clicked, this, [=] { changePage(new Home, FRAME); });
 
     // Switch Job Page
     connect(ui->jobButton, &QPushButton::clicked, this, [=] {
-        if (IS_COMPANY)
-            changePage(new JobCompany, ui->containerGroup);
+        QWidget *page;
+
+        if (ACCOUNT->getIsCompany())
+            page = new JobCompany;
+        else
+            page = new JobPerson;
+
+        changePage(page, ui->containerGroup);
     });
 
     // Switch Me Page

@@ -3,17 +3,16 @@
 #include "Headers/company.h"
 
 Company::Company(const Account *account, QString name)
-    : Account(account)
-    , name(name)
+    : name(name)
 {
     QSqlQuery query;
     query.prepare("INSERT INTO accounts (username, password, email, phoneNumber, skill, firstName, "
                   "isCompany) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING accountID");
-    query.addBindValue(username);
-    query.addBindValue(password);
-    query.addBindValue(email);
-    query.addBindValue(phoneNumber);
-    query.addBindValue(skill);
+    query.addBindValue(account->getUsername());
+    query.addBindValue(account->getPassword());
+    query.addBindValue(account->getEmail());
+    query.addBindValue(account->getPhoneNumber());
+    query.addBindValue(account->getSkill());
     query.addBindValue(name);
     query.addBindValue(true);
     query.exec();

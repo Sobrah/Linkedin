@@ -31,7 +31,7 @@ Login::Login(QWidget *parent)
             if (!status)
                 return;
 
-            changePage(new Verification(account, formStatus), parentWidget());
+            changePage(new Verification(formStatus), FRAME);
         });
     });
 
@@ -101,7 +101,9 @@ bool Login::verificationButtonClicked()
     }
 
     // Initialize Account
-    account = new Account(username, hashedPassword, email);
+    ACCOUNT->setUsername(username);
+    ACCOUNT->setPassword(hashedPassword);
+    ACCOUNT->setEmail(email);
 
     return true;
 }

@@ -36,11 +36,27 @@ CREATE TABLE IF NOT EXISTS 'jobs' (
 	'jobID' INTEGER PRIMARY KEY,
 	'companyID' INTEGER,
 	'title' TEXT NOT NULL,
+	'skill' TEXT NOT NULL,
 	'workplaceType' TEXT NOT NULL,
 	'location' TEXT NOT NULL,
 	'type' TEXT NOT NULL,
 
 	FOREIGN KEY ('companyID') REFERENCES 'accounts' ('accountID')
+		ON UPDATE NO ACTION
+		ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS 'jobsRequests' (
+	'jobsRequestID' INTEGER PRIMARY KEY,
+	'accountID' INTEGER,
+	'jobID' INTEGER,
+	'isAccepted' INTEGER DEFAULT 0,
+
+	FOREIGN KEY ('accountID') REFERENCES 'accounts' ('accountID')
+		ON UPDATE NO ACTION
+		ON DELETE CASCADE
+	
+	FOREIGN KEY ('jobID') REFERENCES 'jobs' ('jobID')
 		ON UPDATE NO ACTION
 		ON DELETE CASCADE
 );

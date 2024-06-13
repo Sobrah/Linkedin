@@ -3,24 +3,31 @@
 #include "Headers/utility.h"
 #include "Headers/window.h"
 
+QWidget *FRAME;
+Account *ACCOUNT;
+QThreadPool *POOL;
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
     // Initialize Window Frame
-    auto frame = new Window;
-    frame->show();
+    FRAME = new Window;
+    FRAME->show();
 
     // Database Thread Pool
-    POOL = new QThreadPool(frame);
+    POOL = new QThreadPool(FRAME);
     POOL->setMaxThreadCount(1);
     POOL->setExpiryTimeout(-1);
 
     // Initialize Database
     POOL->start(initializeDatabase);
 
+    // Initialize User Account
+    ACCOUNT = new Account(FRAME);
+
     // Initialize First Page
-    decideInitialPage(frame);
+    decideInitialPage();
 
     return app.exec();
 }

@@ -8,10 +8,9 @@
 #include "Headers/utility.h"
 #include "ui_profile.h"
 
-Profile::Profile(Account *account, QWidget *parent)
+Profile::Profile(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Profile)
-    , account(account)
 {
     ui->setupUi(this);
     ui->phoneNumberEdit->setValidator(new QIntValidator);
@@ -70,19 +69,19 @@ void Profile::submitButtonClicked()
         return;
     }
 
-    account->setPhoneNumber(phoneNumber);
-    account->setSkill(skill);
+    ACCOUNT->setPhoneNumber(phoneNumber);
+    ACCOUNT->setSkill(skill);
 
     POOL->start([=] {
         if (formStatus) {
-            Company(account, firstName);
+            Company(ACCOUNT, firstName);
         } else {
-            Person(account, firstName, lastName);
+            Person(ACCOUNT, firstName, lastName);
         }
 
     });
 
-    decideInitialPage(parentWidget());
+    decideInitialPage();
 }
 
 void Profile::companyButtonClicked()

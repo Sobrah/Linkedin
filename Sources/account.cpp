@@ -1,18 +1,54 @@
+#include <QSqlQuery>
+
 #include "Headers/account.h"
 
-Account::Account(const Account *other)
-    : username(other->username)
-    , password(other->password)
-    , email(other->email)
-    , phoneNumber(other->phoneNumber)
-    , skill(other->skill)
-{}
+Account::Account(QObject *parent)
+    : QObject(parent)
+{
+    qDebug("Account Starts.");
+}
 
-Account::Account(QString username, QByteArray password, QString email)
-    : username(username)
-    , password(password)
-    , email(email)
-{}
+Account::~Account()
+{
+    qDebug("Account Ends.");
+}
+
+void Account::getInformation()
+{
+    QSqlQuery query;
+    query.prepare("SELECT * FROM accounts WHERE username = ? AND password = ?");
+    query.addBindValue(username);
+    query.addBindValue(password);
+    query.exec();
+
+    // Invalid Credentials
+    if (!query.first())
+        return;
+
+    // Update User Information
+    accountID = query.value("accountID").toInt();
+    username = query.value("username").toString();
+    password = query.value("password").toByteArray();
+    email = query.value("email").toString();
+    phoneNumber = query.value("phoneNumber").toString();
+    skill = query.value("skill").toString();
+    isCompany = query.value("isCompany").toBool();
+}
+
+void Account::setUsername(const QString &username)
+{
+    this->username = username;
+}
+
+void Account::setPassword(const QByteArray &password)
+{
+    this->password = password;
+}
+
+void Account::setEmail(const QString &email)
+{
+    this->email = email;
+}
 
 void Account::setPhoneNumber(const QString &phoneNumber)
 {
@@ -22,6 +58,16 @@ void Account::setPhoneNumber(const QString &phoneNumber)
 void Account::setSkill(const QString &skill)
 {
     this->skill = skill;
+}
+
+void Account::setIsCompany(const bool isCompany)
+{
+    this->isCompany = isCompany;
+}
+
+int Account::getAccountID() const
+{
+    return accountID;
 }
 
 QString Account::getUsername() const
@@ -47,4 +93,9 @@ QString Account::getPhoneNumber() const
 QString Account::getSkill() const
 {
     return skill;
+}
+
+bool Account::getIsCompany() const
+{
+    return isCompany;
 }

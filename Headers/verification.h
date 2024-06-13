@@ -3,8 +3,6 @@
 
 #include <QWidget>
 
-#include "Headers/account.h"
-
 namespace Ui {
 class Verification;
 }
@@ -14,7 +12,7 @@ class Verification : public QWidget
     Q_OBJECT
 
 public:
-    explicit Verification(Account *, bool, QWidget *parent = nullptr);
+    explicit Verification(bool, QWidget *parent = nullptr);
     ~Verification();
 
 private:
@@ -22,7 +20,6 @@ private:
     void sendEmail(QString, QString);
 
     Ui::Verification *ui;
-    Account *account;
     QString code;
     bool formStatus;
 };

@@ -4,16 +4,18 @@
 #include <QThreadPool>
 #include <QtConcurrentRun>
 
+#include "Headers/account.h"
+
 #define RUN QtConcurrent::run
 
-extern int ACCOUNT_ID;
-extern bool IS_COMPANY;
+extern QWidget *FRAME;
+extern Account *ACCOUNT;
 extern QThreadPool *POOL;
 
 void initializeDatabase();
 bool checkSession();
 void changePage(QWidget *, QWidget *);
-void decideInitialPage(QWidget *);
+void decideInitialPage();
 QString generateCode(int = 4);
 
 #endif // UTILITY_H

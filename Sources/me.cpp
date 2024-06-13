@@ -25,7 +25,7 @@ void Me::queryInformation()
 {
     QSqlQuery query;
     query.prepare("SELECT username FROM accounts WHERE accountID = ?");
-    query.addBindValue(ACCOUNT_ID);
+    query.addBindValue(ACCOUNT->getAccountID());
     query.exec();
     query.first();
 
