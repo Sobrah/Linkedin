@@ -5,6 +5,7 @@ CONFIG += c++17
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=6
 
 SOURCES += \
+    Sources/collection.cpp \
     main.cpp \
     Sources/window.cpp \
     Sources/splash.cpp \
@@ -40,6 +41,7 @@ HEADERS += \
     Headers/person.h \
     Headers/utility.h \
     Headers/company.h \
+    Headers/collection.h \
     Headers/jobperson.h \
     Headers/jobposition.h
 
@@ -52,6 +54,7 @@ FORMS += \
     Forms/home.ui \
     Forms/me.ui \
     Forms/jobcompany.ui \
+    Forms/collection.ui \
     Forms/jobperson.ui \
     Forms/jobposition.ui
 
