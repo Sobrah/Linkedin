@@ -1,10 +1,10 @@
 #ifndef UTILITY_H
 #define UTILITY_H
 
+#include <QSqlQuery>
 #include <QThreadPool>
 #include <QtConcurrentRun>
-
-#include "Headers/account.h"
+#include <Header>
 
 #define RUN QtConcurrent::run
 
@@ -16,6 +16,7 @@ void initializeDatabase();
 bool checkSession();
 void changePage(QWidget *, QWidget *);
 void decideInitialPage();
-QString generateCode(int = 4);
+bool executeQuery(QSqlQuery &, const QString &, const QVariantList &);
+QString captchaCode(int = 4);
 
 #endif // UTILITY_H

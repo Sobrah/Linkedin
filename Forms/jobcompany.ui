@@ -6,19 +6,54 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>248</width>
+    <width>277</width>
     <height>325</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,2">
    <item>
-    <widget class="QGroupBox" name="jobGroup">
-     <property name="title">
-      <string>Jobs</string>
+    <widget class="QScrollArea" name="jobsScroll">
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
+     <property name="widgetResizable">
+      <bool>true</bool>
      </property>
+     <widget class="QWidget" name="jobsScrollContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>77</width>
+        <height>305</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Candidates</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
    <item>

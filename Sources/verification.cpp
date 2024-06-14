@@ -16,7 +16,7 @@
 Verification::Verification(bool formStatus, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Verification)
-    , code(generateCode())
+    , code(captchaCode())
     , formStatus(formStatus)
 {
     ui->setupUi(this);

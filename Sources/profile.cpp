@@ -27,7 +27,7 @@ Profile::Profile(QWidget *parent)
     });
 
     // Company Button Clicked
-    connect(ui->companyButton, &QPushButton::clicked, this, &Profile::companyButtonClicked);
+    connect(ui->companyButton, &QPushButton::clicked, this, &Profile::switchButtonClicked);
 
     qDebug("Profile Starts.");
 }
@@ -84,7 +84,7 @@ void Profile::submitButtonClicked()
     decideInitialPage();
 }
 
-void Profile::companyButtonClicked()
+void Profile::switchButtonClicked()
 {
     const QString signs[2] = {"User", "Company"};
     const QString placeHolders[2] = {"Company Name", "First Name"};

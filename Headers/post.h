@@ -1,7 +1,7 @@
 #ifndef POST_H
 #define POST_H
 
-#include "Headers/content.h"
+#include <Header>
 
 class Post : public Content
 {
@@ -12,7 +12,7 @@ public:
     int getPostID() const;
 
 private:
-    int postID;
+    int postID = false;
 };
 
 #endif // POST_H

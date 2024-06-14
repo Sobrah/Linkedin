@@ -13,14 +13,14 @@ Login::Login(QWidget *parent)
     , ui(new Ui::Login)
 {
     ui->setupUi(this);
-    ui->captchaLabel->setText(generateCode());
+    ui->captchaLabel->setText(captchaCode());
     ui->codeLabel->setValidator(new QIntValidator);
 
     // Warn Message Emitted
     connect(this, &Login::warnMessage, this, [=](QString title, QString text) {
         QMessageBox box;
         QMessageBox::warning(&box, title, text);
-        ui->captchaLabel->setText(generateCode());
+        ui->captchaLabel->setText(captchaCode());
         ui->passwordLabel->setText("");
         ui->codeLabel->setText("");
     });
@@ -119,7 +119,7 @@ void Login::signButtonClicked()
     ui->usernameLabel->setText("");
     ui->passwordLabel->setText("");
     ui->codeLabel->setText("");
-    ui->captchaLabel->setText(generateCode());
+    ui->captchaLabel->setText(captchaCode());
 
     // Change Invitation Parts
     ui->descriptionLabel->setText(invitations[formStatus]);

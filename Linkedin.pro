@@ -5,60 +5,68 @@ CONFIG += c++17
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=6
 
 SOURCES += \
-    Sources/collection.cpp \
     main.cpp \
+    # Page Sources
     Sources/window.cpp \
     Sources/splash.cpp \
     Sources/login.cpp \
     Sources/verification.cpp \
     Sources/profile.cpp \
     Sources/home.cpp \
-    Sources/content.cpp \
-    Sources/post.cpp \
-    Sources/me.cpp \
-    Sources/account.cpp \
+    Sources/collection.cpp \
     Sources/jobcompany.cpp \
-    Sources/job.cpp \
-    Sources/person.cpp \
-    Sources/utility.cpp \
-    Sources/company.cpp \
     Sources/jobperson.cpp \
     Sources/jobposition.cpp \
-    Sources/viewprofile.cpp
+    Sources/jobcandidate.cpp \
+    Sources/me.cpp \
+    Sources/viewprofile.cpp \
+    # Logic Sources
+    Sources/utility.cpp \
+    Sources/account.cpp \
+    Sources/company.cpp \
+    Sources/person.cpp \
+    Sources/content.cpp \
+    Sources/post.cpp \
+    Sources/job.cpp \
 
 HEADERS += \
+    Header \
+    # Page Headers
     Headers/window.h \
     Headers/splash.h \
     Headers/login.h \
     Headers/verification.h \
     Headers/profile.h \
     Headers/home.h \
-    Headers/content.h \
-    Headers/post.h \
-    Headers/me.h \
-    Headers/account.h \
-    Headers/jobcompany.h \
-    Headers/job.h \
-    Headers/person.h \
-    Headers/utility.h \
-    Headers/company.h \
     Headers/collection.h \
+    Headers/jobcompany.h \
     Headers/jobperson.h \
     Headers/jobposition.h \
-    Headers/viewprofile.h
+    Headers/jobcandidate.h \
+    Headers/me.h \
+    Headers/viewprofile.h \
+    # Logic Headers
+    Headers/utility.h \
+    Headers/account.h \
+    Headers/company.h \
+    Headers/person.h \
+    Headers/content.h \
+    Headers/post.h \
+    Headers/job.h \
 
 FORMS += \
+    Forms/window.ui \
     Forms/splash.ui \
     Forms/login.ui \
     Forms/verification.ui \
     Forms/profile.ui \
-    Forms/window.ui \
     Forms/home.ui \
-    Forms/me.ui \
-    Forms/jobcompany.ui \
     Forms/collection.ui \
+    Forms/jobcompany.ui \
     Forms/jobperson.ui \
     Forms/jobposition.ui \
+    Forms/jobcandidate.ui \
+    Forms/me.ui \
     Forms/viewprofile.ui
 
 RESOURCES += \

@@ -1,7 +1,5 @@
 #include <QApplication>
-
-#include "Headers/utility.h"
-#include "Headers/window.h"
+#include <Header>
 
 QWidget *FRAME;
 Account *ACCOUNT;

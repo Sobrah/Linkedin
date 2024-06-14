@@ -18,12 +18,11 @@ public:
     ~JobPosition();
 
 private:
-    void getInformation();
+    void setInformation();
     void statusButtonClicked();
 
     Ui::JobPosition *ui;
     Job *job;
-    int row;
 };
 
 #endif // JOBPOSITION_H

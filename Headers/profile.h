@@ -17,7 +17,7 @@ public:
 
 private:
     void submitButtonClicked();
-    void companyButtonClicked();
+    void switchButtonClicked();
 
     Ui::Profile *ui;
     bool formStatus = false;

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>100</width>
-    <height>141</height>
+    <height>195</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -32,12 +32,12 @@
         <x>0</x>
         <y>0</y>
         <width>80</width>
-        <height>69</height>
+        <height>123</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <spacer name="verticalSpacer">
+        <spacer name="spacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>

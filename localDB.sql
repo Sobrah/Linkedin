@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS 'jobs' (
 );
 
 CREATE TABLE IF NOT EXISTS 'jobsRequests' (
-	'jobsRequestID' INTEGER PRIMARY KEY,
+	'jobRequestID' INTEGER PRIMARY KEY,
 	'accountID' INTEGER,
 	'jobID' INTEGER,
 	'isAccepted' INTEGER DEFAULT 0,

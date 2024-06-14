@@ -1,9 +1,6 @@
 #include <QVBoxLayout>
-
-#include "Headers/jobperson.h"
-#include "Headers/jobposition.h"
-#include "Headers/utility.h"
 #include "ui_jobperson.h"
+#include <Header>
 
 JobPerson::JobPerson(QWidget *parent)
     : QWidget(parent)
@@ -12,10 +9,30 @@ JobPerson::JobPerson(QWidget *parent)
     ui->setupUi(this);
     ui->skillLabel->setText(ACCOUNT->getSkill());
 
-    ui->jobsScrollContents->layout()->addWidget(new JobPosition(0));
+    RUN(POOL, [=] { jobsNumber = Job().selectJobsNumber(); }).then(FRAME, [=] {
+        // First Jobs Maximum
+        int maximum = 5;
+        if (jobsNumber < maximum) {
+            maximum = jobsNumber;
+        }
+
+        for (; index < maximum; index++) {
+            ui->jobsScrollContents->layout()->addWidget(new JobPosition(index));
+        }
+    });
+
+    // Show All Jobs
+    connect(ui->showAllButton, &QPushButton::clicked, this, [=] {
+        for (; index < jobsNumber; index++) {
+            ui->jobsScrollContents->layout()->addWidget(new JobPosition(index));
+        }
+    });
+
+    qDebug("Job Person Starts.");
 }
 
 JobPerson::~JobPerson()
 {
     delete ui;
+    qDebug("Job Person Ends.");
 }

@@ -7,23 +7,24 @@
 #include <QThreadPool>
 #include <QWidget>
 #include <QtMath>
-
-#include "Headers/account.h"
-#include "Headers/home.h"
-#include "Headers/splash.h"
-#include "Headers/utility.h"
+#include <Header>
 
 void initializeDatabase()
 {
     // Initialize Environmental Variables
     auto env = QProcessEnvironment::systemEnvironment();
+    auto dbType = env.value("DATABASE_TYPE");
+    auto dbName = env.value("DATABASE_NAME");
+    auto dbHost = env.value("DATABASE_HOST");
+    auto dbUsername = env.value("DATABASE_USER");
+    auto dbPassword = env.value("DATABASE_PASSWORD");
 
     // Initialize Database
-    auto db = QSqlDatabase::addDatabase(env.value("DATABASE_TYPE"));
-    db.setDatabaseName(env.value("DATABASE_NAME"));
-    db.setHostName(env.value("DATABASE_HOST"));
-    db.setUserName(env.value("DATABASE_USER"));
-    db.setPassword(env.value("DATABASE_PASSWORD"));
+    auto db = QSqlDatabase::addDatabase(dbType);
+    db.setDatabaseName(dbName);
+    db.setHostName(dbHost);
+    db.setUserName(dbUsername);
+    db.setPassword(dbPassword);
 
     // Invalid Database
     if (!db.isValid()) {
@@ -50,28 +51,38 @@ bool checkSession()
     if (!file.open(QIODevice::ReadOnly))
         return false;
 
+    // Read Information
     QString username;
     QByteArray password;
     QDataStream stream(&file);
     stream >> username >> password;
 
+    // Fetch Account Information
     ACCOUNT->setUsername(username);
     ACCOUNT->setPassword(password);
     ACCOUNT->getInformation();
 
-    // Invalid Account
-    if (!ACCOUNT->getAccountID())
-        return false;
+    // Valid Account
+    if (ACCOUNT->getAccountID())
+        return true;
 
-    return true;
+    return false;
 }
 
 void changePage(QWidget *page, QWidget *parent)
 {
     auto children = parent->findChildren<QWidget *>();
+
+    // Hide Children
     foreach (auto widget, children) {
         widget->hide();
         widget->deleteLater();
+    }
+
+    // Show Page
+    if (!parent->layout()) {
+        qDebug("Invalid Layout.");
+        return;
     }
 
     parent->layout()->addWidget(page);
@@ -80,22 +91,45 @@ void changePage(QWidget *page, QWidget *parent)
 
 void decideInitialPage()
 {
-    RUN(POOL, checkSession).then(FRAME, [=](bool session) {
-        QWidget *page;
+    RUN(POOL, checkSession).then(FRAME, [](bool session) {
         if (session)
-            page = new Home;
+            changePage(new Home, FRAME);
         else
-            page = new Splash;
-        changePage(page, FRAME);
+            changePage(new Splash, FRAME);
     });
 }
 
-QString generateCode(int digits)
+bool executeQuery(QSqlQuery &db, const QString &query, const QVariantList &values)
 {
-    int max = qPow(10, digits) - 1;
+    // Prepare Query
+    if (!db.prepare(query)) {
+        qDebug("Invalid Preparation");
+        throw;
+    }
 
-    auto n = QRandomGenerator::global()->bounded(0, max);
-    auto code = QString::number(n).rightJustified(digits, '0');
+    // Bind Values
+    foreach (auto value, values) {
+        db.addBindValue(value);
+    }
+
+    // Execute Query
+    if (!db.exec()) {
+        qDebug("Invalid Query.");
+        throw;
+    }
+
+    return db.first();
+}
+
+QString captchaCode(int digits)
+{
+    int highest = qPow(10, digits) - 1;
+
+    // Random Number
+    auto number = QRandomGenerator::global()->bounded(highest);
+
+    // Fix Code Length
+    auto code = QString::number(number).rightJustified(digits, '0');
 
     return code;
 }
