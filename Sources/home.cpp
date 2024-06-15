@@ -27,6 +27,12 @@ Home::Home(QWidget *parent)
     // Switch Home Page
     connect(ui->homeButton, &QPushButton::clicked, this, [=] { changePage(new Home, FRAME); });
 
+    // Switch Network Page
+    connect(ui->networkButton, &QPushButton::clicked, this, [=] {
+        if (ACCOUNT->getIsCompany())
+            changePage(new NetworkCompany, ui->containerGroup);
+    });
+
     // Switch Job Page
     connect(ui->jobButton, &QPushButton::clicked, this, [=] {
         QWidget *page;
@@ -35,18 +41,6 @@ Home::Home(QWidget *parent)
             page = new JobCompany;
         else
             page = new JobPerson;
-
-        changePage(page, ui->containerGroup);
-    });
-
-    // Switch Network Page
-    connect(ui->networkButton, &QPushButton::clicked, this, [=] {
-        QWidget *page;
-
-        if (ACCOUNT->getIsCompany())
-            page = new NetworkCompany;
-        // else
-        // page = new NetworkPerson;
 
         changePage(page, ui->containerGroup);
     });

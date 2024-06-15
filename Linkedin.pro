@@ -14,6 +14,7 @@ SOURCES += \
     Sources/profile.cpp \
     Sources/home.cpp \
     Sources/collection.cpp \
+    Sources/networkcompany.cpp \
     Sources/jobcompany.cpp \
     Sources/jobperson.cpp \
     Sources/jobposition.cpp \
@@ -28,7 +29,6 @@ SOURCES += \
     Sources/content.cpp \
     Sources/post.cpp \
     Sources/job.cpp \
-    Sources/networkcompany.cpp
 
 HEADERS += \
     Header \
@@ -40,6 +40,7 @@ HEADERS += \
     Headers/profile.h \
     Headers/home.h \
     Headers/collection.h \
+    Headers/networkcompany.h \
     Headers/jobcompany.h \
     Headers/jobperson.h \
     Headers/jobposition.h \
@@ -54,7 +55,6 @@ HEADERS += \
     Headers/content.h \
     Headers/post.h \
     Headers/job.h \
-    Headers/networkcompany.h
 
 FORMS += \
     Forms/window.ui \
@@ -64,13 +64,13 @@ FORMS += \
     Forms/profile.ui \
     Forms/home.ui \
     Forms/collection.ui \
+    Forms/networkcompany.ui \
+    Forms/viewprofile.ui \
     Forms/jobcompany.ui \
     Forms/jobperson.ui \
     Forms/jobposition.ui \
     Forms/jobcandidate.ui \
-    Forms/me.ui \
-    Forms/viewprofile.ui \
-    Forms/networkcompany.ui
+    Forms/me.ui \    
 
 RESOURCES += \
     Resources/assets.qrc
