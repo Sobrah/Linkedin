@@ -5,6 +5,7 @@
 #include "Headers/jobcompany.h"
 #include "Headers/jobperson.h"
 #include "Headers/me.h"
+#include "Headers/networkcompany.h"
 #include "Headers/post.h"
 #include "Headers/utility.h"
 #include "ui_home.h"
@@ -34,6 +35,18 @@ Home::Home(QWidget *parent)
             page = new JobCompany;
         else
             page = new JobPerson;
+
+        changePage(page, ui->containerGroup);
+    });
+
+    // Switch Network Page
+    connect(ui->networkButton, &QPushButton::clicked, this, [=] {
+        QWidget *page;
+
+        if (ACCOUNT->getIsCompany())
+            page = new NetworkCompany;
+        // else
+        // page = new NetworkPerson;
 
         changePage(page, ui->containerGroup);
     });

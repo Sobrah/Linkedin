@@ -13,6 +13,7 @@
 #include <Headers/jobposition.h>
 #include <Headers/login.h>
 #include <Headers/me.h>
+#include <Headers/networkcompany.h>
 #include <Headers/profile.h>
 #include <Headers/splash.h>
 #include <Headers/verification.h>

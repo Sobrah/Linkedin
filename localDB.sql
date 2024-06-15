@@ -60,3 +60,17 @@ CREATE TABLE IF NOT EXISTS 'jobsRequests' (
 		ON UPDATE NO ACTION
 		ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS 'connections' (
+	'connectionID' INTEGER PRIMARY KEY,
+	'followerID' INTEGER,
+	'followingID' INTEGER,
+
+	FOREIGN KEY ('followerID') REFERENCES 'accounts' ('accountID')
+		ON UPDATE NO ACTION
+		ON DELETE CASCADE
+
+	FOREIGN KEY ('followingID') REFERENCES 'accounts' ('accountID')
+		ON UPDATE NO ACTION
+		ON DELETE CASCADE
+);

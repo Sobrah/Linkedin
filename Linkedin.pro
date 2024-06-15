@@ -28,6 +28,7 @@ SOURCES += \
     Sources/content.cpp \
     Sources/post.cpp \
     Sources/job.cpp \
+    Sources/networkcompany.cpp
 
 HEADERS += \
     Header \
@@ -53,6 +54,7 @@ HEADERS += \
     Headers/content.h \
     Headers/post.h \
     Headers/job.h \
+    Headers/networkcompany.h
 
 FORMS += \
     Forms/window.ui \
@@ -67,7 +69,8 @@ FORMS += \
     Forms/jobposition.ui \
     Forms/jobcandidate.ui \
     Forms/me.ui \
-    Forms/viewprofile.ui
+    Forms/viewprofile.ui \
+    Forms/networkcompany.ui
 
 RESOURCES += \
     Resources/assets.qrc
