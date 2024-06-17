@@ -9,9 +9,15 @@ class Content : public QObject
     Q_OBJECT
 
 public:
-    explicit Content(const QString &);
+    explicit Content(QObject * = nullptr);
+    ~Content();
+
+    void insertContent();
+    void selectContent();
 
     // Setters
+    void setContentID(int);
+    void setSenderID(int);
     void setTimeSent(const QDateTime &);
     void setContentText(const QString &);
 
@@ -22,8 +28,8 @@ public:
     QString getContentText() const;
 
 private:
-    int contentID;
-    const int senderID;
+    int contentID = false;
+    int senderID = false;
     QDateTime timeSent;
     QString contentText;
 };

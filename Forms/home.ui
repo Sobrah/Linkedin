@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>697</width>
+    <height>452</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,10 @@
 }
 </string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <property name="spacing">
+    <number>15</number>
+   </property>
    <property name="leftMargin">
     <number>15</number>
    </property>
@@ -32,10 +35,7 @@
    <property name="bottomMargin">
     <number>15</number>
    </property>
-   <property name="spacing">
-    <number>15</number>
-   </property>
-   <item row="0" column="0" colspan="2">
+   <item>
     <widget class="QGroupBox" name="navigationGroup">
      <property name="title">
       <string>Navigation</string>
@@ -174,7 +174,7 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2">
+   <item>
     <widget class="QGroupBox" name="containerGroup">
      <property name="flat">
       <bool>false</bool>
@@ -199,17 +199,39 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QGroupBox" name="postGroup">
-        <property name="title">
-         <string>Post</string>
+       <widget class="QScrollArea" name="postArea">
+        <property name="widgetResizable">
+         <bool>true</bool>
         </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
+        <widget class="QWidget" name="postContents">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>388</width>
+           <height>328</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>307</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
        </widget>
       </item>
       <item>
-       <widget class="QToolBox" name="sideTool">
+       <widget class="QToolBox" name="sidebarTool">
         <property name="currentIndex">
          <number>0</number>
         </property>
@@ -218,8 +240,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>301</width>
-           <height>418</height>
+           <width>260</width>
+           <height>270</height>
           </rect>
          </property>
          <attribute name="label">
@@ -254,8 +276,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>301</width>
-           <height>418</height>
+           <width>579</width>
+           <height>270</height>
           </rect>
          </property>
          <attribute name="label">

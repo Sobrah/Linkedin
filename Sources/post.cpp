@@ -1,10 +1,22 @@
 #include <QSqlQuery>
+#include <QVector>
+#include <Header>
 
-#include "Headers/post.h"
-
-Post::Post(const QString &contentText)
-    : Content(contentText)
+Post::Post(QObject *parent)
+    : Content(parent)
 {
+    qDebug("Post Starts.");
+}
+
+Post::~Post()
+{
+    qDebug("Post Ends.");
+}
+
+void Post::insertPost()
+{
+    insertContent();
+
     QSqlQuery query;
     query.prepare("INSERT INTO posts (contentID) VALUES (?) RETURNING postID");
     query.addBindValue(getContentID());
@@ -13,6 +25,54 @@ Post::Post(const QString &contentText)
 
     // Inserted Post ID
     postID = query.value("postID").toInt();
+}
+
+void Post::selectPost()
+{
+    QSqlQuery query;
+    query.prepare("SELECT * FROM posts WHERE postID = ?");
+    query.addBindValue(postID);
+    query.exec();
+
+    if (!query.first()) {
+        return;
+    }
+
+    postID = query.value("postID").toInt();
+    setContentID(query.value("contentID").toInt());
+
+    selectContent();
+}
+
+QVector<int> Post::selectFeed(int limit, int offset)
+{
+    QSqlQuery query;
+    query.prepare(
+        "SELECT postID FROM posts JOIN contents USING(contentID) WHERE NOT senderID = ? "
+        "ORDER BY CASE "
+        "WHEN senderID IN (SELECT followingID FROM connections WHERE followerID = ?) THEN 1 "
+        "WHEN senderID IN (SELECT accountID FROM accounts WHERE skill = ?) THEN 2 "
+        "ELSE 3 END, postID DESC LIMIT ? OFFSET ?");
+    query.addBindValue(ACCOUNT->getAccountID());
+    query.addBindValue(ACCOUNT->getAccountID());
+    query.addBindValue(ACCOUNT->getSkill());
+    query.addBindValue(limit);
+    query.addBindValue(offset);
+    query.exec();
+
+    // Keep Posts ID
+    QVector<int> posts;
+
+    while (query.next()) {
+        posts.append(query.value("postID").toInt());
+    }
+
+    return posts;
+}
+
+void Post::setPostID(int postID)
+{
+    this->postID = postID;
 }
 
 int Post::getPostID() const

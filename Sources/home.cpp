@@ -1,20 +1,14 @@
-#include <QSqlQuery>
-#include <QtConcurrentRun>
-
-#include "Headers/home.h"
-#include "Headers/jobcompany.h"
-#include "Headers/jobperson.h"
-#include "Headers/me.h"
-#include "Headers/networkcompany.h"
-#include "Headers/post.h"
-#include "Headers/utility.h"
 #include "ui_home.h"
+#include <Header>
 
 Home::Home(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Home)
 {
+    loadFeed();
+
     ui->setupUi(this);
+    // ui->postGroup->layout()->addWidget(new Collection);
 
     // Send Post
     connect(ui->postButton, &QPushButton::clicked, this, &Home::postButtonClicked);
@@ -61,7 +55,9 @@ Home::~Home()
 
 void Home::postButtonClicked()
 {
-    POOL->start([&] { Post(ui->postTextEdit->toPlainText()); });
+    Post post;
+    post.setContentText(ui->postTextEdit->toPlainText());
+    RUN(POOL, [&] { post.insertPost(); }).then(this, [=] { ui->postTextEdit->setPlainText(""); });
 }
 
 void Home::searchCurrentTextChanged(const QString &text)
@@ -74,4 +70,24 @@ void Home::searchCurrentTextChanged(const QString &text)
     while (query.next()) {
         ui->searchCombo->addItem(query.value("username").toString());
     }
+}
+
+void Home::loadFeed()
+{
+    RUN(POOL, [=] {
+        Post feed;
+        return feed.selectFeed(feedLimit, feedOffset);
+    }).then(this, [=](QVector<int> postsID) {
+        foreach (auto postID, postsID) {
+            ui->postContents->layout()->addWidget(new Collection(postID));
+        }
+    });
+
+    // QVector<int> postsID;
+    // RUN(POOL, [&] { postsID = feed.selectFeed(feedLimit, feedOffset); }).then(this, [&] {
+    //     qDebug() << postsID.size();
+    //     // ui->postGroup->layout()->addWidget(new Collection(postID));
+
+    //     feedOffset += feedLimit;
+    // });
 }
