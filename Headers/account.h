@@ -2,6 +2,7 @@
 #define ACCOUNT_H
 
 #include <QObject>
+#include <QSqlQuery>
 
 class Account : public QObject
 {
@@ -11,9 +12,12 @@ public:
     explicit Account(QObject * = nullptr);
     ~Account();
 
-    void getInformation();
+    void selectAccountBaseID();
+    void selectAccountBaseUsername();
+    bool selectHasConnection(int);
 
     // Setters
+    void setAccountID(int);
     void setUsername(const QString &);
     void setPassword(const QByteArray &);
     void setEmail(const QString &);
@@ -38,6 +42,9 @@ protected:
     QString phoneNumber;
     QString skill;
     bool isCompany;
+
+private:
+    void setAccount(const QSqlQuery &);
 };
 
 #endif // ACCOUNT_H

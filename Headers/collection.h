@@ -2,6 +2,7 @@
 #define COLLECTION_H
 
 #include <QWidget>
+#include "Headers/account.h"
 #include "Headers/post.h"
 
 namespace Ui {
@@ -19,6 +20,8 @@ public:
 private:
     Ui::Collection *ui;
     Post *post;
+    Account *account;
+    bool hasConnection;
 };
 
 #endif // COLLECTION_H

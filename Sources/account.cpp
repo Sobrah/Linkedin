@@ -1,6 +1,6 @@
-#include <QSqlQuery>
-
 #include "Headers/account.h"
+#include <QSqlQuery>
+#include <Header>
 
 Account::Account(QObject *parent)
     : QObject(parent)
@@ -13,7 +13,22 @@ Account::~Account()
     qDebug("Account Ends.");
 }
 
-void Account::getInformation()
+void Account::selectAccountBaseID()
+{
+    QSqlQuery query;
+    query.prepare("SELECT * FROM accounts WHERE accountID = ?");
+    query.addBindValue(accountID);
+    query.exec();
+
+    if (!query.first()) {
+        return;
+    }
+
+    // Update User Information
+    setAccount(query);
+}
+
+void Account::selectAccountBaseUsername()
 {
     QSqlQuery query;
     query.prepare("SELECT * FROM accounts WHERE username = ? AND password = ?");
@@ -26,6 +41,26 @@ void Account::getInformation()
         return;
 
     // Update User Information
+    setAccount(query);
+}
+
+bool Account::selectHasConnection(int followingID)
+{
+    QSqlQuery query;
+    query.prepare("SELECT connectionID FROM connections WHERE followerID = ? AND followingID = ?");
+    query.addBindValue(ACCOUNT->getAccountID());
+    query.addBindValue(followingID);
+    query.exec();
+
+    if (query.first()) {
+        return true;
+    }
+
+    return false;
+}
+
+void Account::setAccount(const QSqlQuery &query)
+{
     accountID = query.value("accountID").toInt();
     username = query.value("username").toString();
     password = query.value("password").toByteArray();
@@ -33,6 +68,11 @@ void Account::getInformation()
     phoneNumber = query.value("phoneNumber").toString();
     skill = query.value("skill").toString();
     isCompany = query.value("isCompany").toBool();
+}
+
+void Account::setAccountID(int accountID)
+{
+    this->accountID = accountID;
 }
 
 void Account::setUsername(const QString &username)

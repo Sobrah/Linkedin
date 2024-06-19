@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>697</width>
+    <width>617</width>
     <height>452</height>
    </rect>
   </property>
@@ -68,9 +68,6 @@
         </property>
         <property name="editable">
          <bool>true</bool>
-        </property>
-        <property name="placeholderText">
-         <string>Search</string>
         </property>
        </widget>
       </item>
@@ -208,7 +205,7 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>388</width>
+           <width>340</width>
            <height>328</height>
           </rect>
          </property>
@@ -226,6 +223,13 @@
             </property>
            </spacer>
           </item>
+          <item>
+           <widget class="QPushButton" name="loadMorePostsButton">
+            <property name="text">
+             <string>Load More Posts</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </widget>
@@ -240,7 +244,7 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>260</width>
+           <width>228</width>
            <height>270</height>
           </rect>
          </property>
@@ -276,7 +280,7 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>579</width>
+           <width>228</width>
            <height>270</height>
           </rect>
          </property>

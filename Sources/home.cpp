@@ -1,3 +1,4 @@
+#include <QScrollBar>
 #include "ui_home.h"
 #include <Header>
 
@@ -5,18 +6,35 @@ Home::Home(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Home)
 {
-    loadFeed();
-
     ui->setupUi(this);
-    // ui->postGroup->layout()->addWidget(new Collection);
+
+    // Load More Posts
+    connect(ui->loadMorePostsButton, &QPushButton::clicked, this, [=] {
+        RUN(POOL, [=] {
+            Post feed;
+
+            // Select Feed
+            return feed.selectFeed(feedLimit, feedOffset);
+        }).then(this, [=](QVector<int> postsID) {
+            foreach (auto postID, postsID) {
+                ui->postContents->layout()->addWidget(new Collection(postID));
+            }
+
+            // Increase Offset
+            feedOffset += feedLimit;
+        });
+    });
+
+    // First Feed Load
+    ui->loadMorePostsButton->click();
+
+    // Search Username
+    connect(ui->searchCombo, &QComboBox::editTextChanged, this, [=](const QString &text) {
+        POOL->start([=] { searchCurrentTextChanged(text); });
+    });
 
     // Send Post
     connect(ui->postButton, &QPushButton::clicked, this, &Home::postButtonClicked);
-
-    // Search Username
-    connect(ui->searchCombo, &QComboBox::currentTextChanged, this, [=](const QString &text) {
-        POOL->start([=] { searchCurrentTextChanged(text); });
-    });
 
     // Switch Home Page
     connect(ui->homeButton, &QPushButton::clicked, this, [=] { changePage(new Home, FRAME); });
@@ -62,32 +80,20 @@ void Home::postButtonClicked()
 
 void Home::searchCurrentTextChanged(const QString &text)
 {
+    // Ignore Empty Request
+    if (text.isEmpty()) {
+        return;
+    }
+
     QSqlQuery query;
-    query.prepare("SELECT username FROM accounts WHERE username LIKE ? LIMIT 5");
+    query.prepare("SELECT username FROM accounts WHERE username LIKE ? ORDER BY username LIMIT 5");
     query.addBindValue(text + '%');
     query.exec();
+
+    // Clear Items
+    ui->searchCombo->clear();
 
     while (query.next()) {
         ui->searchCombo->addItem(query.value("username").toString());
     }
-}
-
-void Home::loadFeed()
-{
-    RUN(POOL, [=] {
-        Post feed;
-        return feed.selectFeed(feedLimit, feedOffset);
-    }).then(this, [=](QVector<int> postsID) {
-        foreach (auto postID, postsID) {
-            ui->postContents->layout()->addWidget(new Collection(postID));
-        }
-    });
-
-    // QVector<int> postsID;
-    // RUN(POOL, [&] { postsID = feed.selectFeed(feedLimit, feedOffset); }).then(this, [&] {
-    //     qDebug() << postsID.size();
-    //     // ui->postGroup->layout()->addWidget(new Collection(postID));
-
-    //     feedOffset += feedLimit;
-    // });
 }

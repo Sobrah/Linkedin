@@ -60,7 +60,7 @@ bool checkSession()
     // Fetch Account Information
     ACCOUNT->setUsername(username);
     ACCOUNT->setPassword(password);
-    ACCOUNT->getInformation();
+    ACCOUNT->selectAccountBaseUsername();
 
     // Valid Account
     if (ACCOUNT->getAccountID())
