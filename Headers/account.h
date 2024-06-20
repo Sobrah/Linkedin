@@ -15,6 +15,8 @@ public:
     void selectAccountBaseID();
     void selectAccountBaseUsername();
     bool selectHasConnection(int);
+    void insertConnection(int);
+    void deleteConnection(int);
 
     // Setters
     void setAccountID(int);

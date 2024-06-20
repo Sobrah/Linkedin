@@ -48,7 +48,7 @@ bool Account::selectHasConnection(int followingID)
 {
     QSqlQuery query;
     query.prepare("SELECT connectionID FROM connections WHERE followerID = ? AND followingID = ?");
-    query.addBindValue(ACCOUNT->getAccountID());
+    query.addBindValue(accountID);
     query.addBindValue(followingID);
     query.exec();
 
@@ -57,6 +57,24 @@ bool Account::selectHasConnection(int followingID)
     }
 
     return false;
+}
+
+void Account::insertConnection(int followingID)
+{
+    QSqlQuery query;
+    query.prepare("INSERT INTO connections (followerID, followingID) VALUES (?, ?)");
+    query.addBindValue(accountID);
+    query.addBindValue(followingID);
+    query.exec();
+}
+
+void Account::deleteConnection(int followingID)
+{
+    QSqlQuery query;
+    query.prepare("DELETE FROM connections WHERE followerID = ? AND followingID = ?");
+    query.addBindValue(accountID);
+    query.addBindValue(followingID);
+    query.exec();
 }
 
 void Account::setAccount(const QSqlQuery &query)

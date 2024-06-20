@@ -18,10 +18,15 @@ public:
     ~Collection();
 
 private:
+    void followButtonClicked();
+
     Ui::Collection *ui;
     Post *post;
     Account *account;
     bool hasConnection;
+
+    const QString connectionStatus[2] = {"Connect", "Connected"};
+    const QString followingStatus[2] = {"Follow", "Followed"};
 };
 
 #endif // COLLECTION_H
