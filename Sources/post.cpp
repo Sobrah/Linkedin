@@ -18,8 +18,9 @@ void Post::insertPost()
     insertContent();
 
     QSqlQuery query;
-    query.prepare("INSERT INTO posts (contentID) VALUES (?) RETURNING postID");
+    query.prepare("INSERT INTO posts (contentID, isReposted) VALUES (?, ?) RETURNING postID");
     query.addBindValue(getContentID());
+    query.addBindValue(isReposted);
     query.exec();
     query.first();
 
@@ -40,6 +41,8 @@ void Post::selectPost()
 
     postID = query.value("postID").toInt();
     setContentID(query.value("contentID").toInt());
+    repostCounter = query.value("repostCounter").toInt();
+    isReposted = query.value("isReposted").toBool();
 
     selectContent();
 }
@@ -70,12 +73,42 @@ QVector<int> Post::selectFeed(int limit, int offset)
     return posts;
 }
 
+void Post::updateRepost()
+{
+    QSqlQuery query;
+    query.prepare("UPDATE posts SET repostCounter = repostCounter + 1 WHERE postID = ?");
+    query.addBindValue(postID);
+    query.exec();
+
+    repostCounter++;
+}
+
 void Post::setPostID(int postID)
 {
     this->postID = postID;
 }
 
+void Post::setRepostCounter(int repostCounter)
+{
+    this->repostCounter = repostCounter;
+}
+
+void Post::setIsReposted(bool isReposted)
+{
+    this->isReposted = isReposted;
+}
+
 int Post::getPostID() const
 {
     return postID;
+}
+
+int Post::getRepostCounter() const
+{
+    return repostCounter;
+}
+
+bool Post::getIsReposted() const
+{
+    return isReposted;
 }

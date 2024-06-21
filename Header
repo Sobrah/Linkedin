@@ -17,6 +17,7 @@
 #include <Headers/profile.h>
 #include <Headers/splash.h>
 #include <Headers/verification.h>
+#include <Headers/viewpost.h>
 #include <Headers/window.h>
 
 // Logic Headers

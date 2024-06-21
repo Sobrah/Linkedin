@@ -26,6 +26,8 @@ CREATE TABLE IF NOT EXISTS 'contents' (
 CREATE TABLE IF NOT EXISTS 'posts' (
 	'postID' INTEGER PRIMARY KEY,
 	'contentID' INTEGER,
+	'repostCounter' INTEGER NOT NULL DEFAULT 0,
+	'isReposted' INTEGER NOT NULL
 
 	FOREIGN KEY ('contentID') REFERENCES 'contents' ('contentID')
 		ON UPDATE NO ACTION

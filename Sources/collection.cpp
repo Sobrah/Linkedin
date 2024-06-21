@@ -2,7 +2,7 @@
 #include "ui_collection.h"
 #include <Header>
 
-Collection::Collection(int postID, QWidget *parent)
+Collection::Collection(int postID, QWidget *container, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Collection)
     , post(new Post)
@@ -25,6 +25,7 @@ Collection::Collection(int postID, QWidget *parent)
     }).then(this, [=] {
         // Post Content
 
+        // Adjust Content
         auto content = post->getContentText();
         content.truncate(25);
         content.append("...");
@@ -38,6 +39,16 @@ Collection::Collection(int postID, QWidget *parent)
             ui->tagLabel->hide();
         }
 
+        // Reposted Tag
+        if (!post->getIsReposted()) {
+            ui->repostedLabel->hide();
+        }
+
+        // Repost Label
+        auto repostCounter = ui->repostCounterLabel->text();
+        repostCounter.prepend(QString::number(post->getRepostCounter()));
+        ui->repostCounterLabel->setText(repostCounter);
+
         // Connection Status
         if (account->getIsCompany()) {
             ui->followButton->setText(followingStatus[hasConnection]);
@@ -48,6 +59,14 @@ Collection::Collection(int postID, QWidget *parent)
 
     // Follow Button Clicked
     connect(ui->followButton, &QPushButton::clicked, this, &Collection::followButtonClicked);
+
+    // See More Button Clicked
+    connect(ui->seeMoreButton, &QPushButton::clicked, this, [=] {
+        changePage(new ViewPost(postID), container);
+    });
+
+    // Repost Button Clicked
+    connect(ui->repostButton, &QPushButton::clicked, this, &Collection::repostButtonClicked);
 
     qDebug("Collection Starts.");
 }
@@ -79,4 +98,20 @@ void Collection::followButtonClicked()
             ui->followButton->setText(connectionStatus[hasConnection]);
         }
     });
+}
+
+void Collection::repostButtonClicked()
+{
+    auto repost = [=] {
+        Post repost;
+        repost.setContentText(post->getContentText());
+        repost.setIsReposted(true);
+
+        repost.insertPost();
+
+        // Increment Repost Counter
+        post->updateRepost();
+    };
+
+    POOL->start(repost);
 }

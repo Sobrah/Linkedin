@@ -14,11 +14,12 @@ class Collection : public QWidget
     Q_OBJECT
 
 public:
-    explicit Collection(int, QWidget *parent = nullptr);
+    explicit Collection(int, QWidget *, QWidget *parent = nullptr);
     ~Collection();
 
 private:
     void followButtonClicked();
+    void repostButtonClicked();
 
     Ui::Collection *ui;
     Post *post;

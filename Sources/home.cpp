@@ -17,7 +17,7 @@ Home::Home(QWidget *parent)
             return feed.selectFeed(feedLimit, feedOffset);
         }).then(this, [=](QVector<int> postsID) {
             foreach (auto postID, postsID) {
-                ui->postContents->layout()->addWidget(new Collection(postID));
+                ui->postContents->layout()->addWidget(new Collection(postID, ui->containerGroup));
             }
 
             // Increase Offset
