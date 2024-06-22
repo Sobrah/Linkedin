@@ -68,6 +68,9 @@ Collection::Collection(int postID, QWidget *container, QWidget *parent)
     // Repost Button Clicked
     connect(ui->repostButton, &QPushButton::clicked, this, &Collection::repostButtonClicked);
 
+    // Like Button Clicked
+    connect(ui->likeButton, &QPushButton::clicked, this, &Collection::likeButtonClicked);
+
     qDebug("Collection Starts.");
 }
 
@@ -114,4 +117,25 @@ void Collection::repostButtonClicked()
     };
 
     POOL->start(repost);
+}
+
+void Collection::likeButtonClicked()
+{
+    Like *like;
+    RUN(POOL, [=] {
+        if (hasLike) {
+            like->deleteLike(post->getPostID());
+            hasLike = false;
+        } else {
+            like->insertLike(post->getPostID());
+            hasLike = true;
+        }
+    }).then([=] {
+        // Like Status
+        if (hasLike) {
+            ui->likeButton->setText(likeStatus[hasLike]);
+        } else {
+            ui->likeButton->setText(likeStatus[hasLike]);
+        }
+    });
 }

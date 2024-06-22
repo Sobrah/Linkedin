@@ -26,6 +26,7 @@ SOURCES += \
     Sources/utility.cpp \
     Sources/account.cpp \
     Sources/company.cpp \
+    Sources/like.cpp \
     Sources/person.cpp \
     Sources/content.cpp \
     Sources/post.cpp \
@@ -53,6 +54,7 @@ HEADERS += \
     Headers/utility.h \
     Headers/account.h \
     Headers/company.h \
+    Headers/like.h \
     Headers/person.h \
     Headers/content.h \
     Headers/post.h \

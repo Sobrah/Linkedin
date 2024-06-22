@@ -20,14 +20,17 @@ public:
 private:
     void followButtonClicked();
     void repostButtonClicked();
+    void likeButtonClicked();
 
     Ui::Collection *ui;
     Post *post;
     Account *account;
     bool hasConnection;
+    bool hasLike;
 
     const QString connectionStatus[2] = {"Connect", "Connected"};
     const QString followingStatus[2] = {"Follow", "Followed"};
+    const QString likeStatus[2] = {"Like", "Liked"};
 };
 
 #endif // COLLECTION_H
