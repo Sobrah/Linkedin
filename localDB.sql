@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS 'accounts' (
 	'skill' TEXT NOT NULL,
 	'firstName' TEXT NOT NULL,
 	'lastName' TEXT,
-	'isCompany' INTEGER NOT NULL
+	'isCompany' INTEGER NOT NULL,
+	'bio' TEXT
 );
 
 CREATE TABLE IF NOT EXISTS 'contents' (

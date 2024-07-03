@@ -26,6 +26,7 @@ public:
     void setPhoneNumber(const QString &);
     void setSkill(const QString &);
     void setIsCompany(const bool);
+    void setBio(const QString &);
 
     // Getters
     int getAccountID() const;
@@ -35,6 +36,7 @@ public:
     QString getPhoneNumber() const;
     QString getSkill() const;
     bool getIsCompany() const;
+    QString getBio() const;
 
 protected:
     int accountID = false;
@@ -44,6 +46,7 @@ protected:
     QString phoneNumber;
     QString skill;
     bool isCompany;
+    QString bio;
 
 private:
     void setAccount(const QSqlQuery &);

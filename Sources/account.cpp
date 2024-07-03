@@ -86,6 +86,7 @@ void Account::setAccount(const QSqlQuery &query)
     phoneNumber = query.value("phoneNumber").toString();
     skill = query.value("skill").toString();
     isCompany = query.value("isCompany").toBool();
+    bio = query.value("bio").toString();
 }
 
 void Account::setAccountID(int accountID)
@@ -123,6 +124,11 @@ void Account::setIsCompany(const bool isCompany)
     this->isCompany = isCompany;
 }
 
+void Account::setBio(const QString &bio)
+{
+    this->bio = bio;
+}
+
 int Account::getAccountID() const
 {
     return accountID;
@@ -156,4 +162,9 @@ QString Account::getSkill() const
 bool Account::getIsCompany() const
 {
     return isCompany;
+}
+
+QString Account::getBio() const
+{
+    return bio;
 }
