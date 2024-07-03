@@ -20,6 +20,9 @@ Collection::Collection(int postID, QWidget *container, QWidget *parent)
         account->setAccountID(senderID);
         account->selectAccountBaseID();
 
+        // Like Status
+        hasLike = like->selectHasLike(post->getPostID());
+
         // Suggested Tag
         hasConnection = ACCOUNT->selectHasConnection(senderID);
     }).then(this, [=] {
@@ -55,6 +58,9 @@ Collection::Collection(int postID, QWidget *container, QWidget *parent)
         } else {
             ui->followButton->setText(connectionStatus[hasConnection]);
         }
+
+        // Like Status
+        ui->likeButton->setText(likeStatus[hasLike]);
     });
 
     // Follow Button Clicked
@@ -121,7 +127,6 @@ void Collection::repostButtonClicked()
 
 void Collection::likeButtonClicked()
 {
-    Like *like;
     RUN(POOL, [=] {
         if (hasLike) {
             like->deleteLike(post->getPostID());
@@ -132,10 +137,6 @@ void Collection::likeButtonClicked()
         }
     }).then([=] {
         // Like Status
-        if (hasLike) {
-            ui->likeButton->setText(likeStatus[hasLike]);
-        } else {
-            ui->likeButton->setText(likeStatus[hasLike]);
-        }
+        ui->likeButton->setText(likeStatus[hasLike]);
     });
 }

@@ -15,7 +15,7 @@ Like::~Like()
 void Like::deleteLike(int postID)
 {
     QSqlQuery query;
-    query.prepare("DELETE FROM likes WHERE whoLikedId = ? AND postID = ?");
+    query.prepare("DELETE FROM likes WHERE whoLikedID = ? AND postID = ?");
     query.addBindValue(ACCOUNT->getAccountID());
     query.addBindValue(postID);
     query.exec();
@@ -28,6 +28,21 @@ void Like::insertLike(int postID)
     query.addBindValue(ACCOUNT->getAccountID());
     query.addBindValue(postID);
     query.exec();
+}
+
+bool Like::selectHasLike(int postID)
+{
+    QSqlQuery query;
+    query.prepare("SELECT likeID FROM likes WHERE whoLikedID = ? AND postID = ?");
+    query.addBindValue(ACCOUNT->getAccountID());
+    query.addBindValue(postID);
+    query.exec();
+
+    if (query.first()) {
+        return true;
+    }
+
+    return false;
 }
 
 void Like::setLikeID(int likeID)

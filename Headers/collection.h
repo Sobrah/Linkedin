@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "Headers/account.h"
+#include "Headers/like.h"
 #include "Headers/post.h"
 
 namespace Ui {
@@ -25,6 +26,7 @@ private:
     Ui::Collection *ui;
     Post *post;
     Account *account;
+    Like *like;
     bool hasConnection;
     bool hasLike;
 

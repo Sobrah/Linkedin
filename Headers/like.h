@@ -14,6 +14,7 @@ public:
 
     void deleteLike(int);
     void insertLike(int);
+    bool selectHasLike(int);
 
     // Setters
     void setLikeID(int);
