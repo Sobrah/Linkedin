@@ -83,6 +83,23 @@ void Post::updateRepost()
     repostCounter++;
 }
 
+QVector<int> Post::selectAccountPosts(int)
+{
+    QSqlQuery query;
+    query.prepare("SELECT postID FROM posts JOIN contents USING(contentID) "
+                  "WHERE senderID = ? ORDER BY postID DESC");
+    query.addBindValue(ACCOUNT->getAccountID());
+    query.exec();
+
+    QVector<int> posts;
+
+    while (query.next()) {
+        posts.append(query.value("postID").toInt());
+    }
+
+    return posts;
+}
+
 void Post::setPostID(int postID)
 {
     this->postID = postID;

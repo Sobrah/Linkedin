@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS 'posts' (
 	'postID' INTEGER PRIMARY KEY,
 	'contentID' INTEGER,
 	'repostCounter' INTEGER NOT NULL DEFAULT 0,
-	'isReposted' INTEGER NOT NULL
+	'isReposted' INTEGER NOT NULL,
 
 	FOREIGN KEY ('contentID') REFERENCES 'contents' ('contentID')
 		ON UPDATE NO ACTION
@@ -88,6 +88,20 @@ CREATE TABLE IF NOT EXISTS 'likes' (
 		ON DELETE CASCADE
 
 	FOREIGN KEY ('postID') REFERENCES 'posts' ('postID')
+		ON UPDATE NO ACTION
+		ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS 'connectionRequests' (
+	'connectionRequestID' INTEGER PRIMARY KEY,
+	'followerID' INTEGER,
+	'followingID' INTEGER,
+
+	FOREIGN KEY ('followerID') REFERENCES 'accounts' ('accountID')
+		ON UPDATE NO ACTION
+		ON DELETE CASCADE
+
+	FOREIGN KEY ('followingID') REFERENCES 'accounts' ('accountID')
 		ON UPDATE NO ACTION
 		ON DELETE CASCADE
 );

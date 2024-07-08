@@ -11,8 +11,9 @@ public:
 
     void insertPost();
     void selectPost();
-    QVector<int> selectFeed(int limit, int offset);
+    QVector<int> selectFeed(int, int);
     void updateRepost();
+    QVector<int> selectAccountPosts(int);
 
     // Setters
     void setPostID(int);

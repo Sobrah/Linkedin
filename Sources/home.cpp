@@ -43,6 +43,8 @@ Home::Home(QWidget *parent)
     connect(ui->networkButton, &QPushButton::clicked, this, [=] {
         if (ACCOUNT->getIsCompany())
             changePage(new NetworkCompany, ui->containerGroup);
+        else
+            changePage(new NetworkPerson, ui->containerGroup);
     });
 
     // Switch Job Page
@@ -73,9 +75,11 @@ Home::~Home()
 
 void Home::postButtonClicked()
 {
-    Post post;
-    post.setContentText(ui->postTextEdit->toPlainText());
-    RUN(POOL, [&] { post.insertPost(); }).then(this, [=] { ui->postTextEdit->setPlainText(""); });
+    RUN(POOL, [&] {
+        Post post;
+        post.setContentText(ui->postTextEdit->toPlainText());
+        post.insertPost();
+    }).then(this, [=] { ui->postTextEdit->setPlainText(""); });
 }
 
 void Home::searchCurrentTextChanged(const QString &text)

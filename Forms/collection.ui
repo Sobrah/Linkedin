@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>275</width>
-    <height>188</height>
+    <height>230</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -96,17 +96,49 @@
     </widget>
    </item>
    <item row="5" column="0">
-    <widget class="QLabel" name="repostCounterLabel">
-     <property name="text">
-      <string> Reposts</string>
+    <widget class="QGroupBox" name="repostBox">
+     <property name="title">
+      <string/>
      </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,1">
+      <item>
+       <widget class="QLabel" name="repostCounterLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="repostsLabel">
+        <property name="text">
+         <string>Reposts</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item row="5" column="1">
-    <widget class="QLabel" name="likeCounterLabel">
-     <property name="text">
-      <string> Likes</string>
+    <widget class="QGroupBox" name="likeGroup">
+     <property name="title">
+      <string/>
      </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1">
+      <item>
+       <widget class="QLabel" name="likeCounterLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="likesLabel">
+        <property name="text">
+         <string>Likes</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

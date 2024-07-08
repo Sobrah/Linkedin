@@ -14,6 +14,9 @@
 #include <Headers/login.h>
 #include <Headers/me.h>
 #include <Headers/networkcompany.h>
+#include <Headers/networkperson.h>
+#include <Headers/networkrequest.h>
+#include <Headers/networksuggestion.h>
 #include <Headers/profile.h>
 #include <Headers/splash.h>
 #include <Headers/verification.h>

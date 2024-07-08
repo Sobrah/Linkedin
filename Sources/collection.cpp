@@ -1,4 +1,5 @@
 #include "Headers/collection.h"
+#include <QMessageBox>
 #include "ui_collection.h"
 #include <Header>
 
@@ -30,8 +31,10 @@ Collection::Collection(int postID, QWidget *container, QWidget *parent)
 
         // Adjust Content
         auto content = post->getContentText();
-        content.truncate(25);
-        content.append("...");
+        if (content.length() > 25) {
+            content.truncate(25);
+            content.append("...");
+        }
         ui->contentLable->setText(content);
 
         // Post Username
@@ -48,9 +51,7 @@ Collection::Collection(int postID, QWidget *container, QWidget *parent)
         }
 
         // Repost Label
-        auto repostCounter = ui->repostCounterLabel->text();
-        repostCounter.prepend(QString::number(post->getRepostCounter()));
-        ui->repostCounterLabel->setText(repostCounter);
+        ui->repostCounterLabel->setText(QString::number(post->getRepostCounter()));
 
         // Connection Status
         if (account->getIsCompany()) {
@@ -95,16 +96,23 @@ void Collection::followButtonClicked()
         if (hasConnection) {
             ACCOUNT->deleteConnection(account->getAccountID());
             hasConnection = false;
-        } else {
+            return;
+        }
+
+        if (account->getIsCompany()) {
             ACCOUNT->insertConnection(account->getAccountID());
             hasConnection = true;
         }
-    }).then([=] {
+
+        else {
+            ACCOUNT->insertConnectionRequest(account->getAccountID());
+        }
+    }).then(this, [=] {
         // Connection Status
         if (account->getIsCompany()) {
             ui->followButton->setText(followingStatus[hasConnection]);
         } else {
-            ui->followButton->setText(connectionStatus[hasConnection]);
+            QMessageBox::warning(this, "Connection Request", "Connection Is Sent.");
         }
     });
 }
@@ -120,6 +128,9 @@ void Collection::repostButtonClicked()
 
         // Increment Repost Counter
         post->updateRepost();
+
+        auto counter = ui->repostCounterLabel->text().toInt();
+        ui->repostCounterLabel->setText(QString::number(counter + 1));
     };
 
     POOL->start(repost);

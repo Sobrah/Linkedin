@@ -16,6 +16,9 @@ SOURCES += \
     Sources/collection.cpp \
     Sources/viewpost.cpp \
     Sources/networkcompany.cpp \
+    Sources/networkperson.cpp \
+    Sources/networkrequest.cpp \
+    Sources/networksuggestion.cpp \
     Sources/jobcompany.cpp \
     Sources/jobperson.cpp \
     Sources/jobposition.cpp \
@@ -44,6 +47,9 @@ HEADERS += \
     Headers/collection.h \
     Headers/viewpost.h \
     Headers/networkcompany.h \
+    Headers/networkperson.h \
+    Headers/networkrequest.h \
+    Headers/networksuggestion.h \
     Headers/jobcompany.h \
     Headers/jobperson.h \
     Headers/jobposition.h \
@@ -70,6 +76,9 @@ FORMS += \
     Forms/collection.ui \
     Forms/viewpost.ui \
     Forms/networkcompany.ui \
+    Forms/networkperson.ui \
+    Forms/networkrequest.ui \
+    Forms/networksuggestion.ui \
     Forms/viewprofile.ui \
     Forms/jobcompany.ui \
     Forms/jobperson.ui \

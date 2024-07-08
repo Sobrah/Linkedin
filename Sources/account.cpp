@@ -77,6 +77,67 @@ void Account::deleteConnection(int followingID)
     query.exec();
 }
 
+QVector<int> Account::selectConnectionRequests()
+{
+    QSqlQuery query;
+    query.prepare("SELECT followerID FROM connectionRequests WHERE followingID = ?");
+    query.addBindValue(ACCOUNT->getAccountID());
+    query.exec();
+
+    QVector<int> connectionRequests;
+
+    while (query.next()) {
+        connectionRequests.append(query.value("followerID").toInt());
+    }
+
+    return connectionRequests;
+}
+
+void Account::insertConnectionRequest(int followingID)
+{
+    QSqlQuery query;
+    query.prepare("INSERT INTO connectionRequests (followerID, followingID) VALUES (?, ?)");
+    query.addBindValue(accountID);
+    query.addBindValue(followingID);
+    query.exec();
+}
+
+void Account::deleteConnectionRequest(int followingID)
+{
+    QSqlQuery query;
+    query.prepare("DELETE FROM connectionRequests WHERE followerID = ? AND followingID = ?");
+    query.addBindValue(accountID);
+    query.addBindValue(followingID);
+    query.exec();
+}
+
+QVector<int> Account::selectConnectionSuggestions(int limit)
+{
+    QSqlQuery query;
+    query.prepare(
+        "SELECT accountID FROM accounts "
+        "WHERE accountID NOT IN (SELECT followingID FROM connections WHERE followerID = ?) "
+        "AND NOT accountID = ? ORDER BY CASE "
+        "WHEN accountID IN (SELECT followingID FROM connections WHERE followerID IN "
+        "(SELECT followingID FROM connections WHERE followerID = ?)) THEN 1 "
+        "WHEN skill = ? THEN 2 "
+        "ELSE 3 END, accountID DESC LIMIT ?");
+    query.addBindValue(accountID);
+    query.addBindValue(accountID);
+    query.addBindValue(accountID);
+    query.addBindValue(skill);
+    query.addBindValue(limit);
+    query.exec();
+
+    QVector<int> suggestions;
+
+    while (query.next()) {
+        suggestions.append(query.value("accountID").toInt());
+    }
+
+    return suggestions;
+}
+
 void Account::setAccount(const QSqlQuery &query)
 {
     accountID = query.value("accountID").toInt();

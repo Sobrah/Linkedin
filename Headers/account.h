@@ -17,6 +17,10 @@ public:
     bool selectHasConnection(int);
     void insertConnection(int);
     void deleteConnection(int);
+    QVector<int> selectConnectionRequests();
+    void insertConnectionRequest(int);
+    void deleteConnectionRequest(int);
+    QVector<int> selectConnectionSuggestions(int);
 
     // Setters
     void setAccountID(int);
