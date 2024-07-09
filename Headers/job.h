@@ -12,12 +12,18 @@ public:
     ~Job();
 
     // Database
+    void selectJob();
     void insertInformation();
     void selectInformation(int);
     void selectRequest();
     void insertRequest();
     void deleteRequest();
     int selectJobsNumber() const;
+    QVector<int> selectJobRequests();
+    int selectAccountIDBaseJobRequestID(int);
+    int selectJobIDBaseJobRequestID(int);
+    void updateJobsRequestsIsAccepted(int);
+    void deleteJobsRequests(int);
 
     // Setters
     void setJobID(int);

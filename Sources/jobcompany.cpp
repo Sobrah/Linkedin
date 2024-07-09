@@ -6,7 +6,15 @@ JobCompany::JobCompany(QWidget *parent)
     , ui(new Ui::JobCompany)
 {
     ui->setupUi(this);
-    ui->jobsScrollContents->layout()->addWidget(new JobCandidate);
+
+    RUN(POOL, [=] {
+        Job job;
+        return job.selectJobRequests();
+    }).then(this, [=](QVector<int> requests) {
+        foreach (auto request, requests) {
+            ui->jobsScrollContents->layout()->addWidget(new JobCandidate(request));
+        }
+    });
 
     connect(ui->createJobButton, &QPushButton::clicked, this, &JobCompany::createJobButtonClicked);
 

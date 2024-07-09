@@ -12,6 +12,23 @@ Job::~Job()
     qDebug("Job Ends.");
 }
 
+void Job::selectJob()
+{
+    QSqlQuery query;
+    query.prepare("SELECT * FROM jobs WHERE jobID = ?");
+    query.addBindValue(jobID);
+    query.exec();
+    query.first();
+
+    jobID = query.value("jobID").toInt();
+    companyID = query.value("companyID").toInt();
+    title = query.value("title").toString();
+    skill = query.value("skill").toString();
+    workplaceType = query.value("workplaceType").toString();
+    location = query.value("location").toString();
+    type = query.value("type").toString();
+}
+
 void Job::selectInformation(int number)
 {
     QSqlQuery query;
@@ -122,6 +139,63 @@ int Job::selectJobsNumber() const
     return query.value("COUNT()").toInt();
 }
 
+QVector<int> Job::selectJobRequests()
+{
+    QSqlQuery query;
+    query.prepare("SELECT jobRequestID FROM jobsRequests JOIN jobs USING(jobID) "
+                  "WHERE companyID = ? AND isAccepted = FALSE "
+                  "ORDER BY jobRequestID DESC");
+    query.addBindValue(ACCOUNT->getAccountID());
+    query.exec();
+
+    QVector<int> requests;
+
+    while (query.next()) {
+        requests.append(query.value("jobRequestID").toInt());
+    }
+
+    return requests;
+}
+
+int Job::selectAccountIDBaseJobRequestID(int requestID)
+{
+    QSqlQuery query;
+    query.prepare("SELECT accountID FROM jobsRequests WHERE jobRequestID = ?");
+    query.addBindValue(requestID);
+    query.exec();
+    query.first();
+
+    return query.value("accountID").toInt();
+}
+
+int Job::selectJobIDBaseJobRequestID(int requestID)
+{
+    QSqlQuery query;
+    query.prepare("SELECT jobID FROM jobsRequests WHERE jobRequestID = ?");
+    query.addBindValue(requestID);
+    query.exec();
+    query.first();
+
+    return query.value("jobID").toInt();
+}
+
+void Job::updateJobsRequestsIsAccepted(int jobRequestID)
+{
+    QSqlQuery query;
+    query.prepare("UPDATE jobsRequests SET isAccepted = ? WHERE jobRequestID = ?");
+    query.addBindValue(true);
+    query.addBindValue(jobRequestID);
+    query.exec();
+}
+
+void Job::deleteJobsRequests(int jobRequestID)
+{
+    QSqlQuery query;
+    query.prepare("DELETE FROM jobsRequests WHERE jobRequestID = ?");
+    query.addBindValue(jobRequestID);
+    query.exec();
+}
+
 void Job::setJobID(int jobID)
 {
     this->jobID = jobID;
@@ -185,6 +259,11 @@ int Job::getCompanyID() const
 QString Job::getTitle() const
 {
     return title;
+}
+
+QString Job::getSkill() const
+{
+    return skill;
 }
 
 QString Job::getWorkplaceType() const
