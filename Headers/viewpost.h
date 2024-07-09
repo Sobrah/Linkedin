@@ -2,6 +2,7 @@
 #define VIEWPOST_H
 
 #include <QWidget>
+#include <Header>
 
 namespace Ui {
 class ViewPost;
@@ -16,7 +17,11 @@ public:
     ~ViewPost();
 
 private:
+    void sendCommentButtonClicked();
+
     Ui::ViewPost *ui;
+    Account *account;
+    Post *post;
 };
 
 #endif // VIEWPOST_H

@@ -15,6 +15,7 @@ SOURCES += \
     Sources/home.cpp \
     Sources/collection.cpp \
     Sources/viewpost.cpp \
+    Sources/viewcomment.cpp \
     Sources/networkcompany.cpp \
     Sources/networkperson.cpp \
     Sources/networkrequest.cpp \
@@ -34,6 +35,7 @@ SOURCES += \
     Sources/content.cpp \
     Sources/post.cpp \
     Sources/job.cpp \
+    Sources/comment.cpp \
 
 HEADERS += \
     Header \
@@ -46,6 +48,7 @@ HEADERS += \
     Headers/home.h \
     Headers/collection.h \
     Headers/viewpost.h \
+    Headers/viewcomment.h \
     Headers/networkcompany.h \
     Headers/networkperson.h \
     Headers/networkrequest.h \
@@ -65,6 +68,7 @@ HEADERS += \
     Headers/content.h \
     Headers/post.h \
     Headers/job.h \
+    Headers/comment.h \
 
 FORMS += \
     Forms/window.ui \
@@ -75,6 +79,7 @@ FORMS += \
     Forms/home.ui \
     Forms/collection.ui \
     Forms/viewpost.ui \
+    Forms/viewcomment.ui \
     Forms/networkcompany.ui \
     Forms/networkperson.ui \
     Forms/networkrequest.ui \
