@@ -19,6 +19,11 @@ NetworkSuggestion::NetworkSuggestion(int accountID, QWidget *parent)
             this,
             &NetworkSuggestion::connectButtonClicked);
 
+    connect(ui->viewProfileButton,
+            &QPushButton::clicked,
+            this,
+            &NetworkSuggestion::viewProfileButtonClicked);
+
     qDebug("Network Suggestion Starts.");
 }
 
@@ -33,4 +38,10 @@ void NetworkSuggestion::connectButtonClicked()
     RUN(POOL, [=] { ACCOUNT->insertConnectionRequest(account->getAccountID()); }).then(this, [=] {
         QMessageBox::warning(this, "Connection Request", "Connection Request Sent");
     });
+}
+
+void NetworkSuggestion::viewProfileButtonClicked()
+{
+    int accountID = account->getAccountID();
+    changePage(new ViewProfile(accountID), FRAME);
 }

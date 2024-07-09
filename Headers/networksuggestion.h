@@ -18,6 +18,7 @@ public:
 
 private:
     void connectButtonClicked();
+    void viewProfileButtonClicked();
 
     Ui::NetworkSuggestion *ui;
     Account *account;

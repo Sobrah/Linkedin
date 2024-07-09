@@ -22,6 +22,7 @@ private:
     void followButtonClicked();
     void repostButtonClicked();
     void likeButtonClicked();
+    void viewProfileButtonClicked();
 
     Ui::Collection *ui;
     Post *post;

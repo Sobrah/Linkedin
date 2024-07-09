@@ -11,6 +11,11 @@ Collection::Collection(int postID, QWidget *container, QWidget *parent)
 {
     ui->setupUi(this);
 
+    // View Profile Button Clicked
+    connect(ui->viewProfileButton,
+            &QPushButton::clicked,
+            this,
+            &Collection::viewProfileButtonClicked);
     RUN(POOL, [=] {
         // Post Information
         post->setPostID(postID);
@@ -150,4 +155,10 @@ void Collection::likeButtonClicked()
         // Like Status
         ui->likeButton->setText(likeStatus[hasLike]);
     });
+}
+
+void Collection::viewProfileButtonClicked()
+{
+    int accountID = account->getAccountID();
+    changePage(new ViewProfile(accountID), FRAME);
 }

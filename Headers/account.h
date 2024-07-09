@@ -29,6 +29,8 @@ public:
     void setEmail(const QString &);
     void setPhoneNumber(const QString &);
     void setSkill(const QString &);
+    void setFirstName(const QString &);
+    void setLastName(const QString &);
     void setIsCompany(const bool);
     void setBio(const QString &);
 
@@ -39,6 +41,8 @@ public:
     QString getEmail() const;
     QString getPhoneNumber() const;
     QString getSkill() const;
+    QString getFirstName() const;
+    QString getLastName() const;
     bool getIsCompany() const;
     QString getBio() const;
 
@@ -49,6 +53,8 @@ protected:
     QString email;
     QString phoneNumber;
     QString skill;
+    QString firstName;
+    QString lastName;
     bool isCompany;
     QString bio;
 

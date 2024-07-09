@@ -146,6 +146,8 @@ void Account::setAccount(const QSqlQuery &query)
     email = query.value("email").toString();
     phoneNumber = query.value("phoneNumber").toString();
     skill = query.value("skill").toString();
+    firstName = query.value("firstName").toString();
+    lastName = query.value("lastName").toString();
     isCompany = query.value("isCompany").toBool();
     bio = query.value("bio").toString();
 }
@@ -178,6 +180,16 @@ void Account::setPhoneNumber(const QString &phoneNumber)
 void Account::setSkill(const QString &skill)
 {
     this->skill = skill;
+}
+
+void Account::setFirstName(const QString &firstName)
+{
+    this->firstName = firstName;
+}
+
+void Account::setLastName(const QString &lastName)
+{
+    this->lastName = lastName;
 }
 
 void Account::setIsCompany(const bool isCompany)
@@ -218,6 +230,16 @@ QString Account::getPhoneNumber() const
 QString Account::getSkill() const
 {
     return skill;
+}
+
+QString Account::getFirstName() const
+{
+    return firstName;
+}
+
+QString Account::getLastName() const
+{
+    return lastName;
 }
 
 bool Account::getIsCompany() const
