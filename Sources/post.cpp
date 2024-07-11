@@ -1,18 +1,123 @@
-#include "Headers/post.h"
+#include <QSqlQuery>
+#include <QVector>
+#include <Header>
 
-void Post::setPostId(int postId)
+Post::Post(QObject *parent)
+    : Content(parent)
 {
-    Post::postId = postId;
+    qDebug("Post Starts.");
+}
+
+Post::~Post()
+{
+    qDebug("Post Ends.");
+}
+
+void Post::insertPost()
+{
+    insertContent();
+
+    QSqlQuery query;
+    query.prepare("INSERT INTO posts (contentID, isReposted) VALUES (?, ?) RETURNING postID");
+    query.addBindValue(getContentID());
+    query.addBindValue(isReposted);
+    query.exec();
+    query.first();
+
+    // Inserted Post ID
+    postID = query.value("postID").toInt();
+}
+
+void Post::selectPost()
+{
+    QSqlQuery query;
+    query.prepare("SELECT * FROM posts WHERE postID = ?");
+    query.addBindValue(postID);
+    query.exec();
+
+    if (!query.first()) {
+        return;
+    }
+
+    postID = query.value("postID").toInt();
+    setContentID(query.value("contentID").toInt());
+    repostCounter = query.value("repostCounter").toInt();
+    isReposted = query.value("isReposted").toBool();
+
+    selectContent();
+}
+
+QVector<int> Post::selectFeed(int limit, int offset)
+{
+    QSqlQuery query;
+    query.prepare(
+        "SELECT postID FROM posts JOIN contents USING(contentID) WHERE NOT senderID = ? "
+        "ORDER BY CASE "
+        "WHEN senderID IN (SELECT followingID FROM connections WHERE followerID = ?) THEN 1 "
+        "WHEN senderID IN (SELECT accountID FROM accounts WHERE skill = ?) THEN 2 "
+        "ELSE 3 END, postID DESC LIMIT ? OFFSET ?");
+    query.addBindValue(ACCOUNT->getAccountID());
+    query.addBindValue(ACCOUNT->getAccountID());
+    query.addBindValue(ACCOUNT->getSkill());
+    query.addBindValue(limit);
+    query.addBindValue(offset);
+    query.exec();
+
+    // Keep Posts ID
+    QVector<int> posts;
+
+    while (query.next()) {
+        posts.append(query.value("postID").toInt());
+    }
+
+    return posts;
+}
+
+void Post::updateRepost()
+{
+    QSqlQuery query;
+    query.prepare("UPDATE posts SET repostCounter = repostCounter + 1 WHERE postID = ?");
+    query.addBindValue(postID);
+    query.exec();
+
+    repostCounter++;
+}
+
+QVector<int> Post::selectAccountPosts(int)
+{
+    QSqlQuery query;
+    query.prepare("SELECT postID FROM posts JOIN contents USING(contentID) "
+                  "WHERE senderID = ? ORDER BY postID DESC");
+    query.addBindValue(ACCOUNT->getAccountID());
+    query.exec();
+
+    QVector<int> posts;
+
+    while (query.next()) {
+        posts.append(query.value("postID").toInt());
+    }
+
+    return posts;
+}
+
+void Post::setPostID(int postID)
+{
+    this->postID = postID;
 }
 
 void Post::setRepostCounter(int repostCounter)
 {
-    Post::repostCounter = repostCounter;
+    this->repostCounter = repostCounter;
 }
 
-int Post::getPostId() const
+void Post::setIsReposted(bool isReposted)
 {
-    return postId;
+    this->isReposted = isReposted;
+}
+
+int Post::getPostID() const
+{
+    return postID;
 }
 
 int Post::getRepostCounter() const
@@ -20,17 +125,7 @@ int Post::getRepostCounter() const
     return repostCounter;
 }
 
-QVector<Like> Post::getLikes() const
+bool Post::getIsReposted() const
 {
-    return likes;
-}
-
-QVector<Comment> Post::getComments() const
-{
-    return comments;
-}
-
-void Post::addRepostCounter()
-{
-    repostCounter++;
+    return isReposted;
 }

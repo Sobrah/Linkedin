@@ -17,8 +17,13 @@ public:
 
 private:
     void submitButtonClicked();
+    void switchButtonClicked();
 
     Ui::Profile *ui;
+    bool formStatus = false;
+
+signals:
+    void warnMessage(QString, QString);
 };
 
 #endif // PROFILE_H

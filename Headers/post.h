@@ -1,26 +1,34 @@
 #ifndef POST_H
 #define POST_H
 
-#include "Headers/comment.h"
 #include "Headers/content.h"
-#include "Headers/like.h"
 
-class Post : private Content
+class Post : public Content
 {
-private:
-    int postId;
-    int repostCounter;
-    QVector<Like> likes;
-    QVector<Comment> comments;
-
 public:
-    void setPostId(int);
+    explicit Post(QObject * = nullptr);
+    ~Post();
+
+    void insertPost();
+    void selectPost();
+    QVector<int> selectFeed(int, int);
+    void updateRepost();
+    QVector<int> selectAccountPosts(int);
+
+    // Setters
+    void setPostID(int);
     void setRepostCounter(int);
-    int getPostId() const;
+    void setIsReposted(bool);
+
+    // Getters
+    int getPostID() const;
     int getRepostCounter() const;
-    QVector<Like> getLikes() const;
-    QVector<Comment> getComments() const;
-    void addRepostCounter();
+    bool getIsReposted() const;
+
+private:
+    int postID = false;
+    int repostCounter = false;
+    bool isReposted = false;
 };
 
 #endif // POST_H

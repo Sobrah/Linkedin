@@ -1,97 +1,65 @@
 #ifndef ACCOUNT_H
 #define ACCOUNT_H
 
-#include <QString>
-#include <QVector>
-#include "Headers/directmessage.h"
-#include "Headers/post.h"
+#include <QObject>
+#include <QSqlQuery>
 
-using namespace std;
-
-class Account
+class Account : public QObject
 {
+    Q_OBJECT
+
 public:
-    void setAccountId(QString);
-    void setPhoneNumber(QString);
-    void setEmail(QString);
-    void addFollowing(QString);
-    void addPost(Post);
-    void addMessage(directMessage);
-    QString getAccountId() const;
-    QString getPhoneNumber() const;
+    explicit Account(QObject * = nullptr);
+    ~Account();
+
+    void selectAccountBaseID();
+    void selectAccountBaseUsername();
+    bool selectHasConnection(int);
+    void insertConnection(int);
+    void deleteConnection(int);
+    QVector<int> selectConnectionRequests();
+    void insertConnectionRequest(int);
+    void deleteConnectionRequest(int);
+    QVector<int> selectConnectionSuggestions(int);
+
+    // Setters
+    void setAccountID(int);
+    void setUsername(const QString &);
+    void setPassword(const QByteArray &);
+    void setEmail(const QString &);
+    void setPhoneNumber(const QString &);
+    void setSkill(const QString &);
+    void setFirstName(const QString &);
+    void setLastName(const QString &);
+    void setIsCompany(const bool);
+    void setBio(const QString &);
+
+    // Getters
+    int getAccountID() const;
+    QString getUsername() const;
+    QByteArray getPassword() const;
     QString getEmail() const;
-    QVector<QString> getFollowings() const;
-    QVector<Post> getPosts() const;
-    QVector<directMessage> getMessages() const;
-
-private:
-    QString accountId;
-    QString phoneNumner;
-    QString email;
-    QVector<QString> followings;
-    QVector<Post> posts;
-    QVector<directMessage> DM;
-};
-
-class Job
-{
-public:
-    void setSalary(double);
-    void setJobName(QString);
-    void setCompanyName(QString);
-    void addSkillsRequired(QString);
-    void setWorkPlaceType(QString);
-    void setLocation(QString);
-    void setType(QString);
-    double getSalary() const;
-    QString getJobName() const;
-    QString getCompanyName() const;
-    QVector<QString> getSkillsRequired() const;
-    QString getWorkPlaceType() const;
-    QString getLocation() const;
-    QString getType() const;
-
-private:
-    double salary;
-    QString jobName;
-    QString companyName;
-    QVector<QString> skillsRequired;
-    QString workPlaceType;
-    QString location;
-    QString type;
-};
-
-class Person
-{
-public:
-    void setLastName(QString);
-    void setFirstName(QString);
-    void addSkill(QString);
-    QString getLastName() const;
+    QString getPhoneNumber() const;
+    QString getSkill() const;
     QString getFirstName() const;
-    QVector<QString> getSkills() const;
-    void takeJob(Job);
+    QString getLastName() const;
+    bool getIsCompany() const;
+    QString getBio() const;
 
-private:
-    QString lastName;
+protected:
+    int accountID = false;
+    QString username;
+    QByteArray password;
+    QString email;
+    QString phoneNumber;
+    QString skill;
     QString firstName;
-    QVector<QString> skills;
-};
-
-class Company
-{
-public:
-    void addJob(Job);
-    void setCompanyName(QString);
-    void addEmployee(Person);
-    QVector<Job> getCompanyJobs() const;
-    QString getCompanyName() const;
-    QVector<Person> getEmployee() const;
+    QString lastName;
+    bool isCompany;
+    QString bio;
 
 private:
-    QVector<Job> companyJobs;
-    QString companyName;
-    QVector<Person> employee;
+    void setAccount(const QSqlQuery &);
 };
 
 #endif // ACCOUNT_H

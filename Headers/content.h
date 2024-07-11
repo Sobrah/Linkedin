@@ -2,23 +2,36 @@
 #define CONTENT_H
 
 #include <QDateTime>
+#include <QObject>
 
-using namespace std;
-
-class Content
+class Content : public QObject
 {
-private:
-    int senderId;
-    QDateTime timeSent;
-    QString contentText;
+    Q_OBJECT
 
 public:
-    void setSenderId(int);
-    void setTimeSent(QDateTime);
-    void setContentText(QString);
-    int getSenderId() const;
+    explicit Content(QObject * = nullptr);
+    ~Content();
+
+    void insertContent();
+    void selectContent();
+
+    // Setters
+    void setContentID(int);
+    void setSenderID(int);
+    void setTimeSent(const QDateTime &);
+    void setContentText(const QString &);
+
+    // Getters
+    int getContentID() const;
+    int getSenderID() const;
     QDateTime getTimeSent() const;
     QString getContentText() const;
+
+private:
+    int contentID = false;
+    int senderID = false;
+    QDateTime timeSent;
+    QString contentText;
 };
 
 #endif // CONTENT_H

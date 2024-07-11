@@ -1,191 +1,253 @@
 #include "Headers/account.h"
+#include <QSqlQuery>
+#include <Header>
 
-void Account::setAccountId(QString accountId)
+Account::Account(QObject *parent)
+    : QObject(parent)
 {
-    this->accountId = accountId;
+    qDebug("Account Starts.");
 }
 
-void Account::setPhoneNumber(QString phoneNumber)
+Account::~Account()
 {
-    this->phoneNumner = phoneNumber;
+    qDebug("Account Ends.");
 }
 
-void Account::setEmail(QString email)
+void Account::selectAccountBaseID()
+{
+    QSqlQuery query;
+    query.prepare("SELECT * FROM accounts WHERE accountID = ?");
+    query.addBindValue(accountID);
+    query.exec();
+
+    if (!query.first()) {
+        return;
+    }
+
+    // Update User Information
+    setAccount(query);
+}
+
+void Account::selectAccountBaseUsername()
+{
+    QSqlQuery query;
+    query.prepare("SELECT * FROM accounts WHERE username = ? AND password = ?");
+    query.addBindValue(username);
+    query.addBindValue(password);
+    query.exec();
+
+    // Invalid Credentials
+    if (!query.first())
+        return;
+
+    // Update User Information
+    setAccount(query);
+}
+
+bool Account::selectHasConnection(int followingID)
+{
+    QSqlQuery query;
+    query.prepare("SELECT connectionID FROM connections WHERE followerID = ? AND followingID = ?");
+    query.addBindValue(accountID);
+    query.addBindValue(followingID);
+    query.exec();
+
+    if (query.first()) {
+        return true;
+    }
+
+    return false;
+}
+
+void Account::insertConnection(int followingID)
+{
+    QSqlQuery query;
+    query.prepare("INSERT INTO connections (followerID, followingID) VALUES (?, ?)");
+    query.addBindValue(accountID);
+    query.addBindValue(followingID);
+    query.exec();
+}
+
+void Account::deleteConnection(int followingID)
+{
+    QSqlQuery query;
+    query.prepare("DELETE FROM connections WHERE followerID = ? AND followingID = ?");
+    query.addBindValue(accountID);
+    query.addBindValue(followingID);
+    query.exec();
+}
+
+QVector<int> Account::selectConnectionRequests()
+{
+    QSqlQuery query;
+    query.prepare("SELECT followerID FROM connectionRequests WHERE followingID = ?");
+    query.addBindValue(ACCOUNT->getAccountID());
+    query.exec();
+
+    QVector<int> connectionRequests;
+
+    while (query.next()) {
+        connectionRequests.append(query.value("followerID").toInt());
+    }
+
+    return connectionRequests;
+}
+
+void Account::insertConnectionRequest(int followingID)
+{
+    QSqlQuery query;
+    query.prepare("INSERT INTO connectionRequests (followerID, followingID) VALUES (?, ?)");
+    query.addBindValue(accountID);
+    query.addBindValue(followingID);
+    query.exec();
+}
+
+void Account::deleteConnectionRequest(int followingID)
+{
+    QSqlQuery query;
+    query.prepare("DELETE FROM connectionRequests WHERE followerID = ? AND followingID = ?");
+    query.addBindValue(accountID);
+    query.addBindValue(followingID);
+    query.exec();
+}
+
+QVector<int> Account::selectConnectionSuggestions(int limit)
+{
+    QSqlQuery query;
+    query.prepare(
+        "SELECT accountID FROM accounts "
+        "WHERE accountID NOT IN (SELECT followingID FROM connections WHERE followerID = ?) "
+        "AND NOT accountID = ? ORDER BY CASE "
+        "WHEN accountID IN (SELECT followingID FROM connections WHERE followerID IN "
+        "(SELECT followingID FROM connections WHERE followerID = ?)) THEN 1 "
+        "WHEN skill = ? THEN 2 "
+        "ELSE 3 END, accountID DESC LIMIT ?");
+    query.addBindValue(accountID);
+    query.addBindValue(accountID);
+    query.addBindValue(accountID);
+    query.addBindValue(skill);
+    query.addBindValue(limit);
+    query.exec();
+
+    QVector<int> suggestions;
+
+    while (query.next()) {
+        suggestions.append(query.value("accountID").toInt());
+    }
+
+    return suggestions;
+}
+
+void Account::setAccount(const QSqlQuery &query)
+{
+    accountID = query.value("accountID").toInt();
+    username = query.value("username").toString();
+    password = query.value("password").toByteArray();
+    email = query.value("email").toString();
+    phoneNumber = query.value("phoneNumber").toString();
+    skill = query.value("skill").toString();
+    firstName = query.value("firstName").toString();
+    lastName = query.value("lastName").toString();
+    isCompany = query.value("isCompany").toBool();
+    bio = query.value("bio").toString();
+}
+
+void Account::setAccountID(int accountID)
+{
+    this->accountID = accountID;
+}
+
+void Account::setUsername(const QString &username)
+{
+    this->username = username;
+}
+
+void Account::setPassword(const QByteArray &password)
+{
+    this->password = password;
+}
+
+void Account::setEmail(const QString &email)
 {
     this->email = email;
 }
 
-void Account::addFollowing(QString following)
+void Account::setPhoneNumber(const QString &phoneNumber)
 {
-    this->followings.push_back(following);
+    this->phoneNumber = phoneNumber;
 }
 
-void Account::addPost(Post post)
+void Account::setSkill(const QString &skill)
 {
-    this->posts.push_back(post);
+    this->skill = skill;
 }
 
-void Account::addMessage(directMessage dm)
-{
-    this->DM.push_back(dm);
-}
-
-QString Account::getAccountId() const
-{
-    return accountId;
-}
-
-QString Account::getPhoneNumber() const
-{
-    return phoneNumner;
-}
-
-QString Account::getEmail() const
-{
-    return email;
-}
-
-QVector<QString> Account::getFollowings() const
-{
-    return followings;
-}
-
-QVector<Post> Account::getPosts() const
-{
-    return posts;
-}
-
-QVector<directMessage> Account::getMessages() const
-{
-    return DM;
-}
-
-void Job::setSalary(double salary)
-{
-    this->salary = salary;
-}
-
-void Job::setJobName(QString jobName)
-{
-    this->jobName = jobName;
-}
-
-void Job::setCompanyName(QString companyName)
-{
-    this->companyName = companyName;
-}
-
-void Job::addSkillsRequired(QString skill)
-{
-    this->skillsRequired.push_back(skill);
-}
-
-void Job::setWorkPlaceType(QString workPlaceType)
-{
-    this->workPlaceType = workPlaceType;
-}
-
-void Job::setLocation(QString location)
-{
-    this->location = location;
-}
-
-void Job::setType(QString type)
-{
-    this->type = type;
-}
-
-double Job::getSalary() const
-{
-    return salary;
-}
-
-QString Job::getJobName() const
-{
-    return jobName;
-}
-
-QString Job::getCompanyName() const
-{
-    return companyName;
-}
-
-QVector<QString> Job::getSkillsRequired() const
-{
-    return skillsRequired;
-}
-
-QString Job::getWorkPlaceType() const
-{
-    return workPlaceType;
-}
-
-QString Job::getLocation() const
-{
-    return location;
-}
-
-QString Job::getType() const
-{
-    return type;
-}
-
-void Person::setLastName(QString lastName)
-{
-    this->lastName = lastName;
-}
-
-void Person::setFirstName(QString firstName)
+void Account::setFirstName(const QString &firstName)
 {
     this->firstName = firstName;
 }
 
-void Person::addSkill(QString skill)
+void Account::setLastName(const QString &lastName)
 {
-    this->skills.push_back(skill);
+    this->lastName = lastName;
 }
 
-QString Person::getLastName() const
+void Account::setIsCompany(const bool isCompany)
 {
-    return lastName;
+    this->isCompany = isCompany;
 }
 
-QString Person::getFirstName() const
+void Account::setBio(const QString &bio)
+{
+    this->bio = bio;
+}
+
+int Account::getAccountID() const
+{
+    return accountID;
+}
+
+QString Account::getUsername() const
+{
+    return username;
+};
+
+QByteArray Account::getPassword() const
+{
+    return password;
+};
+
+QString Account::getEmail() const
+{
+    return email;
+};
+
+QString Account::getPhoneNumber() const
+{
+    return phoneNumber;
+}
+
+QString Account::getSkill() const
+{
+    return skill;
+}
+
+QString Account::getFirstName() const
 {
     return firstName;
 }
 
-QVector<QString> Person::getSkills() const
+QString Account::getLastName() const
 {
-    return skills;
+    return lastName;
 }
 
-void Company::addJob(Job job)
+bool Account::getIsCompany() const
 {
-    this->companyJobs.push_back(job);
+    return isCompany;
 }
 
-void Company::setCompanyName(QString companyName)
+QString Account::getBio() const
 {
-    this->companyName = companyName;
-}
-
-void Company::addEmployee(Person person)
-{
-    this->employee.push_back(person);
-}
-
-QVector<Job> Company::getCompanyJobs() const
-{
-    return companyJobs;
-}
-
-QString Company::getCompanyName() const
-{
-    return companyName;
-}
-
-QVector<Person> Company::getEmployee() const
-{
-    return employee;
+    return bio;
 }

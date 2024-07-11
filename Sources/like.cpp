@@ -1,31 +1,76 @@
-#include "Headers/like.h"
+#include <QSqlQuery>
+#include <Header>
 
-void Like::setWhoLikedId(int whoLikedId)
+Like::Like(QObject *parent)
+    : QObject(parent)
 {
-    Like::whoLikedId = whoLikedId;
+    qDebug("Like Starts.");
 }
 
-void Like::setLikeId(int likeId)
+Like::~Like()
 {
-    Like::likeId = likeId;
+    qDebug("Like Ends.");
 }
 
-void Like::setWhenLiked(QDateTime whenLiked)
+void Like::deleteLike(int postID)
 {
-    Like::whenLiked = whenLiked;
+    QSqlQuery query;
+    query.prepare("DELETE FROM likes WHERE whoLikedID = ? AND postID = ?");
+    query.addBindValue(ACCOUNT->getAccountID());
+    query.addBindValue(postID);
+    query.exec();
 }
 
-int Like::getWhoLikedId() const
+void Like::insertLike(int postID)
 {
-    return whoLikedId;
+    QSqlQuery query;
+    query.prepare("INSERT INTO likes (whoLikedID, postID) VALUES (?, ?)");
+    query.addBindValue(ACCOUNT->getAccountID());
+    query.addBindValue(postID);
+    query.exec();
 }
 
-int Like::getLikeId() const
+bool Like::selectHasLike(int postID)
 {
-    return likeId;
+    QSqlQuery query;
+    query.prepare("SELECT likeID FROM likes WHERE whoLikedID = ? AND postID = ?");
+    query.addBindValue(ACCOUNT->getAccountID());
+    query.addBindValue(postID);
+    query.exec();
+
+    if (query.first()) {
+        return true;
+    }
+
+    return false;
 }
 
-QDateTime Like::getWhenLiked() const
+void Like::setLikeID(int likeID)
 {
-    return whenLiked;
+    this->likeID = likeID;
+}
+
+void Like::setWhoLikedID(int whoLikedID)
+{
+    this->whoLikedID = whoLikedID;
+}
+
+void Like::setPostID(int postID)
+{
+    this->postID = postID;
+}
+
+int Like::getLikeID() const
+{
+    return likeID;
+}
+
+int Like::getWhoLikedID() const
+{
+    return whoLikedID;
+}
+
+int Like::getPostID() const
+{
+    return postID;
 }

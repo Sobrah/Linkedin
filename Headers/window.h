@@ -1,6 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include <QCloseEvent>
 #include <QWidget>
 
 namespace Ui {
@@ -13,8 +14,10 @@ class Window : public QWidget
 
 public:
     explicit Window(QWidget *parent = nullptr);
-    static void changePage(QWidget *, QWidget *);
     ~Window();
+
+protected:
+    void closeEvent(QCloseEvent *);
 
 private:
     Ui::Window *ui;

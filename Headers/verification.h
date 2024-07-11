@@ -12,14 +12,16 @@ class Verification : public QWidget
     Q_OBJECT
 
 public:
-    explicit Verification(QString &, QWidget *parent = nullptr);
+    explicit Verification(bool, QWidget *parent = nullptr);
     ~Verification();
 
 private:
     void confirmButtonClicked();
+    void sendEmail(QString, QString);
 
     Ui::Verification *ui;
-    QString verificationCode;
+    QString code;
+    bool formStatus;
 };
 
 #endif // VERIFICATION_H

@@ -3,17 +3,27 @@
 
 #include "Headers/content.h"
 
-class Comment : private Content
+class Comment : public Content
 {
-private:
-    int postId;
-    int commentId;
-
 public:
-    void setPostId(int);
-    void setCommentId(int);
-    int getPostId() const;
-    int getCommentId() const;
+    explicit Comment(QObject *parent = nullptr);
+    ~Comment();
+
+    void insertComment();
+    void selectComment();
+    QVector<int> selectComments(int);
+
+    // Setters
+    void setCommentID(int);
+    void setPostID(int);
+
+    // Getters
+    int getCommentID() const;
+    int getPostID() const;
+
+private:
+    int commentID = false;
+    int postID = false;
 };
 
 #endif // COMMENT_H

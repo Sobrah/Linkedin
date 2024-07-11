@@ -1,7 +1,6 @@
 #ifndef LOGIN_H
 #define LOGIN_H
 
-#include <QThreadPool>
 #include <QWidget>
 
 namespace Ui {
@@ -17,20 +16,14 @@ public:
     ~Login();
 
 private:
-    void verificationButtonClicked();
+    bool verificationButtonClicked();
     void signButtonClicked();
-    bool initializeDatabase();
-    void sendEmail(QString &, QString &);
-    static QString fourRandomDigits();
 
     Ui::Login *ui;
-    QThreadPool *pool;
-    bool databaseStatus = false;
-    bool formLoginStatus = false;
+    bool formStatus = false;
 
 signals:
     void warnMessage(QString, QString);
-    void fieldsVerified(QString);
 };
 
 #endif // LOGIN_H

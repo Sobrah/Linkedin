@@ -1,16 +1,31 @@
 #include <QApplication>
-#include <QHBoxLayout>
+#include <Header>
 
-#include "Headers/splash.h"
-#include "Headers/window.h"
+QWidget *FRAME;
+Account *ACCOUNT;
+QThreadPool *POOL;
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    Window window;
-    window.layout()->addWidget(new Splash);
-    window.show();
+    // Initialize Window Frame
+    FRAME = new Window;
+    FRAME->show();
+
+    // Database Thread Pool
+    POOL = new QThreadPool(FRAME);
+    POOL->setMaxThreadCount(1);
+    POOL->setExpiryTimeout(-1);
+
+    // Initialize Database
+    POOL->start(initializeDatabase);
+
+    // Initialize User Account
+    ACCOUNT = new Account(FRAME);
+
+    // Initialize First Page
+    decideInitialPage();
 
     return app.exec();
 }

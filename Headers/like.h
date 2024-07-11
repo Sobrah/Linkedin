@@ -1,22 +1,35 @@
 #ifndef LIKE_H
 #define LIKE_H
 
-#include <QDateTime>
+#include <QObject>
+#include <QSqlQuery>
 
-class Like
+class Like : public QObject
 {
-private:
-    int whoLikedId;
-    int likeId;
-    QDateTime whenLiked;
+    Q_OBJECT
 
 public:
-    void setWhoLikedId(int);
-    void setLikeId(int);
-    void setWhenLiked(QDateTime);
-    int getWhoLikedId() const;
-    int getLikeId() const;
-    QDateTime getWhenLiked() const;
+    explicit Like(QObject * = nullptr);
+    ~Like();
+
+    void deleteLike(int);
+    void insertLike(int);
+    bool selectHasLike(int);
+
+    // Setters
+    void setLikeID(int);
+    void setWhoLikedID(int);
+    void setPostID(int);
+
+    // Getters
+    int getLikeID() const;
+    int getWhoLikedID() const;
+    int getPostID() const;
+
+private:
+    int likeID = false;
+    int whoLikedID = false;
+    int postID = false;
 };
 
 #endif // LIKE_H
