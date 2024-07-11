@@ -37,9 +37,12 @@ ViewProfile::ViewProfile(int accountID, QWidget *parent)
         // Skill
         ui->skillLabel->setText(account->getSkill());
     });
+
+    qDebug("View Profile Starts.");
 }
 
 ViewProfile::~ViewProfile()
 {
     delete ui;
+    qDebug("View Profile Ends.");
 }

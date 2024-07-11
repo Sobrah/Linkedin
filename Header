@@ -30,10 +30,12 @@
 #include <Headers/comment.h>
 #include <Headers/company.h>
 #include <Headers/content.h>
+#include <Headers/directmessage.h>
 #include <Headers/job.h>
 #include <Headers/like.h>
 #include <Headers/person.h>
 #include <Headers/post.h>
+#include <Headers/time.h>
 #include <Headers/utility.h>
 
 #endif

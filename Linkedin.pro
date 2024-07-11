@@ -5,6 +5,8 @@ CONFIG += c++17
 DEFINES += QT_DISABLE_DEPRECATED_BEFORE=6
 
 SOURCES += \
+    Sources/directmessage.cpp \
+    Sources/time.cpp \
     main.cpp \
     # Page Sources
     Sources/window.cpp \
@@ -40,6 +42,8 @@ SOURCES += \
 HEADERS += \
     Header \
     # Page Headers
+    Headers/directmessage.h \
+    Headers/time.h \
     Headers/window.h \
     Headers/splash.h \
     Headers/login.h \

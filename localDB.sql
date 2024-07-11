@@ -119,3 +119,22 @@ CREATE TABLE IF NOT EXISTS 'comments' (
 		ON UPDATE NO ACTION
 		ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS 'directMessages' (
+	'directMessageID' INTEGER PRIMARY KEY,
+	'contentID' INTEGER,
+	'senderID' INTEGER,
+	'receiverID' INTEGER,
+
+	FOREIGN KEY ('contentID') REFERENCES 'contents' ('contentID')
+		ON UPDATE NO ACTION
+		ON DELETE CASCADE
+
+	FOREIGN KEY ('senderID') REFERENCES 'accounts' ('accountID')
+		ON UPDATE NO ACTION
+		ON DELETE CASCADE
+
+	FOREIGN KEY ('receiverID') REFERENCES 'accounts' ('accountID')
+		ON UPDATE NO ACTION
+		ON DELETE CASCADE
+);
