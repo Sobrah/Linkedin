@@ -1,5 +1,4 @@
-#include "Headers/viewpost.h"
-#include "ui_viewpost.h"
+#include <Views>
 
 ViewPost::ViewPost(int postID, QWidget *parent)
     : QWidget(parent)
@@ -9,23 +8,46 @@ ViewPost::ViewPost(int postID, QWidget *parent)
 {
     ui->setupUi(this);
 
-    RUN(POOL, [=] {
-        post->setPostID(postID);
-        post->selectPost();
+    RUN(POOL,
+        // Load Account
+        [=] {
+            post->setPostID(postID);
+            post->selectPost();
 
-        account->setAccountID(post->getSenderID());
-        account->selectAccountBaseID();
-
-        Comment comment;
-        return comment.selectComments(post->getPostID());
-    }).then(this, [=](QVector<int> comments) {
-        ui->usernameLabel->setText(account->getUsername());
-        ui->postContentLabel->setText(post->getContentText());
-
-        foreach (auto comment, comments) {
-            ui->commentSectionLayout->addWidget(new ViewComment(comment));
-        }
-    });
+            account->setAccountID(post->getSenderID());
+            account->selectAccountBaseID();
+        })
+        // Account UI
+        .then(this,
+              [=] {
+                  ui->usernameLabel->setText(account->getUsername());
+                  ui->postContentLabel->setText(post->getContentText());
+              })
+        // Load Comments
+        .then(POOL,
+              [=] {
+                  Comment comment;
+                  return comment.selectComments(post->getPostID());
+              })
+        // Comment UI
+        .then(this,
+              [=](QVector<int> comments) {
+                  foreach (auto comment, comments) {
+                      ui->commentSectionLayout->addWidget(new ViewComment(comment));
+                  }
+              })
+        // Load Likes
+        .then(POOL,
+              [=] {
+                  Like like;
+                  return like.selectLikesBasePost(post->getPostID());
+              })
+        // Like UI
+        .then(this, [=](QVector<int> accountIDs) {
+            foreach (auto accountID, accountIDs) {
+                ui->likeSectionLayout->addWidget(new ViewLike(accountID));
+            }
+        });
 
     connect(ui->sendCommentButton, &QPushButton::clicked, this, &ViewPost::sendCommentButtonClicked);
 

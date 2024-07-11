@@ -1,0 +1,46 @@
+#ifndef VIEWS_H
+#define VIEWS_H
+
+#include <headers/collection.h>
+#include <headers/home.h>
+#include <headers/jobcandidate.h>
+#include <headers/jobcompany.h>
+#include <headers/jobperson.h>
+#include <headers/jobposition.h>
+#include <headers/login.h>
+#include <headers/me.h>
+#include <headers/networkcompany.h>
+#include <headers/networkperson.h>
+#include <headers/networkrequest.h>
+#include <headers/networksuggestion.h>
+#include <headers/profile.h>
+#include <headers/splash.h>
+#include <headers/verification.h>
+#include <headers/viewcomment.h>
+#include <headers/viewpost.h>
+#include <headers/viewprofile.h>
+#include <headers/window.h>
+#include <headers/viewlike.h>
+
+#include <ui_collection.h>
+#include <ui_home.h>
+#include <ui_jobcandidate.h>
+#include <ui_jobcompany.h>
+#include <ui_jobperson.h>
+#include <ui_jobposition.h>
+#include <ui_login.h>
+#include <ui_me.h>
+#include <ui_networkcompany.h>
+#include <ui_networkperson.h>
+#include <ui_networkrequest.h>
+#include <ui_networksuggestion.h>
+#include <ui_profile.h>
+#include <ui_splash.h>
+#include <ui_verification.h>
+#include <ui_viewcomment.h>
+#include <ui_viewpost.h>
+#include <ui_viewprofile.h>
+#include <ui_window.h>
+#include <ui_viewlike.h>
+
+#endif // VIEWS_H

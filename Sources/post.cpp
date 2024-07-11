@@ -1,6 +1,6 @@
 #include <QSqlQuery>
 #include <QVector>
-#include <Header>
+#include <Logics>
 
 Post::Post(QObject *parent)
     : Content(parent)
@@ -83,12 +83,12 @@ void Post::updateRepost()
     repostCounter++;
 }
 
-QVector<int> Post::selectAccountPosts(int)
+QVector<int> Post::selectAccountPosts(int accountID)
 {
     QSqlQuery query;
     query.prepare("SELECT postID FROM posts JOIN contents USING(contentID) "
                   "WHERE senderID = ? ORDER BY postID DESC");
-    query.addBindValue(ACCOUNT->getAccountID());
+    query.addBindValue(accountID);
     query.exec();
 
     QVector<int> posts;

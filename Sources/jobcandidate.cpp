@@ -1,6 +1,6 @@
 #include "Headers/jobcandidate.h"
 #include "ui_jobcandidate.h"
-#include <Header>
+#include <Logics>
 
 JobCandidate::JobCandidate(int jobRequestID, QWidget *parent)
     : QWidget(parent)

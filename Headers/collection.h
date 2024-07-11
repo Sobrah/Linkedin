@@ -2,9 +2,7 @@
 #define COLLECTION_H
 
 #include <QWidget>
-#include "Headers/account.h"
-#include "Headers/like.h"
-#include "Headers/post.h"
+#include <Logics>
 
 namespace Ui {
 class Collection;
@@ -22,7 +20,6 @@ private:
     void followButtonClicked();
     void repostButtonClicked();
     void likeButtonClicked();
-    void viewProfileButtonClicked();
 
     Ui::Collection *ui;
     Post *post;

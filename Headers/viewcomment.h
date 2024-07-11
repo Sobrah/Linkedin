@@ -2,8 +2,7 @@
 #define VIEWCOMMENT_H
 
 #include <QWidget>
-#include <Header>
-#include <Headers/comment.h>
+#include <Logics>
 
 namespace Ui {
 class ViewComment;

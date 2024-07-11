@@ -1,0 +1,14 @@
+#ifndef LOGICS_H
+#define LOGICS_H
+
+#include <headers/account.h>
+#include <headers/comment.h>
+#include <headers/company.h>
+#include <headers/content.h>
+#include <headers/job.h>
+#include <headers/like.h>
+#include <headers/person.h>
+#include <headers/post.h>
+#include <headers/utility.h>
+
+#endif // LOGICS_H

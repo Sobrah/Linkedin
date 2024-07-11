@@ -2,7 +2,7 @@
 #define VIEWPOST_H
 
 #include <QWidget>
-#include <Header>
+#include <Logics>
 
 namespace Ui {
 class ViewPost;

@@ -4,7 +4,7 @@
 #include <QSqlQuery>
 #include <QThreadPool>
 #include <QtConcurrentRun>
-#include <Header>
+#include <Logics>
 
 #define RUN QtConcurrent::run
 

@@ -18,7 +18,6 @@ public:
 
 private:
     Ui::ViewProfile *ui;
-
     Account *account;
 };
 

@@ -1,7 +1,6 @@
-#include "Headers/collection.h"
 #include <QMessageBox>
-#include "ui_collection.h"
-#include <Header>
+#include <Logics>
+#include <Views>
 
 Collection::Collection(int postID, QWidget *container, QWidget *parent)
     : QWidget(parent)
@@ -11,11 +10,6 @@ Collection::Collection(int postID, QWidget *container, QWidget *parent)
 {
     ui->setupUi(this);
 
-    // View Profile Button Clicked
-    connect(ui->viewProfileButton,
-            &QPushButton::clicked,
-            this,
-            &Collection::viewProfileButtonClicked);
     RUN(POOL, [=] {
         // Post Information
         post->setPostID(postID);
@@ -75,6 +69,11 @@ Collection::Collection(int postID, QWidget *container, QWidget *parent)
     // See More Button Clicked
     connect(ui->seeMoreButton, &QPushButton::clicked, this, [=] {
         changePage(new ViewPost(postID), container);
+    });
+
+    // View Profile Button Clicked
+    connect(ui->viewProfileButton, &QPushButton::clicked, this, [=] {
+        changePage(new ViewProfile(account->getAccountID()), container);
     });
 
     // Repost Button Clicked
@@ -155,10 +154,4 @@ void Collection::likeButtonClicked()
         // Like Status
         ui->likeButton->setText(likeStatus[hasLike]);
     });
-}
-
-void Collection::viewProfileButtonClicked()
-{
-    int accountID = account->getAccountID();
-    changePage(new ViewProfile(accountID), FRAME);
 }

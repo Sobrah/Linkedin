@@ -1,7 +1,7 @@
 #ifndef PERSON_H
 #define PERSON_H
 
-#include <Header>
+#include "headers/account.h"
 
 class Person : public Account
 {

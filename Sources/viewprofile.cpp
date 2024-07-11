@@ -1,7 +1,4 @@
-#include "Headers/viewprofile.h"
-#include <QSqlQuery>
-#include "ui_viewprofile.h"
-#include <Headers/utility.h>
+#include <Views>
 
 ViewProfile::ViewProfile(int accountID, QWidget *parent)
     : QWidget(parent)
@@ -14,7 +11,10 @@ ViewProfile::ViewProfile(int accountID, QWidget *parent)
         // Account Information
         account->setAccountID(accountID);
         account->selectAccountBaseID();
-    }).then(this, [=] {
+
+        Post post;
+        return post.selectAccountPosts(accountID);
+    }).then(this, [=](QVector<int> posts) {
         if (account->getIsCompany()) {
             // Company Name
             ui->nameTitleLabel->setText("Company Name");
@@ -36,10 +36,18 @@ ViewProfile::ViewProfile(int accountID, QWidget *parent)
 
         // Skill
         ui->skillLabel->setText(account->getSkill());
+
+        foreach (auto postID, posts) {
+            ui->postContentsLayout->addWidget(new Collection(postID, parentWidget()));
+        }
     });
+
+    qDebug("View Profile Ends.");
 }
 
 ViewProfile::~ViewProfile()
 {
     delete ui;
+    delete account;
+    qDebug("View Profile Ends.");
 }

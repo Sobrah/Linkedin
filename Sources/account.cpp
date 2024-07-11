@@ -1,6 +1,5 @@
-#include "Headers/account.h"
 #include <QSqlQuery>
-#include <Header>
+#include <Logics>
 
 Account::Account(QObject *parent)
     : QObject(parent)

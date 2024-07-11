@@ -15,6 +15,7 @@ public:
     void deleteLike(int);
     void insertLike(int);
     bool selectHasLike(int);
+    QVector<int> selectLikesBasePost(int);
 
     // Setters
     void setLikeID(int);

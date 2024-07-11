@@ -1,5 +1,5 @@
 #include <QSqlQuery>
-#include <Header>
+#include <Logics>
 
 Like::Like(QObject *parent)
     : QObject(parent)
@@ -43,6 +43,22 @@ bool Like::selectHasLike(int postID)
     }
 
     return false;
+}
+
+QVector<int> Like::selectLikesBasePost(int postID)
+{
+    QSqlQuery query;
+    query.prepare("SELECT whoLikedID FROM likes WHERE postID = ?");
+    query.addBindValue(postID);
+    query.exec();
+
+    QVector<int> accounts;
+
+    while (query.next()) {
+        accounts.append(query.value("whoLikedID").toInt());
+    }
+
+    return accounts;
 }
 
 void Like::setLikeID(int likeID)

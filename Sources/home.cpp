@@ -1,6 +1,5 @@
 #include <QScrollBar>
-#include "ui_home.h"
-#include <Header>
+#include <Views>
 
 Home::Home(QWidget *parent)
     : QWidget(parent)

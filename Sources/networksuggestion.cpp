@@ -1,6 +1,5 @@
 #include <QMessageBox>
-#include "ui_networksuggestion.h"
-#include <Header>
+#include <Views>
 
 NetworkSuggestion::NetworkSuggestion(int accountID, QWidget *parent)
     : QWidget(parent)
