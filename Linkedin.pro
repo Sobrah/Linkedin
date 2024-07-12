@@ -6,6 +6,16 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=6
 
 SOURCES += \
     Sources/account.cpp \
+    Sources/directmessage.cpp \
+    Sources/time.cpp \
+    main.cpp \
+    # Page Sources
+    Sources/window.cpp \
+    Sources/splash.cpp \
+    Sources/login.cpp \
+    Sources/verification.cpp \
+    Sources/profile.cpp \
+    Sources/home.cpp \
     Sources/collection.cpp \
     Sources/comment.cpp \
     Sources/company.cpp \
@@ -38,6 +48,16 @@ SOURCES += \
 
 HEADERS += \
     Headers/account.h \
+    Header \
+    # Page Headers
+    Headers/directmessage.h \
+    Headers/time.h \
+    Headers/window.h \
+    Headers/splash.h \
+    Headers/login.h \
+    Headers/verification.h \
+    Headers/profile.h \
+    Headers/home.h \
     Headers/collection.h \
     Headers/comment.h \
     Headers/company.h \
