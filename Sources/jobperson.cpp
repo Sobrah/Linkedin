@@ -16,15 +16,15 @@ JobPerson::JobPerson(QWidget *parent)
             maximum = jobsNumber;
         }
 
-        for (; index < maximum; index++) {
-            ui->jobsScrollContents->layout()->addWidget(new JobPosition(index));
+        for (; offset < maximum; offset++) {
+            ui->jobLayout->insertWidget(offset, new JobPosition(offset));
         }
     });
 
     // Show All Jobs
     connect(ui->showAllButton, &QPushButton::clicked, this, [=] {
-        for (; index < jobsNumber; index++) {
-            ui->jobsScrollContents->layout()->addWidget(new JobPosition(index));
+        for (; offset < jobsNumber; offset++) {
+            ui->jobLayout->insertWidget(offset, new JobPosition(offset));
         }
     });
 

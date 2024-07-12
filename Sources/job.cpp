@@ -131,12 +131,12 @@ void Job::deleteRequest()
 int Job::selectJobsNumber() const
 {
     QSqlQuery query;
-    query.prepare("SELECT COUNT() FROM jobs WHERE skill = ?");
+    query.prepare("SELECT COUNT(*) FROM jobs WHERE skill = ?");
     query.addBindValue(ACCOUNT->getSkill());
     query.exec();
     query.first();
 
-    return query.value("COUNT()").toInt();
+    return query.value("COUNT").toInt();
 }
 
 QVector<int> Job::selectJobRequests()

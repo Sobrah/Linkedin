@@ -6,29 +6,47 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>100</width>
-    <height>56</height>
+    <width>195</width>
+    <height>54</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,1">
    <item>
-    <widget class="QLabel" name="usernameLabel">
-     <property name="text">
-      <string>Username</string>
+    <widget class="QGroupBox" name="usernameGroup">
+     <property name="title">
+      <string/>
      </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="usernameLabel">
+        <property name="text">
+         <string>Username</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="commentTextLabel">
-     <property name="text">
-      <string>Comment Text</string>
+    <widget class="QGroupBox" name="commentGroup">
+     <property name="title">
+      <string/>
      </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QLabel" name="commentTextLabel">
+        <property name="text">
+         <string>Comment Text</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

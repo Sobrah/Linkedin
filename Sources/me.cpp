@@ -1,7 +1,5 @@
-#include "Headers/me.h"
-#include <QSqlQuery>
-#include "Headers/utility.h"
-#include "ui_me.h"
+#include <QStyleFactory>
+#include <Views>
 
 Me::Me(QWidget *parent)
     : QWidget(parent)
@@ -10,11 +8,22 @@ Me::Me(QWidget *parent)
     ui->setupUi(this);
 
     // Initialize Information
-    POOL->start([=] { queryInformation(); });
+    ui->firstNameLabel->setText(ACCOUNT->getFirstName());
+    ui->lastNameLabel->setText(ACCOUNT->getLastName());
+    ui->usernameLabel->setText(ACCOUNT->getLastName());
+    ui->skillLabel->setText(ACCOUNT->getSkill());
+    ui->biographyEdit->setText(ACCOUNT->getBiography());
+
+    ui->styleCombo->addItems(QStyleFactory::keys());
 
     // Save Button Clicked
     connect(ui->saveButton, &QPushButton::clicked, this, [=] {
         POOL->start([=] { saveButtonClicked(); });
+    });
+
+    // Apply Style Button Clicked
+    connect(ui->applyStyleButton, &QPushButton::clicked, this, [=] {
+        QApplication::setStyle(QStyleFactory::create(ui->styleCombo->currentText()));
     });
 
     qDebug("Me Starts.");
@@ -26,24 +35,11 @@ Me::~Me()
     qDebug("Me Ends.");
 }
 
-void Me::queryInformation()
-{
-    QSqlQuery query;
-    query.prepare("SELECT * FROM accounts WHERE accountID = ?");
-    query.addBindValue(ACCOUNT->getAccountID());
-    query.exec();
-    query.first();
-
-    ui->usernameLabel->setText(query.value("username").toString());
-    ui->skillLabel->setText(query.value("skill").toString());
-    ui->bioEdit->setPlainText(query.value("bio").toString());
-}
-
 void Me::saveButtonClicked()
 {
-    const QString bio = ui->bioEdit->toPlainText();
+    const QString bio = ui->biographyEdit->text();
     QSqlQuery query;
-    query.prepare("UPDATE accounts SET bio = ? WHERE accountID = ?");
+    query.prepare("UPDATE accounts SET biography = ? WHERE accountID = ?");
     query.addBindValue(bio);
     query.addBindValue(ACCOUNT->getAccountID());
     query.exec();

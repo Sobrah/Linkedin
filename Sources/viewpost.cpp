@@ -69,5 +69,10 @@ void ViewPost::sendCommentButtonClicked()
         comment.setContentText(ui->commentTextEdit->text());
         comment.setPostID(post->getPostID());
         comment.insertComment();
-    }).then(this, [=] { ui->commentTextEdit->clear(); });
+
+        return comment.getCommentID();
+    }).then(this, [=](int commentID) {
+        ui->commentTextEdit->clear();
+        ui->commentSectionLayout->insertWidget(2, new ViewComment(commentID));
+    });
 }

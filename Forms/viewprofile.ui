@@ -100,7 +100,7 @@
         <x>0</x>
         <y>0</y>
         <width>91</width>
-        <height>69</height>
+        <height>109</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="postContentsLayout">
@@ -109,7 +109,23 @@
          <property name="text">
           <string>Posts</string>
          </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>

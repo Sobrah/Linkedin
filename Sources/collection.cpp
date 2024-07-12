@@ -76,6 +76,11 @@ Collection::Collection(int postID, QWidget *container, QWidget *parent)
         changePage(new ViewPost(postID), container);
     });
 
+    // Comment Button Clicked
+    connect(ui->commentButton, &QPushButton::clicked, this, [=] {
+        changePage(new ViewPost(postID), container);
+    });
+
     // View Profile Button Clicked
     connect(ui->viewProfileButton, &QPushButton::clicked, this, [=] {
         changePage(new ViewProfile(account->getAccountID()), container);

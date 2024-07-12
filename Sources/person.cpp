@@ -1,7 +1,6 @@
 #include <QSqlError>
 #include <QSqlQuery>
-
-#include "Headers/person.h"
+#include <Logics>
 
 Person::Person(const Account *account, QString firstName, QString lastName)
     : firstName(firstName)
@@ -9,7 +8,7 @@ Person::Person(const Account *account, QString firstName, QString lastName)
 {
     QSqlQuery query;
     query.prepare("INSERT INTO accounts (username, password, email, phonenumber, skill, firstname, "
-                  "lastname, iscompany) VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING accountid");
+                  "lastname, iscompany) VALUES (?, ?, ?, ?, ?, ?, ?, ?) RETURNING accountID");
     query.addBindValue(account->getUsername());
     query.addBindValue(account->getPassword());
     query.addBindValue(account->getEmail());

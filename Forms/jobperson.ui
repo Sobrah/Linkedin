@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>100</width>
-    <height>195</height>
+    <height>111</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -31,11 +31,11 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>80</width>
-        <height>123</height>
+        <width>93</width>
+        <height>52</height>
        </rect>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <layout class="QVBoxLayout" name="jobLayout">
        <item>
         <spacer name="spacer">
          <property name="orientation">
@@ -49,15 +49,15 @@
          </property>
         </spacer>
        </item>
+       <item>
+        <widget class="QPushButton" name="showAllButton">
+         <property name="text">
+          <string>Show All</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="showAllButton">
-     <property name="text">
-      <string>Show All</string>
-     </property>
     </widget>
    </item>
   </layout>

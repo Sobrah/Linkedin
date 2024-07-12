@@ -17,7 +17,7 @@ public:
 
 private:
     Ui::JobPerson *ui;
-    int index = false;
+    int offset = false;
     int jobsNumber = false;
 };
 

@@ -273,7 +273,7 @@ bool Account::getIsCompany() const
     return isCompany;
 }
 
-QString Account::getBio() const
+QString Account::getBiography() const
 {
     return biography;
 }

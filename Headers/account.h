@@ -46,7 +46,7 @@ public:
     QString getFirstName() const;
     QString getLastName() const;
     bool getIsCompany() const;
-    QString getBio() const;
+    QString getBiography() const;
 
 protected:
     int accountID = false;

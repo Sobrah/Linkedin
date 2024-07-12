@@ -16,7 +16,6 @@ public:
     ~Me();
 
 private:
-    void queryInformation();
     void saveButtonClicked();
 
     Ui::Me *ui;

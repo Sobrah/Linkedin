@@ -4,14 +4,14 @@
 JobPosition::JobPosition(int index, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::JobPosition)
-    , job(new Job(this))
+    , job(new Job)
 {
     ui->setupUi(this);
 
     RUN(POOL, [=] {
         job->selectInformation(index);
         job->selectRequest();
-    }).then(FRAME, [=] { setInformation(); });
+    }).then(this, [=] { setInformation(); });
 
     connect(ui->statusButton, &QPushButton::clicked, this, [=] {
         POOL->start([=] { statusButtonClicked(); });
@@ -23,6 +23,7 @@ JobPosition::JobPosition(int index, QWidget *parent)
 JobPosition::~JobPosition()
 {
     delete ui;
+    delete job;
     qDebug("Job Position Ends.");
 }
 

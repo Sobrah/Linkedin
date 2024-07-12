@@ -7,43 +7,104 @@
     <x>0</x>
     <y>0</y>
     <width>251</width>
-    <height>200</height>
+    <height>285</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="2">
-    <widget class="QGroupBox" name="postGroup">
-     <property name="title">
-      <string>Post</string>
+   <item row="3" column="0">
+    <widget class="QScrollArea" name="commentArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <widget class="QLabel" name="usernameLabel">
-        <property name="text">
-         <string>Username</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="postContentLabel">
-        <property name="text">
-         <string>Post Content</string>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QWidget" name="commentContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>113</width>
+        <height>83</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="commentSectionLayout">
+       <item>
+        <widget class="QLabel" name="commentSectionLabel">
+         <property name="text">
+          <string>Comment Section</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2">
+   <item row="3" column="1">
+    <widget class="QScrollArea" name="likeArea">
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="likeContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>110</width>
+        <height>83</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="likeSectionLayout">
+       <item>
+        <widget class="QLabel" name="likeSectionLabel">
+         <property name="text">
+          <string>Like Section</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
     <widget class="QGroupBox" name="addCommentGroup">
      <property name="title">
       <string>Add Comment</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
@@ -59,32 +120,41 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="1">
-    <widget class="QGroupBox" name="likeGroup">
+   <item row="1" column="0" colspan="2">
+    <widget class="QGroupBox" name="contentGroup">
      <property name="title">
-      <string/>
+      <string>Content</string>
      </property>
-     <layout class="QVBoxLayout" name="likeSectionLayout">
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QLabel" name="likeSectionLabel">
+       <widget class="QLabel" name="postContentLabel">
         <property name="text">
-         <string>Like Section</string>
+         <string>Post Content</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="2" column="0">
-    <widget class="QGroupBox" name="commentGroup">
+   <item row="0" column="0" colspan="2">
+    <widget class="QGroupBox" name="usernameGroup">
      <property name="title">
-      <string/>
+      <string>Username</string>
      </property>
-     <layout class="QVBoxLayout" name="commentSectionLayout">
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QLabel" name="commentSectionLabel">
+       <widget class="QLabel" name="usernameLabel">
         <property name="text">
-         <string>Comment Section</string>
+         <string>Username</string>
         </property>
        </widget>
       </item>
