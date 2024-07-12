@@ -16,12 +16,7 @@ public:
     ~NetworkCompany();
 
 private:
-    void selectConnections();
-
     Ui::NetworkCompany *ui;
-
-signals:
-    void addConnection(const QString &);
 };
 
 #endif // NETWORKCOMPANY_H

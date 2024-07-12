@@ -42,5 +42,5 @@ void NetworkSuggestion::connectButtonClicked()
 void NetworkSuggestion::viewProfileButtonClicked()
 {
     int accountID = account->getAccountID();
-    changePage(new ViewProfile(accountID), FRAME);
+    changePage(new ViewProfile(accountID), parentWidget()->parentWidget());
 }

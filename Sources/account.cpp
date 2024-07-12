@@ -79,7 +79,7 @@ void Account::deleteConnection(int followingID)
 QVector<int> Account::selectConnectionRequests()
 {
     QSqlQuery query;
-    query.prepare("SELECT followerID FROM connectionRequests WHERE followingID = ?");
+    query.prepare("SELECT DISTINCT followerID FROM connectionRequests WHERE followingID = ?");
     query.addBindValue(ACCOUNT->getAccountID());
     query.exec();
 
@@ -116,7 +116,7 @@ QVector<int> Account::selectConnectionSuggestions(int limit)
     query.prepare(
         "SELECT accountID FROM accounts "
         "WHERE accountID NOT IN (SELECT followingID FROM connections WHERE followerID = ?) "
-        "AND NOT accountID = ? ORDER BY CASE "
+        "AND NOT accountID = ? AND isCompany = FALSE ORDER BY CASE "
         "WHEN accountID IN (SELECT followingID FROM connections WHERE followerID IN "
         "(SELECT followingID FROM connections WHERE followerID = ?)) THEN 1 "
         "WHEN skill = ? THEN 2 "
@@ -146,6 +146,22 @@ int Account::selectAccountIDBaseUsername(QString username)
     query.first();
 
     return query.value("accountID").toInt();
+}
+
+QVector<int> Account::selectFollowers()
+{
+    QSqlQuery query;
+    query.prepare("SELECT followerID FROM connections WHERE followingID = ?");
+    query.addBindValue(ACCOUNT->getAccountID());
+    query.exec();
+
+    QVector<int> followers;
+
+    while (query.next()) {
+        followers.append(query.value("followerID").toInt());
+    }
+
+    return followers;
 }
 
 void Account::setAccount(const QSqlQuery &query)

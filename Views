@@ -13,6 +13,7 @@
 #include <headers/networkperson.h>
 #include <headers/networkrequest.h>
 #include <headers/networksuggestion.h>
+#include <headers/networkfollower.h>
 #include <headers/profile.h>
 #include <headers/splash.h>
 #include <headers/verification.h>
@@ -31,6 +32,7 @@
 #include <ui_login.h>
 #include <ui_me.h>
 #include <ui_networkcompany.h>
+#include <ui_networkfollower.h>
 #include <ui_networkperson.h>
 #include <ui_networkrequest.h>
 #include <ui_networksuggestion.h>

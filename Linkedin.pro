@@ -22,6 +22,7 @@ SOURCES += \
     Sources/main.cpp \
     Sources/me.cpp \
     Sources/networkcompany.cpp \
+    Sources/networkfollower.cpp \
     Sources/networkperson.cpp \
     Sources/networkrequest.cpp \
     Sources/networksuggestion.cpp \
@@ -55,6 +56,7 @@ HEADERS += \
     Headers/login.h \
     Headers/me.h \
     Headers/networkcompany.h \
+    Headers/networkfollower.h \
     Headers/networkperson.h \
     Headers/networkrequest.h \
     Headers/networksuggestion.h \
@@ -83,6 +85,7 @@ FORMS += \
     Forms/login.ui \
     Forms/me.ui \
     Forms/networkcompany.ui \
+    Forms/networkfollower.ui \
     Forms/networkperson.ui \
     Forms/networkrequest.ui \
     Forms/networksuggestion.ui \
@@ -93,7 +96,7 @@ FORMS += \
     Forms/viewlike.ui \
     Forms/viewpost.ui \
     Forms/viewprofile.ui \
-    Forms/window.ui
+    Forms/window.ui \
 
 RESOURCES += \
     Resources/assets.qrc

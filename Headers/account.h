@@ -22,6 +22,7 @@ public:
     void deleteConnectionRequest(int);
     QVector<int> selectConnectionSuggestions(int);
     int selectAccountIDBaseUsername(QString);
+    QVector<int> selectFollowers();
 
     // Setters
     void setAccountID(int);

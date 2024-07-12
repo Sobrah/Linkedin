@@ -102,25 +102,38 @@ Collection::~Collection()
 void Collection::followButtonClicked()
 {
     RUN(POOL, [=] {
+        bool connectionRequest = false;
+
         if (hasConnection) {
             ACCOUNT->deleteConnection(account->getAccountID());
             hasConnection = false;
-            return;
-        }
-
-        if (account->getIsCompany()) {
-            ACCOUNT->insertConnection(account->getAccountID());
-            hasConnection = true;
         }
 
         else {
-            ACCOUNT->insertConnectionRequest(account->getAccountID());
+            if (account->getIsCompany()) {
+                ACCOUNT->insertConnection(account->getAccountID());
+                hasConnection = true;
+            }
+
+            else {
+                ACCOUNT->insertConnectionRequest(account->getAccountID());
+                connectionRequest = true;
+            }
         }
-    }).then(this, [=] {
+
+        return connectionRequest;
+    }).then(this, [=](bool connectionRequest) {
         // Connection Status
         if (account->getIsCompany()) {
             ui->followButton->setText(followingStatus[hasConnection]);
-        } else {
+            return;
+        }
+
+        else {
+            ui->followButton->setText(connectionStatus[hasConnection]);
+        }
+
+        if (connectionRequest) {
             QMessageBox::warning(this, "Connection Request", "Connection Is Sent.");
         }
     });
