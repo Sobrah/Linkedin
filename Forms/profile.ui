@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>871</width>
-    <height>600</height>
+    <width>888</width>
+    <height>629</height>
    </rect>
   </property>
   <property name="styleSheet">
@@ -94,6 +94,9 @@ QGroupBox *:focus {
          <italic>true</italic>
          <bold>true</bold>
         </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="styleSheet">
         <string notr="true"/>
@@ -479,6 +482,9 @@ QGroupBox *:focus {
           <italic>true</italic>
           <bold>true</bold>
          </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="text">
          <string>Submit</string>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>277</width>
-    <height>325</height>
+    <width>340</width>
+    <height>348</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,2">
@@ -24,8 +24,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>77</width>
-        <height>305</height>
+        <width>96</width>
+        <height>324</height>
        </rect>
       </property>
       <layout class="QVBoxLayout">
@@ -352,6 +352,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="createJobButton">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
         <property name="text">
          <string>Create</string>
         </property>

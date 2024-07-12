@@ -17,8 +17,8 @@ Login::Login(QWidget *parent)
         QMessageBox box;
         QMessageBox::warning(&box, title, text);
         ui->captchaLabel->setText(captchaCode());
-        ui->passwordLabel->setText("");
-        ui->codeLabel->setText("");
+        ui->passwordLabel->clear();
+        ui->codeLabel->clear();
     });
 
     // Verification Button Clicked
@@ -111,10 +111,10 @@ void Login::signButtonClicked()
                                     "Stay Updated On Your Professional World."};
 
     // Reset Fields
-    ui->emailLabel->setText("");
-    ui->usernameLabel->setText("");
-    ui->passwordLabel->setText("");
-    ui->codeLabel->setText("");
+    ui->emailLabel->clear();
+    ui->usernameLabel->clear();
+    ui->passwordLabel->clear();
+    ui->codeLabel->clear();
     ui->captchaLabel->setText(captchaCode());
 
     // Change Invitation Parts

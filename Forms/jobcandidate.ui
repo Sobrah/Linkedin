@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>285</width>
-    <height>42</height>
+    <width>351</width>
+    <height>51</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,6 +36,9 @@
    </item>
    <item>
     <widget class="QPushButton" name="acceptButton">
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="text">
       <string>Accept</string>
      </property>
@@ -43,6 +46,9 @@
    </item>
    <item>
     <widget class="QPushButton" name="ignoreButton">
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="text">
       <string>Ignore</string>
      </property>
