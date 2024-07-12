@@ -33,3 +33,8 @@ QString Person::getLastName() const
 {
     return lastName;
 }
+
+QString Person::getSkill() const
+{
+    return skill;
+}

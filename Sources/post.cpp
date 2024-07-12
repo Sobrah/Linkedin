@@ -129,3 +129,13 @@ bool Post::getIsReposted() const
 {
     return isReposted;
 }
+
+QVector<Like> Post::getPostLikes() const
+{
+    return postLikes;
+}
+
+QVector<Comment> Post::getPostComments() const
+{
+    return postComments;
+}

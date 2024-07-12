@@ -25,3 +25,18 @@ QString Company::getName() const
 {
     return name;
 }
+
+QVector<Job> Company::getCompanyJobs() const
+{
+    return companyJobs;
+}
+
+QVector<Person> Company::getCompanyEmployees() const
+{
+    return companyEmployees;
+}
+
+QVector<Person> Company::getCompanyFollowings() const
+{
+    return companyFollowings;
+}

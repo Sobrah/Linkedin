@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QSqlQuery>
+#include "Headers/time.h"
 
 class Like : public QObject
 {
@@ -27,11 +28,13 @@ public:
     int getLikeID() const;
     int getWhoLikedID() const;
     int getPostID() const;
+    Time getTimeLiked() const;
 
 private:
     int likeID = false;
     int whoLikedID = false;
     int postID = false;
+    Time timeLiked;
 };
 
 #endif // LIKE_H

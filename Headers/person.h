@@ -11,10 +11,12 @@ public:
     // Getters
     QString getFirstName() const;
     QString getLastName() const;
+    QString getSkill() const;
 
 private:
     QString firstName;
     QString lastName;
+    QString skill;
 };
 
 #endif // PERSON_H

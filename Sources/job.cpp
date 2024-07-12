@@ -231,6 +231,11 @@ void Job::setType(const QString &type)
     this->type = type;
 }
 
+void Job::setSalary(double salary)
+{
+    this->salary = salary;
+}
+
 void Job::setCompanyName(const QString &companyName)
 {
     this->companyName = companyName;
@@ -279,6 +284,11 @@ QString Job::getLocation() const
 QString Job::getType() const
 {
     return type;
+}
+
+double Job::getSalary() const
+{
+    return salary;
 }
 
 QString Job::getCompanyName() const

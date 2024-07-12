@@ -101,3 +101,8 @@ int Like::getPostID() const
 {
     return postID;
 }
+
+Time Like::getTimeLiked() const
+{
+    return timeLiked;
+}

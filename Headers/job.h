@@ -33,6 +33,7 @@ public:
     void setWorkplaceType(const QString &);
     void setLocation(const QString &);
     void setType(const QString &);
+    void setSalary(double);
     void setCompanyName(const QString &);
     void setIsRequested(bool);
     void setIsAccepted(bool);
@@ -45,6 +46,7 @@ public:
     QString getWorkplaceType() const;
     QString getLocation() const;
     QString getType() const;
+    double getSalary() const;
     QString getCompanyName() const;
     bool getIsRequested() const;
     bool getIsAccepted() const;
@@ -57,6 +59,7 @@ private:
     QString workplaceType;
     QString location;
     QString type;
+    double salary;
 
     QString companyName;
     bool isRequested = false;
