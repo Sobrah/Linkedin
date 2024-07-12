@@ -1,4 +1,4 @@
-#include <Header>
+#include <Logics>
 
 Comment::Comment(QObject *parent)
     : Content(parent)

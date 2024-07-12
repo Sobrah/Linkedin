@@ -1,6 +1,5 @@
-#include "Headers/comment.h"
-#include "ui_viewcomment.h"
-#include <Header>
+#include <Logics>
+#include <Views>
 
 ViewComment::ViewComment(int commentID, QWidget *parent)
     : QWidget(parent)

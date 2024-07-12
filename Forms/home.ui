@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>617</width>
-    <height>452</height>
+    <width>685</width>
+    <height>442</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,26 +19,11 @@
 }
 </string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
-   <property name="spacing">
-    <number>15</number>
-   </property>
-   <property name="leftMargin">
-    <number>15</number>
-   </property>
-   <property name="topMargin">
-    <number>15</number>
-   </property>
-   <property name="rightMargin">
-    <number>15</number>
-   </property>
-   <property name="bottomMargin">
-    <number>15</number>
-   </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,1">
    <item>
     <widget class="QGroupBox" name="navigationGroup">
      <property name="title">
-      <string>Navigation</string>
+      <string/>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -179,7 +164,7 @@
      <property name="checkable">
       <bool>false</bool>
      </property>
-     <layout class="QHBoxLayout" stretch="3,2">
+     <layout class="QHBoxLayout" name="containerLayout" stretch="3,2">
       <property name="spacing">
        <number>15</number>
       </property>
@@ -208,11 +193,14 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>340</width>
-           <height>328</height>
+           <width>388</width>
+           <height>355</height>
           </rect>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
+         <layout class="QVBoxLayout" name="postContentsLayout">
+          <property name="spacing">
+           <number>20</number>
+          </property>
           <item>
            <spacer name="verticalSpacer">
             <property name="orientation">
@@ -247,8 +235,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>228</width>
-           <height>270</height>
+           <width>260</width>
+           <height>297</height>
           </rect>
          </property>
          <attribute name="label">
@@ -283,8 +271,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>100</width>
-           <height>30</height>
+           <width>260</width>
+           <height>297</height>
           </rect>
          </property>
          <attribute name="label">

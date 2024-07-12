@@ -7,11 +7,7 @@
 #include <QNetworkReply>
 #include <QProcessEnvironment>
 #include <QValidator>
-
-#include "Headers/profile.h"
-#include "Headers/utility.h"
-#include "Headers/verification.h"
-#include "ui_verification.h"
+#include <Views>
 
 Verification::Verification(bool formStatus, QWidget *parent)
     : QWidget(parent)

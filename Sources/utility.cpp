@@ -7,7 +7,8 @@
 #include <QThreadPool>
 #include <QWidget>
 #include <QtMath>
-#include <Header>
+#include <Logics>
+#include <Views>
 
 void initializeDatabase()
 {

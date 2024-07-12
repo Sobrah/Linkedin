@@ -10,5 +10,7 @@
 #include <headers/person.h>
 #include <headers/post.h>
 #include <headers/utility.h>
+#include <headers/time.h>
+#include <headers/directmessage.h>
 
 #endif // LOGICS_H

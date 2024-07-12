@@ -21,6 +21,7 @@ public:
     void insertConnectionRequest(int);
     void deleteConnectionRequest(int);
     QVector<int> selectConnectionSuggestions(int);
+    int selectAccountIDBaseUsername(QString);
 
     // Setters
     void setAccountID(int);
@@ -32,7 +33,7 @@ public:
     void setFirstName(const QString &);
     void setLastName(const QString &);
     void setIsCompany(const bool);
-    void setBio(const QString &);
+    void setBiography(const QString &);
 
     // Getters
     int getAccountID() const;
@@ -56,7 +57,7 @@ protected:
     QString firstName;
     QString lastName;
     bool isCompany;
-    QString bio;
+    QString biography;
 
 private:
     void setAccount(const QSqlQuery &);

@@ -1,5 +1,5 @@
-#include "ui_jobcompany.h"
-#include <Header>
+#include <Logics>
+#include <Views>
 
 JobCompany::JobCompany(QWidget *parent)
     : QWidget(parent)

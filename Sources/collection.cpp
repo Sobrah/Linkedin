@@ -23,6 +23,11 @@ Collection::Collection(int postID, QWidget *container, QWidget *parent)
         // Like Status
         hasLike = like->selectHasLike(post->getPostID());
 
+        // Like Counter
+        Like like;
+        auto likeCounter = like.selectCountPostLikes(postID);
+        ui->likeCounterLabel->setText(QString::number(likeCounter));
+
         // Suggested Tag
         hasConnection = ACCOUNT->selectHasConnection(senderID);
     }).then(this, [=] {
@@ -142,16 +147,21 @@ void Collection::repostButtonClicked()
 
 void Collection::likeButtonClicked()
 {
-    RUN(POOL, [=] {
+    POOL->start([=] {
+        auto counter = ui->likeCounterLabel->text().toInt();
+
         if (hasLike) {
             like->deleteLike(post->getPostID());
             hasLike = false;
+            --counter;
         } else {
             like->insertLike(post->getPostID());
             hasLike = true;
+            ++counter;
         }
-    }).then([=] {
+
         // Like Status
         ui->likeButton->setText(likeStatus[hasLike]);
+        ui->likeCounterLabel->setText(QString::number(counter));
     });
 }

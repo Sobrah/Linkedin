@@ -1,5 +1,5 @@
-#include "ui_networkrequest.h"
-#include <Header>
+#include <Logics>
+#include <Views>
 
 NetworkRequest::NetworkRequest(int followerID, QWidget *parent)
     : QWidget(parent)

@@ -1,5 +1,5 @@
 #include <QSqlQuery>
-#include <Header>
+#include <Logics>
 
 Job::Job(QObject *parent)
     : QObject(parent)

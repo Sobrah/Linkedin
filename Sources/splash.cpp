@@ -1,7 +1,4 @@
-#include "Headers/splash.h"
-#include "Headers/login.h"
-#include "Headers/utility.h"
-#include "ui_splash.h"
+#include <Views>
 
 Splash::Splash(QWidget *parent)
     : QWidget(parent)

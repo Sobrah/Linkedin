@@ -1,6 +1,6 @@
 #include <QVBoxLayout>
-#include "ui_jobperson.h"
-#include <Header>
+#include <Logics>
+#include <Views>
 
 JobPerson::JobPerson(QWidget *parent)
     : QWidget(parent)

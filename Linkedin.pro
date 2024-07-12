@@ -6,20 +6,11 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=6
 
 SOURCES += \
     Sources/account.cpp \
-    Sources/directmessage.cpp \
-    Sources/time.cpp \
-    main.cpp \
-    # Page Sources
-    Sources/window.cpp \
-    Sources/splash.cpp \
-    Sources/login.cpp \
-    Sources/verification.cpp \
-    Sources/profile.cpp \
-    Sources/home.cpp \
     Sources/collection.cpp \
     Sources/comment.cpp \
     Sources/company.cpp \
     Sources/content.cpp \
+    Sources/directmessage.cpp \
     Sources/home.cpp \
     Sources/job.cpp \
     Sources/jobcandidate.cpp \
@@ -38,30 +29,22 @@ SOURCES += \
     Sources/post.cpp \
     Sources/profile.cpp \
     Sources/splash.cpp \
+    Sources/time.cpp \
     Sources/utility.cpp \
     Sources/verification.cpp \
     Sources/viewcomment.cpp \
+    Sources/viewlike.cpp \
     Sources/viewpost.cpp \
     Sources/viewprofile.cpp \
-    Sources/window.cpp \
-    Sources/viewlike.cpp
+    Sources/window.cpp
 
 HEADERS += \
     Headers/account.h \
-    Header \
-    # Page Headers
-    Headers/directmessage.h \
-    Headers/time.h \
-    Headers/window.h \
-    Headers/splash.h \
-    Headers/login.h \
-    Headers/verification.h \
-    Headers/profile.h \
-    Headers/home.h \
     Headers/collection.h \
     Headers/comment.h \
     Headers/company.h \
     Headers/content.h \
+    Headers/directmessage.h \
     Headers/home.h \
     Headers/job.h \
     Headers/jobcandidate.h \
@@ -79,13 +62,14 @@ HEADERS += \
     Headers/post.h \
     Headers/profile.h \
     Headers/splash.h \
+    Headers/time.h \
     Headers/utility.h \
     Headers/verification.h \
     Headers/viewcomment.h \
+    Headers/viewlike.h \
     Headers/viewpost.h \
     Headers/viewprofile.h \
     Headers/window.h \
-    Headers/viewlike.h \
     Logics \
     Views
 
@@ -106,10 +90,10 @@ FORMS += \
     Forms/splash.ui \
     Forms/verification.ui \
     Forms/viewcomment.ui \
+    Forms/viewlike.ui \
     Forms/viewpost.ui \
     Forms/viewprofile.ui \
-    Forms/window.ui \
-    Forms/viewlike.ui
+    Forms/window.ui
 
 RESOURCES += \
     Resources/assets.qrc

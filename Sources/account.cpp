@@ -137,6 +137,17 @@ QVector<int> Account::selectConnectionSuggestions(int limit)
     return suggestions;
 }
 
+int Account::selectAccountIDBaseUsername(QString username)
+{
+    QSqlQuery query;
+    query.prepare("SELECT accountID FROM accounts WHERE username = ?");
+    query.addBindValue(username);
+    query.exec();
+    query.first();
+
+    return query.value("accountID").toInt();
+}
+
 void Account::setAccount(const QSqlQuery &query)
 {
     accountID = query.value("accountID").toInt();
@@ -148,7 +159,7 @@ void Account::setAccount(const QSqlQuery &query)
     firstName = query.value("firstName").toString();
     lastName = query.value("lastName").toString();
     isCompany = query.value("isCompany").toBool();
-    bio = query.value("bio").toString();
+    biography = query.value("biography").toString();
 }
 
 void Account::setAccountID(int accountID)
@@ -196,9 +207,9 @@ void Account::setIsCompany(const bool isCompany)
     this->isCompany = isCompany;
 }
 
-void Account::setBio(const QString &bio)
+void Account::setBiography(const QString &bio)
 {
-    this->bio = bio;
+    this->biography = bio;
 }
 
 int Account::getAccountID() const
@@ -248,5 +259,5 @@ bool Account::getIsCompany() const
 
 QString Account::getBio() const
 {
-    return bio;
+    return biography;
 }

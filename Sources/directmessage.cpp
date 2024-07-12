@@ -1,5 +1,5 @@
 #include <QSqlQuery>
-#include <Header>
+#include <Logics>
 
 DirectMessage::DirectMessage(int accountID)
     : account(new Account)

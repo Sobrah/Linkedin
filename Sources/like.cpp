@@ -61,6 +61,17 @@ QVector<int> Like::selectLikesBasePost(int postID)
     return accounts;
 }
 
+int Like::selectCountPostLikes(int postID)
+{
+    QSqlQuery query;
+    query.prepare("SELECT COUNT(*) FROM likes WHERE postID = ?");
+    query.addBindValue(postID);
+    query.exec();
+    query.first();
+
+    return query.value("COUNT").toInt();
+}
+
 void Like::setLikeID(int likeID)
 {
     this->likeID = likeID;

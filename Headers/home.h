@@ -18,6 +18,7 @@ public:
 private:
     void postButtonClicked();
     void searchCurrentTextChanged(const QString &);
+    void searchCurrentIndexChanged(int);
 
     Ui::Home *ui;
     int feedLimit = 10;

@@ -1,5 +1,5 @@
-#include "ui_jobposition.h"
-#include <Header>
+#include <Logics>
+#include <Views>
 
 JobPosition::JobPosition(int index, QWidget *parent)
     : QWidget(parent)

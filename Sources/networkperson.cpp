@@ -1,6 +1,5 @@
-#include "Headers/networkperson.h"
-#include "ui_networkperson.h"
-#include <Header>
+#include <Logics>
+#include <Views>
 
 NetworkPerson::NetworkPerson(QWidget *parent)
     : QWidget(parent)

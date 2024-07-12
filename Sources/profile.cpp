@@ -1,12 +1,8 @@
 #include <QIntValidator>
 #include <QMessageBox>
 #include <QSqlQuery>
-
-#include "Headers/company.h"
-#include "Headers/person.h"
-#include "Headers/profile.h"
-#include "Headers/utility.h"
-#include "ui_profile.h"
+#include <Logics>
+#include <Views>
 
 Profile::Profile(QWidget *parent)
     : QWidget(parent)

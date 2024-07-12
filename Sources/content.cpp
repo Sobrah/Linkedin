@@ -1,5 +1,5 @@
 #include <QSqlQuery>
-#include <Header>
+#include <Logics>
 
 Content::Content(QObject *parent)
     : QObject(parent)

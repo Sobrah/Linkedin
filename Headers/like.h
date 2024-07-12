@@ -16,6 +16,7 @@ public:
     void insertLike(int);
     bool selectHasLike(int);
     QVector<int> selectLikesBasePost(int);
+    int selectCountPostLikes(int);
 
     // Setters
     void setLikeID(int);

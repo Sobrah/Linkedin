@@ -1,5 +1,8 @@
 #include <QScrollBar>
+#include <Logics>
 #include <Views>
+
+#include "headers/account.h"
 
 Home::Home(QWidget *parent)
     : QWidget(parent)
@@ -16,11 +19,9 @@ Home::Home(QWidget *parent)
             return feed.selectFeed(feedLimit, feedOffset);
         }).then(this, [=](QVector<int> postsID) {
             foreach (auto postID, postsID) {
-                ui->postContents->layout()->addWidget(new Collection(postID, ui->containerGroup));
+                ui->postContentsLayout->insertWidget(feedOffset++,
+                                                     new Collection(postID, ui->containerGroup));
             }
-
-            // Increase Offset
-            feedOffset += feedLimit;
         });
     });
 
@@ -31,6 +32,12 @@ Home::Home(QWidget *parent)
     connect(ui->searchCombo, &QComboBox::editTextChanged, this, [=](const QString &text) {
         POOL->start([=] { searchCurrentTextChanged(text); });
     });
+
+    // Search Account View Profile
+    connect(ui->searchCombo,
+            &QComboBox::currentIndexChanged,
+            this,
+            &Home::searchCurrentIndexChanged);
 
     // Send Post
     connect(ui->postButton, &QPushButton::clicked, this, &Home::postButtonClicked);
@@ -99,4 +106,16 @@ void Home::searchCurrentTextChanged(const QString &text)
     while (query.next()) {
         ui->searchCombo->addItem(query.value("username").toString());
     }
+}
+
+void Home::searchCurrentIndexChanged(int index)
+{
+    qDebug() << index;
+
+    RUN(POOL, [=] {
+        QString username = ui->searchCombo->currentText();
+        return ACCOUNT->selectAccountIDBaseUsername(username);
+    }).then(this, [=](int accountID) {
+        changePage(new ViewProfile(accountID), ui->containerGroup);
+    });
 }

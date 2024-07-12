@@ -1,6 +1,6 @@
 #include <QLabel>
-#include "ui_networkcompany.h"
-#include <Header>
+#include <Logics>
+#include <Views>
 
 NetworkCompany::NetworkCompany(QWidget *parent)
     : QWidget(parent)

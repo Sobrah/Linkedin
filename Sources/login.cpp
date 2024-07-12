@@ -2,11 +2,7 @@
 #include <QIntValidator>
 #include <QMessageBox>
 #include <QSqlQuery>
-
-#include "Headers/login.h"
-#include "Headers/utility.h"
-#include "Headers/verification.h"
-#include "ui_login.h"
+#include <Views>
 
 Login::Login(QWidget *parent)
     : QWidget(parent)
